@@ -1,6 +1,6 @@
 package com.kimdabang.kdbserver.coupon.coupon.domain;
 
-import com.kimdabang.kdbserver.commonEntity.BaseEntity;
+import com.kimdabang.kdbserver.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
