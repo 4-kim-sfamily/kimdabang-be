@@ -14,8 +14,6 @@ public class CouponResponseVo {
 
     private Long id;
     private String name;
-    private String number;
-    private String code;
     private CouponType couponType;
     private LocalDateTime expiredDate;
     private int value;

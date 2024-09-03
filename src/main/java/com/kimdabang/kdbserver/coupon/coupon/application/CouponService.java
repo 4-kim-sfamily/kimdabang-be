@@ -9,8 +9,8 @@ public interface CouponService {
 
     void addCoupon(CouponRequestDto couponRequestDto);
     void updateCoupon(CouponRequestDto couponRequestDto);
-    void deleteCoupon(String code);
-    CouponResponseDto getCoupon(String code);
-    List<CouponResponseDto> getCoupons();
+    void deleteCoupon(Long id);
+    CouponResponseDto getOneCoupon(Long id);
+    List<CouponResponseDto> getAllCoupon();
 
 }

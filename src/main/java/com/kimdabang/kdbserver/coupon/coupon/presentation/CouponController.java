@@ -26,8 +26,6 @@ public class CouponController {
         log.info("couponRequestVo = {}", couponRequestVo);
         CouponRequestDto couponRequestDto = CouponRequestDto.builder()
                 .name(couponRequestVo.getName())
-                .number(couponRequestVo.getNumber())
-                .code(couponRequestVo.getCode())
                 .couponType(couponRequestVo.getCouponType())
                 .expiredDate(couponRequestVo.getExpiredDate())
                 .value(couponRequestVo.getValue())
@@ -45,8 +43,6 @@ public class CouponController {
         log.info("couponRequestVo = {}", couponRequestVo);
         CouponRequestDto couponRequestDto = CouponRequestDto.builder()
                 .name(couponRequestVo.getName())
-                .number(couponRequestVo.getNumber())
-                .code(couponRequestVo.getCode())
                 .couponType(couponRequestVo.getCouponType())
                 .expiredDate(couponRequestVo.getExpiredDate())
                 .value(couponRequestVo.getValue())
@@ -60,9 +56,9 @@ public class CouponController {
     }
 
     @DeleteMapping
-    public CommonResponseEntity<Void> deleteCoupon(@RequestParam String code) {
-        log.info("couponCode = {}", code);
-        couponService.deleteCoupon(code);
+    public CommonResponseEntity<Void> deleteCoupon(@RequestParam Long id) {
+        log.info("couponId = {}", id);
+        couponService.deleteCoupon(id);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "쿠폰 삭제 성공",
@@ -71,8 +67,8 @@ public class CouponController {
     }
 
     @GetMapping
-    public CommonResponseEntity<List<CouponResponseVo>> getCoupons() {
-        List<CouponResponseDto> couponResponseDtos = couponService.getCoupons();
+    public CommonResponseEntity<List<CouponResponseVo>> getAllCoupon() {
+        List<CouponResponseDto> couponResponseDtos = couponService.getAllCoupon();
         List<CouponResponseVo> couponResponseVos = couponResponseDtos.stream()
                 .map(CouponResponseDto::toResponseVo)
                 .toList();
@@ -83,9 +79,9 @@ public class CouponController {
         );
     }
 
-    @GetMapping("/{code}")
-    public CommonResponseEntity<CouponResponseVo> getCoupon(@PathVariable String code) {
-        CouponResponseDto couponResponseDto = couponService.getCoupon(code);
+    @GetMapping("/{id}")
+    public CommonResponseEntity<CouponResponseVo> getOneCoupon(@PathVariable Long id) {
+        CouponResponseDto couponResponseDto = couponService.getOneCoupon(id);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "쿠폰 조회 성공",

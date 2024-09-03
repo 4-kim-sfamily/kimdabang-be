@@ -36,23 +36,21 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     @Transactional
-    public void deleteCoupon(String code) {
-        Coupon deleteCoupon = couponRepository.findByCode(code)
+    public void deleteCoupon(Long id) {
+        Coupon deleteCoupon = couponRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
 
         couponRepository.delete(deleteCoupon);
     }
 
     @Override
-    public CouponResponseDto getCoupon(String code) {
-        Coupon getCoupon = couponRepository.findByCode(code)
+    public CouponResponseDto getOneCoupon(Long id) {
+        Coupon getCoupon = couponRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
 
         return CouponResponseDto.builder()
                 .id(getCoupon.getId())
                 .name(getCoupon.getName())
-                .number(getCoupon.getNumber())
-                .code(getCoupon.getCode())
                 .couponType(getCoupon.getCouponType())
                 .expiredDate(getCoupon.getExpiredDate())
                 .value(getCoupon.getValue())
@@ -60,15 +58,13 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<CouponResponseDto> getCoupons() {
+    public List<CouponResponseDto> getAllCoupon() {
         List<Coupon> coupons = couponRepository.findAll();
 
             return coupons.stream()
                     .map(coupon -> CouponResponseDto.builder()
                             .id(coupon.getId())
                             .name(coupon.getName())
-                            .number(coupon.getNumber())
-                            .code(coupon.getCode())
                             .couponType(coupon.getCouponType())
                             .expiredDate(coupon.getExpiredDate())
                             .value(coupon.getValue())
