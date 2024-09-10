@@ -51,4 +51,21 @@ public class FavoriteController {
                 null
         );
     }
+
+    @GetMapping("/list")
+    public CommonResponseEntity<List<FavoriteResponseVo>> getFavoriteCheckList(
+            @RequestHeader ("Authorization") String Authorization) {
+        List<FavoriteResponseDto> favoriteResponseDtoList = favoriteService.getAllFavorites(Authorization);
+
+        List<FavoriteResponseVo> favoriteResponseVoList
+                = favoriteResponseDtoList.stream()
+                .map(FavoriteResponseDto::toFavoriteResponseVo)
+                .toList();
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "좋아요 리스트 조회 성공",
+                favoriteResponseVoList
+        );
+    }
 }

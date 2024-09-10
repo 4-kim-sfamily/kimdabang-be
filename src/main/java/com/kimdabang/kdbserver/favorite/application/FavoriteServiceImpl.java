@@ -81,4 +81,22 @@ public class FavoriteServiceImpl implements FavoriteService {
         favoriteRepository.save(favoriteDto.toFavoriteEntity(userUuid));
 
     }
+
+    @Override
+    public List<FavoriteResponseDto> getAllFavorites(String Authorization) {
+
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        List<Favorite> favoriteList = favoriteRepository.findAllByUserUuid(userUuid);
+        if (favoriteList != null) {
+            return favoriteList.stream()
+                    .map(favorite -> FavoriteResponseDto.builder()
+                            .id(favorite.getId())
+                            .productCode(favorite.getProductCode())
+                            .userUuid(favorite.getUserUuid())
+                            .isCanceled(favorite.getIsCanceled())
+                            .build())
+                    .toList();
+        }
+        return List.of();
+    }
 }
