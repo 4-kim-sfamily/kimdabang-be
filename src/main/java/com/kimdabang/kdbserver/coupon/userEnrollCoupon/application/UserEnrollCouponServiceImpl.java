@@ -47,6 +47,7 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
     }
 
     @Override
+    @Transactional
     public void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto) {
         UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(userEnrollCouponRequestDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 등록되지 않았습니다."));
@@ -54,6 +55,7 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
     }
 
     @Override
+    @Transactional
     public void deleteUserEnrollCoupon(Long id) {
         UserEnrollCoupon deleteUserEnrollCoupon = userEnrollCouponRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 등록되지 않았습니다."));
@@ -62,11 +64,33 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
 
     @Override
     public UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id) {
-        return null;
+        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 등록되지 않았습니다."));
+        return UserEnrollCouponResponseDto.builder()
+                .id(userEnrollCoupon.getId())
+                .uuid(userEnrollCoupon.getUuid())
+                .coupon(userEnrollCoupon.getCoupon())
+                .createdAt(userEnrollCoupon.getCreatedAt())
+                .isUsed(userEnrollCoupon.getIsUsed())
+                .usedAt(userEnrollCoupon.getUsedAt())
+                .expiredDate(userEnrollCoupon.getExpiredDate())
+                .build();
     }
 
     @Override
     public List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon() {
-        return null;
+        List<UserEnrollCoupon> userEnrollCoupons = userEnrollCouponRepository.findAll();
+
+        return userEnrollCoupons.stream()
+                .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
+                        .id(userEnrollCoupon.getId())
+                        .uuid(userEnrollCoupon.getUuid())
+                        .coupon(userEnrollCoupon.getCoupon())
+                        .createdAt(userEnrollCoupon.getCreatedAt())
+                        .isUsed(userEnrollCoupon.getIsUsed())
+                        .usedAt(userEnrollCoupon.getUsedAt())
+                        .expiredDate(userEnrollCoupon.getExpiredDate())
+                        .build())
+                .toList();
     }
 }

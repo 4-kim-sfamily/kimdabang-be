@@ -4,12 +4,16 @@ import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.application.UserEnrollCouponService;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponAddRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUpdateRequestDto;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.out.UserEnrollCouponResponseDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.vo.UserEnrollCouponAddRequestVo;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.vo.UserEnrollCouponResponseVo;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.vo.UserEnrollCouponUpdateRequestVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -62,6 +66,29 @@ public class UserEnrollCouponController {
                 HttpStatus.OK,
                 "유저 쿠폰 등록 삭제 성공",
                 null
+        );
+    }
+
+    @GetMapping
+    public CommonResponseEntity<List<UserEnrollCouponResponseVo>> getAllUserEnrollCoupon() {
+        List<UserEnrollCouponResponseDto> userEnrollCouponDtos = userEnrollCouponService.getAllUserEnrollCoupon();
+        List<UserEnrollCouponResponseVo> userEnrollCouponResponseVos = userEnrollCouponDtos.stream()
+                .map(UserEnrollCouponResponseDto::toResponseVo)
+                .toList();
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "유저 등록 쿠폰 전체 조회 성공",
+                userEnrollCouponResponseVos
+        );
+    }
+
+    @GetMapping("/{id}")
+    public CommonResponseEntity<UserEnrollCouponResponseVo> getOneUserEnrollCoupon(@PathVariable Long id) {
+        UserEnrollCouponResponseDto userEnrollCouponResponseDto = userEnrollCouponService.getOneUserEnrollCoupon(id);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "유저 등록 쿠폰 조회 성공",
+                userEnrollCouponResponseDto.toResponseVo()
         );
     }
 }
