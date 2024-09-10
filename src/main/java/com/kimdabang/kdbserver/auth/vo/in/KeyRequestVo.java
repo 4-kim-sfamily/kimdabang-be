@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class LoginIdFindReqiestVo {
-    private String email;
+public class KeyRequestVo {
+    private String key;
 }

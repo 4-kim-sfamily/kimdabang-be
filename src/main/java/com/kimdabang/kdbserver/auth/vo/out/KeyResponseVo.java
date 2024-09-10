@@ -4,9 +4,8 @@ import lombok.*;
 
 @Getter
 @Builder
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PasswordVerifyResponseVo {
-    private Boolean Verification;
+public class KeyResponseVo {
+    private Boolean verification;
 }

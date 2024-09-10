@@ -2,7 +2,7 @@ package com.kimdabang.kdbserver.auth.application;
 
 import com.kimdabang.kdbserver.auth.dto.in.*;
 import com.kimdabang.kdbserver.auth.dto.out.LoginIdFindResponseDto;
-import com.kimdabang.kdbserver.auth.dto.out.PasswordVerifyResponseDto;
+import com.kimdabang.kdbserver.auth.dto.out.KeyResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.SignInResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.TestTokenResponseDto;
 import com.kimdabang.kdbserver.auth.infrastructure.AuthRepository;
@@ -15,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -55,8 +57,9 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
-    public LoginIdFindResponseDto findEmail(LoginIdFindReqiestDto loginIdFindReqiestDto) {
-        User user = authRepository.findByEmail(loginIdFindReqiestDto.getEmail()).orElse(null);
+    @Override
+    public LoginIdFindResponseDto findEmail(KeyRequestDto keyRequestDto) {
+        User user = authRepository.findByEmail(keyRequestDto.getKey()).orElse(null);
         if (user != null) {
             return LoginIdFindResponseDto.builder()
                     .loginId(user.getLoginId())
@@ -66,18 +69,18 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void putPassword(PasswordRequestDto passwordRequestDto) {
-        String uuid = jwtTokenProvider.useToken(passwordRequestDto.getAccessToken());
+    public void putPassword(KeyRequestDto keyRequestDto, String accessToken) {
+        String uuid = jwtTokenProvider.useToken(accessToken);
         User user = authRepository.findByUuid(uuid).orElseThrow(
                 () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
         );
-        user.updatePassword(passwordEncoder.encode(passwordRequestDto.getPassword()));
+        user.updatePassword(passwordEncoder.encode(keyRequestDto.getKey()));
         authRepository.save(user);
     }
 
     @Override
-    public PasswordVerifyResponseDto verifyPassword(PasswordRequestDto passwordRequestDto) {
-        String uuid = jwtTokenProvider.useToken(passwordRequestDto.getAccessToken());
+    public KeyResponseDto verifyPassword(KeyRequestDto keyRequestDto, String accessToken) {
+        String uuid = jwtTokenProvider.useToken(accessToken);
         User user = authRepository.findByUuid(uuid).orElseThrow(
                 () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
         );
@@ -85,15 +88,45 @@ public class AuthServiceImpl implements AuthService{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getLoginId(),
-                            passwordRequestDto.getPassword()
+                            keyRequestDto.getKey()
                             )
                     );
-            return PasswordVerifyResponseDto.builder()
-                    .Verification(true)
+            return KeyResponseDto.builder()
+                    .verification(true)
                     .build();
         } catch (Exception e) {
-            return PasswordVerifyResponseDto.builder()
-                    .Verification(false)
+            return KeyResponseDto.builder()
+                    .verification(false)
+                    .build();
+        }
+    }
+
+    @Override
+    public KeyResponseDto verifyEmail(KeyRequestDto keyRequestDto) {
+        Optional<User> user = authRepository.findByEmail(keyRequestDto.getKey());
+        if(user.isPresent()) {
+            return KeyResponseDto.builder()
+                .verification(false)
+                .build();
+        }
+        else {
+                return KeyResponseDto.builder()
+                    .verification(true)
+                    .build();
+            }
+        }
+    @Override
+    public KeyResponseDto verifyLoginId(KeyRequestDto keyRequestDto) {
+        Optional<User> user = authRepository.findByLoginId(keyRequestDto.getKey());
+
+        if(user.isPresent()) {
+            return KeyResponseDto.builder()
+                    .verification(false)
+                    .build();
+        }
+        else {
+            return KeyResponseDto.builder()
+                    .verification(true)
                     .build();
         }
     }
