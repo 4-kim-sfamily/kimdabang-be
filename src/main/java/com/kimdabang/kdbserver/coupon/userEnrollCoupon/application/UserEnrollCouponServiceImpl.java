@@ -3,8 +3,9 @@ package com.kimdabang.kdbserver.coupon.userEnrollCoupon.application;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.coupon.coupon.domain.Coupon;
 import com.kimdabang.kdbserver.coupon.coupon.infrastructure.CouponRepository;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.domain.UserEnrollCoupon;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponAddRequestDto;
-import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponRequestDto;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUpdateRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.out.UserEnrollCouponResponseDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.infrastructure.UserEnrollCouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +47,17 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
     }
 
     @Override
-    public void updateUserEnrollCoupon(UserEnrollCouponRequestDto userEnrollCouponRequestDto) {
-
+    public void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto) {
+        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(userEnrollCouponRequestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 등록되지 않았습니다."));
+        userEnrollCouponRepository.save(userEnrollCouponRequestDto.toEntity(userEnrollCoupon));
     }
 
     @Override
     public void deleteUserEnrollCoupon(Long id) {
-
+        UserEnrollCoupon deleteUserEnrollCoupon = userEnrollCouponRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 등록되지 않았습니다."));
+        userEnrollCouponRepository.delete(deleteUserEnrollCoupon);
     }
 
     @Override

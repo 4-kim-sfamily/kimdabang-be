@@ -35,7 +35,6 @@ public class UserEnrollCoupon extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-
     @Comment("사용 여부")
     @Column(nullable = false)
     private Boolean isUsed;
