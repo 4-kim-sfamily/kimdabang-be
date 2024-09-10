@@ -12,7 +12,6 @@ import java.time.Period;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CouponResponseVo {
-
     private Long id;
     private String name;
     private CouponType couponType;
