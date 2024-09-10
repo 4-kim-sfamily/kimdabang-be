@@ -1,5 +1,6 @@
 package com.kimdabang.kdbserver.auth.dto.in;
 
+import com.kimdabang.kdbserver.agreement.domain.Agreement;
 import com.kimdabang.kdbserver.user.domain.Gender;
 import com.kimdabang.kdbserver.user.domain.Grade;
 import com.kimdabang.kdbserver.user.domain.User;
@@ -16,7 +17,11 @@ import java.util.UUID;
 @Builder
 @ToString
 public class SignUpRequestDto {
-
+    private Boolean termsChecked;
+    private Boolean privacyChecked;
+    private Boolean cardChecked;
+    private Boolean emailChecked;
+    private Boolean smsChecked;
     private String loginId;
     private String password;
     private String kakaoId;
@@ -43,6 +48,16 @@ public class SignUpRequestDto {
                 .nickname(nickname)
                 .grade(Grade.GRADE_WELCOME)
                 .profileImg("기본이미지URL")
+                .build();
+    }
+    public Agreement toAgreement(User user) {
+        return Agreement.builder()
+                .termsChecked(termsChecked)
+                .privacyChecked(privacyChecked)
+                .cardChecked(cardChecked)
+                .emailChecked(emailChecked)
+                .smsChecked(smsChecked)
+                .user(user)
                 .build();
     }
 

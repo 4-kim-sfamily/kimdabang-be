@@ -1,5 +1,6 @@
 package com.kimdabang.kdbserver.auth.application;
 
+import com.kimdabang.kdbserver.agreement.infrastructure.AgreementRepository;
 import com.kimdabang.kdbserver.auth.dto.in.*;
 import com.kimdabang.kdbserver.auth.dto.out.LoginIdFindResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.KeyResponseDto;
@@ -27,15 +28,17 @@ public class AuthServiceImpl implements AuthService{
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final AgreementRepository agreementRepository;
 
 
     @Override
     public void signUp(SignUpRequestDto signUpRequestDto) {
-        User user = authRepository.findByLoginId(signUpRequestDto.getLoginId()).orElse(null);
-        if (user != null) {
+        User findUser = authRepository.findByLoginId(signUpRequestDto.getLoginId()).orElse(null);
+        if (findUser != null) {
             throw new IllegalArgumentException("이미 가입된 회원입니다.");
         }
-        authRepository.save(signUpRequestDto.toEntity(passwordEncoder));
+        User user = authRepository.save(signUpRequestDto.toEntity(passwordEncoder));
+        agreementRepository.save(signUpRequestDto.toAgreement(user));
     }
 
     @Override

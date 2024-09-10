@@ -10,6 +10,11 @@ import java.util.Date;
 @Getter
 public class SignUpRequestVo {
 
+    private Boolean termsChecked;
+    private Boolean privacyChecked;
+    private Boolean cardChecked;
+    private Boolean emailChecked;
+    private Boolean smsChecked;
     private String loginId;
     private String password;
     private String kakaoId;

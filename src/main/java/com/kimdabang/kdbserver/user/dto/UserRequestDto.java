@@ -1,9 +1,5 @@
 package com.kimdabang.kdbserver.user.dto;
 
-import com.kimdabang.kdbserver.Address.domain.Address;
-import com.kimdabang.kdbserver.Address.dto.AddressRequestDto;
-import com.kimdabang.kdbserver.user.domain.Gender;
-import com.kimdabang.kdbserver.user.domain.Grade;
 import com.kimdabang.kdbserver.user.domain.User;
 import lombok.*;
 

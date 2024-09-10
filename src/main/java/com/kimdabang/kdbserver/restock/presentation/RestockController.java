@@ -38,11 +38,12 @@ public class RestockController {
     @GetMapping("/get-restock")
     public CommonResponseEntity<List<RestockResponseVo>> getStar(
             @RequestHeader ("Authorization") String Authorization) throws ParseException {
+        String token = Authorization.replace("Bearer ", "");
         List<RestockResponseDto> restockResponseDtoList =
-                restockService.getRestock(Authorization);
+                restockService.getRestock(token);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "Star 조회 성공",
+                "star 조회 성공",
                 restockResponseDtoList.stream()
                         .map(RestockResponseDto::toResponseVo)
                         .toList()

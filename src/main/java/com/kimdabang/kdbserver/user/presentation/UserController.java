@@ -29,7 +29,8 @@ public class UserController {
     @GetMapping("/get-user")
     public CommonResponseEntity<UserResponseVo> getUser(
             @RequestHeader ("Authorization") String Authorization) {
-        UserResponseDto userResponseDto = userService.getUser(Authorization);
+        String token = Authorization.replace("Bearer ", "");
+        UserResponseDto userResponseDto = userService.getUser(token);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), userResponseDto.toResponseVo());
     }
 
@@ -38,7 +39,8 @@ public class UserController {
     public CommonResponseEntity<Void> putUser(
             @RequestHeader ("Authorization") String Authorization,
             @RequestBody UserRequestVo userRequestVo) {
-            userService.putUser(new ModelMapper().map(userRequestVo, UserRequestDto.class), Authorization);
+        String token = Authorization.replace("Bearer ", "");
+            userService.putUser(new ModelMapper().map(userRequestVo, UserRequestDto.class), token);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 }

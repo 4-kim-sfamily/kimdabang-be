@@ -83,8 +83,9 @@ public class AuthController {
     public CommonResponseEntity<KeyResponseVo> verifyPassword(
             @RequestHeader ("Authorization") String Authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
+        String token = Authorization.replace("Bearer ", "");
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, Authorization));
+        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, token));
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), keyResponseVo);
     }
 
@@ -111,8 +112,9 @@ public class AuthController {
     public CommonResponseEntity<Void> putPassword(
             @RequestHeader ("Authorization") String Authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
+        String token = Authorization.replace("Bearer ", "");
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        authService.putPassword(keyRequestDto, Authorization);
+        authService.putPassword(keyRequestDto, token);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 

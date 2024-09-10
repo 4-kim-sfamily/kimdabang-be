@@ -1,17 +1,13 @@
 package com.kimdabang.kdbserver.user.application;
 
-import com.kimdabang.kdbserver.Address.dto.AddressRequestDto;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.user.domain.User;
 import com.kimdabang.kdbserver.user.dto.UserRequestDto;
 import com.kimdabang.kdbserver.user.dto.UserResponseDto;
-import com.kimdabang.kdbserver.user.dto.UserSignUpDto;
 import com.kimdabang.kdbserver.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Slf4j
 @Service
