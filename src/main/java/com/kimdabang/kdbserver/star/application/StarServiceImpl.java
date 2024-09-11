@@ -57,8 +57,8 @@ public class StarServiceImpl implements StarService {
         return List.of();
     }
     @Override
-    public void addStar(StarAddRequestDto starAddRequestDto){
-        String uuid = jwtTokenProvider.useToken(starAddRequestDto.getAccesstoken());
+    public void addStar(StarAddRequestDto starAddRequestDto, String Authorization){
+        String uuid = jwtTokenProvider.useToken(Authorization);
         Date now = new Date();
         for(int i = 0; i< starAddRequestDto.getStarAmount(); i++) {
             starRepository.save(starAddRequestDto.toEntity(uuid, now));
@@ -67,8 +67,8 @@ public class StarServiceImpl implements StarService {
     public StarAmountResponseDto getStarAmount(String Authorization) {
         String uuid = jwtTokenProvider.useToken(Authorization);
         List<Star> stars = starRepository.findByUuid(uuid);
-        Long nstar = stars.stream().filter(star -> star.getIsEcho().equals(false)).count();
-        Long estar = stars.stream().filter(star -> star.getIsEcho().equals(true)).count();
+        Long nstar = stars.stream().filter(star -> star.getIsEcho().equals(false) && star.getIsUsed().equals(false)).count();
+        Long estar = stars.stream().filter(star -> star.getIsEcho().equals(true) && star.getIsUsed().equals(false)).count();
         return StarAmountResponseDto.builder()
                 .starAmount(nstar)
                 .greenStarAmount(estar)

@@ -32,8 +32,9 @@ public class StarController {
     @Operation(summary = "UserStarAdd API", description = "userStarAdd API 입니다.", tags = {"userstar-controller"})
     @PostMapping("/add-userstar")
     public CommonResponseEntity<Void> addStar(
+            @RequestHeader ("Authorization") String Authorization,
             @RequestBody StarAddRequestVo starAddRequestVo) {
-        starService.addStar(new ModelMapper().map(starAddRequestVo, StarAddRequestDto.class));
+        starService.addStar(StarAddRequestDto.toRequestDto(starAddRequestVo), Authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
     @Operation(summary = "UserStarGet API", description = "userStarGet API 입니다.", tags = {"userstar-controller"})
@@ -60,13 +61,7 @@ public class StarController {
     @Operation(summary = "UserStarAmountGet API", description = "userStarGet API 입니다.", tags = {"userstar-controller"})
     @GetMapping("/get-userstaramount")
     public CommonResponseEntity<StarAmountResponseVo> getStarAmount(
-            @RequestHeader ("Authorization") String Authorization,
-            @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
-        start = start+"-00:00:00";
-        end = end+"-23:59:59";
-        Date startDate = formatter.parse(start);
-        Date endDate = formatter.parse(end);
+            @RequestHeader ("Authorization") String Authorization) {
         StarAmountResponseDto starAmountResponseDto = starService.getStarAmount(Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,

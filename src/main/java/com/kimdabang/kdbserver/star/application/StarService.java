@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface StarService {
     List<StarResponseDto> getStar(Date start, Date end, String Authorization);
-    void addStar(StarAddRequestDto starAddRequestDto);
+    void addStar(StarAddRequestDto starAddRequestDto, String Authorization);
     StarAmountResponseDto getStarAmount(String Authorization);
 }

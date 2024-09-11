@@ -8,7 +8,6 @@ import java.util.Date;
 @ToString
 @Getter
 public class StarAddRequestVo {
-    private String accesstoken;
     private Date expirationDate;
     private String description;
     private Boolean isEcho;
