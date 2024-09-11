@@ -45,15 +45,16 @@ public class SecurityConfig {
                .authorizeHttpRequests(
                        authorizeRequests -> authorizeRequests
                                .requestMatchers(
-                                       "/api/v1/auth/**",
-                                       "/swagger-ui/**",
-                                       "/v3/api-docs/**",
-                                       "/api/v1/user/**",
-                                       "/api/v1/userstar/**",
-                                       "/api/v1/useraddress/**",
-                                       "/api/v1/notification/**",
-                                       "/api/v1/restock/**",
-                                       "/error"
+                                       "/api/v1/**"
+//                                       "/api/v1/auth/**",
+//                                       "/swagger-ui/**",
+//                                       "/v3/api-docs/**",
+//                                       "/api/v1/user/**",
+//                                       "/api/v1/userstar/**",
+//                                       "/api/v1/useraddress/**",
+//                                       "/api/v1/notification/**",
+//                                       "/api/v1/restock/**",
+//                                       "/error"
                                )
                                .permitAll()
                                .anyRequest()

@@ -4,7 +4,6 @@ import lombok.*;
 
 @Getter
 @Builder
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginIdFindResponseVo {

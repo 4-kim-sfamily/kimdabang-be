@@ -41,14 +41,13 @@ public class StarController {
     public CommonResponseEntity<List<StarResponseVo>> getStar(
             @RequestHeader ("Authorization") String Authorization,
             @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
-        String token = Authorization.replace("Bearer ", "");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
         start = start+"-00:00:00";
         end = end+"-23:59:59";
         Date startDate = formatter.parse(start);
         Date endDate = formatter.parse(end);
         List<StarResponseDto> starResponseDtoList =
-                starService.getStar(startDate, endDate, token);
+                starService.getStar(startDate, endDate, Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "star 조회 성공",
@@ -63,13 +62,12 @@ public class StarController {
     public CommonResponseEntity<StarAmountResponseVo> getStarAmount(
             @RequestHeader ("Authorization") String Authorization,
             @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
-        String token = Authorization.replace("Bearer ", "");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
         start = start+"-00:00:00";
         end = end+"-23:59:59";
         Date startDate = formatter.parse(start);
         Date endDate = formatter.parse(end);
-        StarAmountResponseDto starAmountResponseDto = starService.getStarAmount(token);
+        StarAmountResponseDto starAmountResponseDto = starService.getStarAmount(Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "star 조회 성공",

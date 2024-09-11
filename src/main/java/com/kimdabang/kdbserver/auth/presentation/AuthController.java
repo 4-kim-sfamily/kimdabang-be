@@ -3,6 +3,9 @@ package com.kimdabang.kdbserver.auth.presentation;
 import com.kimdabang.kdbserver.auth.application.AuthService;
 import com.kimdabang.kdbserver.auth.dto.in.*;
 import com.kimdabang.kdbserver.auth.dto.out.KeyResponseDto;
+import com.kimdabang.kdbserver.auth.dto.out.LoginIdFindResponseDto;
+import com.kimdabang.kdbserver.auth.dto.out.SignInResponseDto;
+import com.kimdabang.kdbserver.auth.dto.out.TestTokenResponseDto;
 import com.kimdabang.kdbserver.auth.vo.in.*;
 import com.kimdabang.kdbserver.auth.vo.out.LoginIdFindResponseVo;
 import com.kimdabang.kdbserver.auth.vo.out.KeyResponseVo;
@@ -13,7 +16,6 @@ import com.kimdabang.kdbserver.common.entity.CommonResponseMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +31,16 @@ public class AuthController {
     @PostMapping("/login")
     public CommonResponseEntity<SignInResponseVo> signIn(
             @RequestBody SignInRequestVo signInRequestVo) {
-        ModelMapper modelMapper = new ModelMapper();
         SignInRequestDto signInRequestDto = SignInRequestDto.builder().
                 loginId(signInRequestVo.getLoginId()).
                 password(signInRequestVo.getPassword()).
                 build();
-        SignInResponseVo signInResponseVo = modelMapper.map(authService.signIn(signInRequestDto), SignInResponseVo.class);
-        log.info("signInResponseVo: {}", signInResponseVo);
+        SignInResponseDto signInResponseDto = authService.signIn(signInRequestDto);
+        log.info("signInResponseDto: {}", signInResponseDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 CommonResponseMessage.SUCCESS.getMessage(),
-                signInResponseVo);
+                signInResponseDto.toResponseVo());
 
     }
 
@@ -47,7 +48,7 @@ public class AuthController {
     @PostMapping("/join")
     public CommonResponseEntity<Void> signUp(
             @RequestBody SignUpRequestVo signUpRequestVo) {
-        authService.signUp(new ModelMapper().map(signUpRequestVo, SignUpRequestDto.class));
+        authService.signUp(SignUpRequestDto.toRequestDto(signUpRequestVo));
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 
@@ -72,10 +73,9 @@ public class AuthController {
     @PostMapping("/findid")
     public CommonResponseEntity<LoginIdFindResponseVo> findId(
             @RequestBody KeyRequestVo keyRequestVo) {
-        ModelMapper modelMapper = new ModelMapper();
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        LoginIdFindResponseVo loginIdFindResponseVo =modelMapper.map(authService.findEmail(keyRequestDto), LoginIdFindResponseVo.class);
-        return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), loginIdFindResponseVo);
+        LoginIdFindResponseDto loginIdFindResponseDto = authService.findEmail(keyRequestDto);
+        return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), loginIdFindResponseDto.toResponseVo());
     }
 
     @Operation(summary = "verifypassword API", description = "verifypassword API 입니다.", tags = {"Auth"})
@@ -83,9 +83,8 @@ public class AuthController {
     public CommonResponseEntity<KeyResponseVo> verifyPassword(
             @RequestHeader ("Authorization") String Authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
-        String token = Authorization.replace("Bearer ", "");
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, token));
+        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, Authorization));
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), keyResponseVo);
     }
 
@@ -112,9 +111,8 @@ public class AuthController {
     public CommonResponseEntity<Void> putPassword(
             @RequestHeader ("Authorization") String Authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
-        String token = Authorization.replace("Bearer ", "");
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        authService.putPassword(keyRequestDto, token);
+        authService.putPassword(keyRequestDto, Authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 
@@ -122,15 +120,14 @@ public class AuthController {
     @PostMapping("/token-test")
     public CommonResponseEntity<TestTokenResponseVo> testToken(
             @RequestBody TestTokenRequestVo testTokenRequestVo) {
-        ModelMapper modelMapper = new ModelMapper();
         TestTokenRequestDto testTokenRequestDto = TestTokenRequestDto.builder().
                 accessToken(testTokenRequestVo.getAccessToken()).
                 build();
-        TestTokenResponseVo testTokenResponseVo = modelMapper.map(authService.testToken(testTokenRequestDto), TestTokenResponseVo.class);
-        log.info("accessResponseVo : {}", testTokenResponseVo);
+        TestTokenResponseDto testTokenResponseDto =  authService.testToken(testTokenRequestDto);
+        log.info("accessResponseVo : {}", testTokenResponseDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 CommonResponseMessage.SUCCESS.getMessage(),
-                testTokenResponseVo);
+                testTokenResponseDto.toResponseVo());
     }
 }

@@ -50,7 +50,8 @@ public class JwtTokenProvider {
         }
     }
     public String useToken(String accessToken) {
-        Claims claims = parseToken(accessToken);          // 토큰에서 클레임을 추출합니다.
+        String token = accessToken.replace("Bearer ", "");
+        Claims claims = parseToken(token);          // 토큰에서 클레임을 추출합니다.
         log.info("claims: {}",claims);
         String uuid = claims.get("uuid", String.class);
         Date issuedAt = claims.getIssuedAt();

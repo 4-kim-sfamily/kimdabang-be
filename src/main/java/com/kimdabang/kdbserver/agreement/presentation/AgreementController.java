@@ -25,9 +25,8 @@ public class AgreementController {
     @GetMapping("/get-Agreement")
     public CommonResponseEntity<AgreementResponseVo> getAgreement(
             @RequestHeader("Authorization") String Authorization) {
-        String token = Authorization.replace("Bearer ", "");
 
-        AgreementResponseDto agreementResponseDto = agreementService.getAgreement(token);
+        AgreementResponseDto agreementResponseDto = agreementService.getAgreement(Authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), agreementResponseDto.toResponseVo());
     }
 
@@ -36,9 +35,8 @@ public class AgreementController {
     public CommonResponseEntity<Void> putAgreement(
             @RequestHeader("Authorization") String Authorization,
             @RequestBody AgreementRequestVo agreementRequestVo) {
-        String token = Authorization.replace("Bearer ", "");
 
-        agreementService.putAgreement(AgreementRequestDto.toRequestDto(agreementRequestVo), token);
+        agreementService.putAgreement(AgreementRequestDto.toRequestDto(agreementRequestVo), Authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 }

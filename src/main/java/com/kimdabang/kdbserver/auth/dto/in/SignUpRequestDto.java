@@ -1,6 +1,7 @@
 package com.kimdabang.kdbserver.auth.dto.in;
 
 import com.kimdabang.kdbserver.agreement.domain.Agreement;
+import com.kimdabang.kdbserver.auth.vo.in.SignUpRequestVo;
 import com.kimdabang.kdbserver.user.domain.Gender;
 import com.kimdabang.kdbserver.user.domain.Grade;
 import com.kimdabang.kdbserver.user.domain.User;
@@ -11,7 +12,6 @@ import java.util.Date;
 import java.util.UUID;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,6 +32,27 @@ public class SignUpRequestDto {
     private Boolean solar;
     private Date birth;
     private String nickname;
+
+    public static SignUpRequestDto toRequestDto(SignUpRequestVo signUpRequestVo) {
+        return SignUpRequestDto.builder()
+                .termsChecked(signUpRequestVo.getTermsChecked())
+                .privacyChecked(signUpRequestVo.getPrivacyChecked())
+                .cardChecked(signUpRequestVo.getCardChecked())
+                .emailChecked(signUpRequestVo.getEmailChecked())
+                .smsChecked(signUpRequestVo.getSmsChecked())
+                .loginId(signUpRequestVo.getLoginId())
+                .password(signUpRequestVo.getPassword())
+                .kakaoId(signUpRequestVo.getKakaoId())
+                .name(signUpRequestVo.getName())
+                .email(signUpRequestVo.getEmail())
+                .phone(signUpRequestVo.getPhone())
+                .gender(signUpRequestVo.getGender())
+                .solar(signUpRequestVo.getSolar())
+                .birth(signUpRequestVo.getBirth())
+                .nickname(signUpRequestVo.getNickname())
+                .build();
+
+    }
 
     public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
