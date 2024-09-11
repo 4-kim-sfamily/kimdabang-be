@@ -3,11 +3,15 @@ package com.kimdabang.kdbserver.season.season.presentation;
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.season.season.application.SeasonService;
 import com.kimdabang.kdbserver.season.season.dto.in.SeasonRequestDto;
+import com.kimdabang.kdbserver.season.season.dto.out.SeasonResponseDto;
 import com.kimdabang.kdbserver.season.season.vo.SeasonRequestVo;
+import com.kimdabang.kdbserver.season.season.vo.SeasonResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -62,6 +66,29 @@ public class SeasonController {
                 HttpStatus.OK,
                 "시즌 삭제 성공",
                 null
+        );
+    }
+
+    @GetMapping
+    public CommonResponseEntity<List<SeasonResponseVo>> getAllSeason() {
+        List<SeasonResponseDto> seasonResponseDtos = seasonService.getAllSeason();
+        List<SeasonResponseVo> seasonResponseVos = seasonResponseDtos.stream()
+                .map(SeasonResponseDto::toResponseVo)
+                .toList();
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "시즌 전체 조회 성공",
+                seasonResponseVos
+        );
+    }
+
+    @GetMapping("/{id}")
+    public CommonResponseEntity<SeasonResponseVo> getOneSeason(@PathVariable Long id) {
+        SeasonResponseDto seasonResponseDto = seasonService.getOneSeason(id);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "시즌 조회 성공",
+                seasonResponseDto.toResponseVo()
         );
     }
 }

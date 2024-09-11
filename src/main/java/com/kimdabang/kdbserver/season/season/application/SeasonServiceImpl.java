@@ -38,18 +38,37 @@ public class SeasonServiceImpl implements SeasonService {
     @Transactional
     public void deleteSeason(Long id) {
         Season deleteSeason = seasonRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 시즌이 존재하지 않습니다."));
 
         seasonRepository.delete(deleteSeason);
     }
 
     @Override
     public SeasonResponseDto getOneSeason(Long id) {
-        return null;
+        Season getSeason = seasonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 시즌이 존재하지 않습니다."));
+        return SeasonResponseDto.builder()
+                .id(getSeason.getId())
+                .name(getSeason.getName())
+                .description(getSeason.getDescription())
+                .startDate(getSeason.getStartDate())
+                .endDate(getSeason.getEndDate())
+                .discount(getSeason.getDiscount())
+                .build();
     }
 
     @Override
     public List<SeasonResponseDto> getAllSeason() {
-        return null;
+        List<Season> seasons = seasonRepository.findAll();
+        return seasons.stream()
+                .map(season -> SeasonResponseDto.builder()
+                        .id(season.getId())
+                        .name(season.getName())
+                        .description(season.getDescription())
+                        .startDate(season.getStartDate())
+                        .endDate(season.getEndDate())
+                        .discount(season.getDiscount())
+                        .build())
+                .toList();
     }
 }
