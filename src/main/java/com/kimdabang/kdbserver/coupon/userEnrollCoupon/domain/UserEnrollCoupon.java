@@ -27,6 +27,7 @@ public class UserEnrollCoupon extends BaseEntity {
     @Column(nullable = false)
     private String uuid;
 
+    @Comment("쿠폰 pk")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
