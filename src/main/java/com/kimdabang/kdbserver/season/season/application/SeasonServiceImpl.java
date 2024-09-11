@@ -1,5 +1,6 @@
 package com.kimdabang.kdbserver.season.season.application;
 
+import com.kimdabang.kdbserver.season.season.domain.Season;
 import com.kimdabang.kdbserver.season.season.dto.in.SeasonRequestDto;
 import com.kimdabang.kdbserver.season.season.dto.out.SeasonResponseDto;
 import com.kimdabang.kdbserver.season.season.infrastructure.SeasonRepository;
@@ -27,13 +28,19 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     @Transactional
     public void updateSeason(SeasonRequestDto seasonRequestDto) {
+        seasonRepository.findById(seasonRequestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 시즌이 존재하지 않습니다."));
 
+        seasonRepository.save(seasonRequestDto.toEntity());
     }
 
     @Override
     @Transactional
     public void deleteSeason(Long id) {
+        Season deleteSeason = seasonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
 
+        seasonRepository.delete(deleteSeason);
     }
 
     @Override
