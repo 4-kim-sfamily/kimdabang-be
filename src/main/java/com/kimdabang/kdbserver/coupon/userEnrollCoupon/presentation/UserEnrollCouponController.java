@@ -46,6 +46,7 @@ public class UserEnrollCouponController {
     public CommonResponseEntity<Void> updateUserEnrollCoupon (@RequestBody UserEnrollCouponUpdateRequestVo userEnrollCouponUpdateRequestVo) {
         log.info("userEnrollCouponRequestVo = {}", userEnrollCouponUpdateRequestVo);
         UserEnrollCouponUpdateRequestDto userEnrollCouponUpdateRequestDto = UserEnrollCouponUpdateRequestDto.builder()
+                .id(userEnrollCouponUpdateRequestVo.getId())
                 .isUsed(userEnrollCouponUpdateRequestVo.getIsUsed())
                 .usedAt(userEnrollCouponUpdateRequestVo.getUsedAt())
                 .expiredDate(userEnrollCouponUpdateRequestVo.getExpiredDate())

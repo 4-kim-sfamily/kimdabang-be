@@ -18,6 +18,7 @@ public class UserEnrollCouponUpdateRequestDto {
                 .id(id)
                 .uuid(userEnrollCoupon.getUuid())
                 .coupon(userEnrollCoupon.getCoupon())
+                .createdAt(userEnrollCoupon.getCreatedAt())
                 .isUsed(isUsed)
                 .usedAt(usedAt)
                 .expiredDate(expiredDate)

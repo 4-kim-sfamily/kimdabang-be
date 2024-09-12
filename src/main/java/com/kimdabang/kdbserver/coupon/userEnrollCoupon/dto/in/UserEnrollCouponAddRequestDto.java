@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 public class
 UserEnrollCouponAddRequestDto {
-    private Long id;
+
     private String accessToken;
 //    private Coupon coupon;
     private Long couponId;
@@ -22,7 +22,6 @@ UserEnrollCouponAddRequestDto {
 
     public UserEnrollCoupon toEntity(String uuid, LocalDateTime createdAt, LocalDateTime expiredDate, Coupon coupon) {
         return UserEnrollCoupon.builder()
-                .id(id)
                 .uuid(uuid)
                 .coupon(coupon)
                 .createdAt(createdAt)

@@ -32,15 +32,14 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
 
         String uuid = jwtTokenProvider.useToken(userEnrollCouponAddRequestDto.getAccessToken());
 
-        LocalDateTime now = LocalDateTime.now();
+        Coupon coupon = couponRepository.findById(userEnrollCouponAddRequestDto.getCouponId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
 
-        Coupon coupon = couponRepository.findById(userEnrollCouponAddRequestDto.getCouponId()).get();
-
-        now.plus(coupon.getValidityYear()).plus(coupon.getValidityMonth()).plus(coupon.getValidityDay());
+        LocalDateTime toolTime = LocalDateTime.now().plus(coupon.getValidityYear()).plus(coupon.getValidityMonth()).plus(coupon.getValidityDay());
         LocalDateTime expiredDate = coupon.getExpiredDate();
 
-        if (now.isBefore(expiredDate)) {
-            expiredDate = now;
+        if (toolTime.isBefore(expiredDate)) {
+            expiredDate = toolTime;
         }
 
         userEnrollCouponRepository.save(userEnrollCouponAddRequestDto.toEntity(uuid, LocalDateTime.now(), expiredDate, coupon));
