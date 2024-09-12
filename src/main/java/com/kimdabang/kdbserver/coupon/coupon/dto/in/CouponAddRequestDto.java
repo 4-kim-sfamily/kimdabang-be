@@ -9,9 +9,8 @@ import java.time.LocalDateTime;
 import java.time.Period;
 
 @Getter
-public class CouponRequestDto {
+public class CouponAddRequestDto {
 
-    private Long id;
     private String name;
     private CouponType couponType;
     private LocalDateTime expiredDate;
@@ -22,7 +21,6 @@ public class CouponRequestDto {
 
     public Coupon toEntity() {
         return Coupon.builder()
-                .id(id)
                 .name(name)
                 .couponType(couponType)
                 .expiredDate(expiredDate)
@@ -34,8 +32,7 @@ public class CouponRequestDto {
     }
 
     @Builder
-    public CouponRequestDto(Long id, String name, CouponType couponType, LocalDateTime expiredDate, int value, Period validityYear, Period validityMonth, Period validityDay) {
-        this.id = id;
+    public CouponAddRequestDto(String name, CouponType couponType, LocalDateTime expiredDate, int value, Period validityYear, Period validityMonth, Period validityDay) {
         this.name = name;
         this.couponType = couponType;
         this.expiredDate = expiredDate;

@@ -9,7 +9,7 @@ import java.time.Period;
 
 @Getter
 @ToString
-public class CouponRequestVo {
+public class CouponAddRequestVo {
     private String name;
     private CouponType couponType;
     private LocalDateTime expiredDate;

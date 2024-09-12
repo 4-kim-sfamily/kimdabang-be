@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CouponType {
 
-    COUPON_TYPE_by_PERCENTAGE("할인률 쿠폰"),
-    COUPON_TYPE_by_FIXED_AMOUNT("할인액 쿠폰");
+    PERCENTAGE("할인률 쿠폰"),
+    FIXED_AMOUNT("할인액 쿠폰");
 
     private final String couponType;
 
     @JsonValue
-    public String GetCouponType() {
+    public String getCouponType() {
         return couponType;
     }
 

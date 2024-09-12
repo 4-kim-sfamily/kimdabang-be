@@ -2,9 +2,11 @@ package com.kimdabang.kdbserver.coupon.coupon.presentation;
 
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.coupon.coupon.application.CouponService;
-import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponRequestDto;
+import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponAddRequestDto;
+import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponUpdateRequestDto;
 import com.kimdabang.kdbserver.coupon.coupon.dto.out.CouponResponseDto;
-import com.kimdabang.kdbserver.coupon.coupon.vo.CouponRequestVo;
+import com.kimdabang.kdbserver.coupon.coupon.vo.CouponAddRequestVo;
+import com.kimdabang.kdbserver.coupon.coupon.vo.CouponUpdateRequestVo;
 import com.kimdabang.kdbserver.coupon.coupon.vo.CouponResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,18 +24,18 @@ public class CouponController {
     private final CouponService couponService;
 
     @PostMapping
-    public CommonResponseEntity<Void> createCoupon(@RequestBody CouponRequestVo couponRequestVo) {
-        log.info("couponRequestVo = {}", couponRequestVo);
-        CouponRequestDto couponRequestDto = CouponRequestDto.builder()
-                .name(couponRequestVo.getName())
-                .couponType(couponRequestVo.getCouponType())
-                .expiredDate(couponRequestVo.getExpiredDate())
-                .value(couponRequestVo.getValue())
-                .validityYear(couponRequestVo.getValidityYear())
-                .validityMonth(couponRequestVo.getValidityMonth())
-                .validityDay(couponRequestVo.getValidityDay())
+    public CommonResponseEntity<Void> createCoupon(@RequestBody CouponAddRequestVo couponAddRequestVo) {
+        log.info("couponAddRequestVo = {}", couponAddRequestVo);
+        CouponAddRequestDto couponAddRequestDto = CouponAddRequestDto.builder()
+                .name(couponAddRequestVo.getName())
+                .couponType(couponAddRequestVo.getCouponType())
+                .expiredDate(couponAddRequestVo.getExpiredDate())
+                .value(couponAddRequestVo.getValue())
+                .validityYear(couponAddRequestVo.getValidityYear())
+                .validityMonth(couponAddRequestVo.getValidityMonth())
+                .validityDay(couponAddRequestVo.getValidityDay())
                 .build();
-        couponService.addCoupon(couponRequestDto);
+        couponService.addCoupon(couponAddRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "쿠폰 등록 성공",
@@ -42,18 +44,19 @@ public class CouponController {
     }
 
     @PutMapping
-    public CommonResponseEntity<Void> updateCoupon(@RequestBody CouponRequestVo couponRequestVo) {
-        log.info("couponRequestVo = {}", couponRequestVo);
-        CouponRequestDto couponRequestDto = CouponRequestDto.builder()
-                .name(couponRequestVo.getName())
-                .couponType(couponRequestVo.getCouponType())
-                .expiredDate(couponRequestVo.getExpiredDate())
-                .value(couponRequestVo.getValue())
-                .validityYear(couponRequestVo.getValidityYear())
-                .validityMonth(couponRequestVo.getValidityMonth())
-                .validityDay(couponRequestVo.getValidityDay())
+    public CommonResponseEntity<Void> updateCoupon(@RequestBody CouponUpdateRequestVo couponUpdateRequestVo) {
+        log.info("couponUpdateRequestVo = {}", couponUpdateRequestVo);
+        CouponUpdateRequestDto couponUpdateRequestDto = CouponUpdateRequestDto.builder()
+                .id(couponUpdateRequestVo.getId())
+                .name(couponUpdateRequestVo.getName())
+                .couponType(couponUpdateRequestVo.getCouponType())
+                .expiredDate(couponUpdateRequestVo.getExpiredDate())
+                .value(couponUpdateRequestVo.getValue())
+                .validityYear(couponUpdateRequestVo.getValidityYear())
+                .validityMonth(couponUpdateRequestVo.getValidityMonth())
+                .validityDay(couponUpdateRequestVo.getValidityDay())
                 .build();
-        couponService.updateCoupon(couponRequestDto);
+        couponService.updateCoupon(couponUpdateRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "쿠폰 업데이트 성공",

@@ -1,7 +1,8 @@
 package com.kimdabang.kdbserver.coupon.coupon.application;
 
 import com.kimdabang.kdbserver.coupon.coupon.domain.Coupon;
-import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponRequestDto;
+import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponAddRequestDto;
+import com.kimdabang.kdbserver.coupon.coupon.dto.in.CouponUpdateRequestDto;
 import com.kimdabang.kdbserver.coupon.coupon.dto.out.CouponResponseDto;
 import com.kimdabang.kdbserver.coupon.coupon.infrastructure.CouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,17 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     @Transactional
-    public void addCoupon(CouponRequestDto couponRequestDto) {
-        couponRepository.save(couponRequestDto.toEntity());
+    public void addCoupon(CouponAddRequestDto couponRequestAddDto) {
+        couponRepository.save(couponRequestAddDto.toEntity());
     }
 
     @Override
     @Transactional
-    public void updateCoupon(CouponRequestDto couponRequestDto) {
-        couponRepository.findById(couponRequestDto.getId())
+    public void updateCoupon(CouponUpdateRequestDto couponRequestUpdateDto) {
+        couponRepository.findById(couponRequestUpdateDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 쿠폰이 존재하지 않습니다."));
 
-        couponRepository.save(couponRequestDto.toEntity());
+        couponRepository.save(couponRequestUpdateDto.toEntity());
     }
 
     @Override
