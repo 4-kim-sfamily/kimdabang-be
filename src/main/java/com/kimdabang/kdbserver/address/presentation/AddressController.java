@@ -38,9 +38,8 @@ public class AddressController {
     @GetMapping("/get-useraddress")
     public CommonResponseEntity<List<AddressResponseVo>> getAddress(
             @RequestHeader ("Authorization") String Authorization) {
-        String token = Authorization.replace("Bearer ", "");
         List<AddressResponseDto> addressResponseDtoList =
-                addressService.getAddress(token);
+                addressService.getAddress(Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "useraddress 조회 성공",

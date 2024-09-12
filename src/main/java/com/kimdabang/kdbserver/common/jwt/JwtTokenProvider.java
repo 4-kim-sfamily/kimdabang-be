@@ -36,9 +36,12 @@ public class JwtTokenProvider {
                 .issuedAt(expiration)
                 .compact();
     }
-    public Claims parseToken(String token) {
+    public Claims parseToken(String accessToken) {
         try {
             // Jwts.parserBuilder()로 파서를 생성하고 서명 키를 설정합니다.
+            log.info("accessToken:{}",accessToken);
+            String token = accessToken.replace("Bearer ", "");
+            log.info("token:{}",token);
             return Jwts.parser()
                     .verifyWith(getSignKey())
                     .build()
@@ -50,8 +53,8 @@ public class JwtTokenProvider {
         }
     }
     public String useToken(String accessToken) {
-        String token = accessToken.replace("Bearer ", "");
-        Claims claims = parseToken(token);          // 토큰에서 클레임을 추출합니다.
+        //String token = accessToken.replace("Bearer ", "");
+        Claims claims = parseToken(accessToken);          // 토큰에서 클레임을 추출합니다.
         log.info("claims: {}",claims);
         String uuid = claims.get("uuid", String.class);
         Date issuedAt = claims.getIssuedAt();

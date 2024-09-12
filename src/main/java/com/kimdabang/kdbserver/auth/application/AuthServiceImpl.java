@@ -43,17 +43,20 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public SignInResponseDto signIn(SignInRequestDto signInRequestDto) {
+
+        User findUser = authRepository.findByLoginId(signInRequestDto.getLoginId()).orElse(null);
+
         try {
            Authentication authentication =
                    authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            signInRequestDto.getLoginId(),
+                            findUser.getUuid(),
                             signInRequestDto.getPassword()
                     )
            );
            return SignInResponseDto.builder()
                    .accessToken(createToken(authentication))
-                   .name(authentication.getName())
+                   .name(findUser.getNickname())
                    .build();
         } catch (Exception e) {
             throw new IllegalArgumentException("로그인 실패");
@@ -84,13 +87,10 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public KeyResponseDto verifyPassword(KeyRequestDto keyRequestDto, String accessToken) {
         String uuid = jwtTokenProvider.useToken(accessToken);
-        User user = authRepository.findByUuid(uuid).orElseThrow(
-                () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
-        );
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            user.getLoginId(),
+                            uuid,
                             keyRequestDto.getKey()
                             )
                     );

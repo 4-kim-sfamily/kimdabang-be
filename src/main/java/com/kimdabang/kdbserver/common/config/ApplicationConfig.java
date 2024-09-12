@@ -21,8 +21,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return loginId -> {
-            return userRepository.findByLoginId(loginId).orElseThrow(
+        return uuid -> {
+            return userRepository.findByUuid(uuid).orElseThrow(
                     () -> new IllegalArgumentException("해당 회원이 없습니다.")
             );
         };
