@@ -2,10 +2,12 @@ package com.kimdabang.kdbserver.season.season.presentation;
 
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.season.season.application.SeasonService;
-import com.kimdabang.kdbserver.season.season.dto.in.SeasonRequestDto;
+import com.kimdabang.kdbserver.season.season.dto.in.SeasonAddRequestDto;
+import com.kimdabang.kdbserver.season.season.dto.in.SeasonUpdateRequestDto;
 import com.kimdabang.kdbserver.season.season.dto.out.SeasonResponseDto;
-import com.kimdabang.kdbserver.season.season.vo.SeasonRequestVo;
+import com.kimdabang.kdbserver.season.season.vo.SeasonAddRequestVo;
 import com.kimdabang.kdbserver.season.season.vo.SeasonResponseVo;
+import com.kimdabang.kdbserver.season.season.vo.SeasonUpdateRequestVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,17 +24,16 @@ public class SeasonController {
     private final SeasonService seasonService;
 
     @PostMapping
-    public CommonResponseEntity<Void> createSeason(@RequestBody SeasonRequestVo seasonRequestVo) {
-        log.info("seasonRequestVo = {}", seasonRequestVo);
-        SeasonRequestDto seasonRequestDto = SeasonRequestDto.builder()
-                .id(seasonRequestVo.getId())
-                .name(seasonRequestVo.getName())
-                .description(seasonRequestVo.getDescription())
-                .startDate(seasonRequestVo.getStartDate())
-                .endDate(seasonRequestVo.getEndDate())
-                .discount(seasonRequestVo.getDiscount())
+    public CommonResponseEntity<Void> createSeason(@RequestBody SeasonAddRequestVo seasonAddRequestVo) {
+        log.info("seasonAddRequestVo = {}", seasonAddRequestVo);
+        SeasonAddRequestDto seasonAddRequestDto = SeasonAddRequestDto.builder()
+                .name(seasonAddRequestVo.getName())
+                .description(seasonAddRequestVo.getDescription())
+                .startDate(seasonAddRequestVo.getStartDate())
+                .endDate(seasonAddRequestVo.getEndDate())
+                .discount(seasonAddRequestVo.getDiscount())
                 .build();
-        seasonService.addSeason(seasonRequestDto);
+        seasonService.addSeason(seasonAddRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "시즌 등록 성공",
@@ -41,16 +42,16 @@ public class SeasonController {
     }
 
     @PutMapping
-    public CommonResponseEntity<Void> updateSeason(@RequestBody SeasonRequestVo seasonRequestVo) {
-        log.info("seasonRequestVo = {}", seasonRequestVo);
-        SeasonRequestDto seasonRequestDto = SeasonRequestDto.builder()
-                .name(seasonRequestVo.getName())
-                .description(seasonRequestVo.getDescription())
-                .startDate(seasonRequestVo.getStartDate())
-                .endDate(seasonRequestVo.getEndDate())
-                .discount(seasonRequestVo.getDiscount())
+    public CommonResponseEntity<Void> updateSeason(@RequestBody SeasonUpdateRequestVo seasonUpdateRequestVo) {
+        log.info("seasonUpdateRequestVo = {}", seasonUpdateRequestVo);
+        SeasonUpdateRequestDto seasonUpdateRequestDto = SeasonUpdateRequestDto.builder()
+                .name(seasonUpdateRequestVo.getName())
+                .description(seasonUpdateRequestVo.getDescription())
+                .startDate(seasonUpdateRequestVo.getStartDate())
+                .endDate(seasonUpdateRequestVo.getEndDate())
+                .discount(seasonUpdateRequestVo.getDiscount())
                 .build();
-        seasonService.updateSeason(seasonRequestDto);
+        seasonService.updateSeason(seasonUpdateRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "시즌 업데이트 성공",

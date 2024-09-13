@@ -1,7 +1,8 @@
 package com.kimdabang.kdbserver.season.season.application;
 
 import com.kimdabang.kdbserver.season.season.domain.Season;
-import com.kimdabang.kdbserver.season.season.dto.in.SeasonRequestDto;
+import com.kimdabang.kdbserver.season.season.dto.in.SeasonAddRequestDto;
+import com.kimdabang.kdbserver.season.season.dto.in.SeasonUpdateRequestDto;
 import com.kimdabang.kdbserver.season.season.dto.out.SeasonResponseDto;
 import com.kimdabang.kdbserver.season.season.infrastructure.SeasonRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,17 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     @Transactional
-    public void addSeason(SeasonRequestDto seasonRequestDto) {
-        seasonRepository.save(seasonRequestDto.toEntity());
+    public void addSeason(SeasonAddRequestDto seasonAddRequestDto) {
+        seasonRepository.save(seasonAddRequestDto.toEntity());
     }
 
     @Override
     @Transactional
-    public void updateSeason(SeasonRequestDto seasonRequestDto) {
-        seasonRepository.findById(seasonRequestDto.getId())
+    public void updateSeason(SeasonUpdateRequestDto seasonUpdateRequestDto) {
+        seasonRepository.findById(seasonUpdateRequestDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 시즌이 존재하지 않습니다."));
 
-        seasonRepository.save(seasonRequestDto.toEntity());
+        seasonRepository.save(seasonUpdateRequestDto.toEntity());
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @ToString
-public class SeasonRequestVo {
+public class SeasonUpdateRequestVo {
     private Long id;
     private String name;
     private String description;

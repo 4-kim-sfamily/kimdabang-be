@@ -7,9 +7,8 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class SeasonRequestDto {
+public class SeasonAddRequestDto {
 
-    private Long id;
     private String name;
     private String description;
     private LocalDateTime startDate;
@@ -18,7 +17,6 @@ public class SeasonRequestDto {
 
     public Season toEntity() {
         return Season.builder()
-                .id(id)
                 .name(name)
                 .description(description)
                 .startDate(startDate)
@@ -28,8 +26,7 @@ public class SeasonRequestDto {
     }
 
     @Builder
-    public SeasonRequestDto(Long id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, int discount) {
-        this.id = id;
+    public SeasonAddRequestDto(String name, String description, LocalDateTime startDate, LocalDateTime endDate, int discount) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
