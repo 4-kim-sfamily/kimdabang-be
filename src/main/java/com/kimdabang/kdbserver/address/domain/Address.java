@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Entity
 @NoArgsConstructor
+@DynamicUpdate  //특정 칼럼만 update하기 위해 사용
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,5 +53,8 @@ public class Address {
         this.phone = phone;
         this.userUuid = userUuid;
     }
-
+    public void updateIsDefault(Boolean isDefault)
+    {
+        this.isDefault = isDefault;
+    }
 }
