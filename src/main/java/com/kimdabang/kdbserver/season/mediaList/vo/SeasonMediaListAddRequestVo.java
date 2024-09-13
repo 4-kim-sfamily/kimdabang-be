@@ -5,9 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class SeasonMediaListRequestVo {
-
-    private Long id;
+public class SeasonMediaListAddRequestVo {
     private Long seasonId;
     private String mediaURL;
     private String imageName;
