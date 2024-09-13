@@ -1,6 +1,5 @@
 package com.kimdabang.kdbserver.address.domain;
 
-import com.kimdabang.kdbserver.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,9 +26,13 @@ public class Address {
     @Column(nullable = false, length = 100)
     private String addressName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Comment("전화 번호")
+    @Column(nullable = false, length = 100)
+    private String phone;
+
+    @Comment("유저 uuid")
+    @Column(nullable = false, length = 100)
+    private String userUuid;
 
     @Builder
     public Address(
@@ -37,14 +40,16 @@ public class Address {
             String address,
             Boolean isDefault,
             String addressName,
-            User user
+            String phone,
+            String userUuid
 
     ) {
         this.id = id;
         this.address = address;
         this.isDefault = isDefault;
         this.addressName = addressName;
-        this.user = user;
+        this.phone = phone;
+        this.userUuid = userUuid;
     }
 
 }

@@ -3,7 +3,6 @@ package com.kimdabang.kdbserver.address.vo;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,4 +11,5 @@ public class AddressResponseVo {
     private String address;
     private Boolean isDefault;
     private String addressName;
+    private String phone;
 }

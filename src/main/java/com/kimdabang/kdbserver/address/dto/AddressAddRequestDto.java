@@ -1,11 +1,10 @@
 package com.kimdabang.kdbserver.address.dto;
 
 import com.kimdabang.kdbserver.address.domain.Address;
-import com.kimdabang.kdbserver.user.domain.User;
+import com.kimdabang.kdbserver.address.vo.AddressAddRequestVo;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,14 +12,25 @@ public class AddressAddRequestDto {
     private String address;
     private Boolean isDefault;
     private String addressName;
-    private String accessToken;
+    private String phone;
 
-    public Address toEntity(AddressAddRequestDto addressAddRequestDto, User user) {
+    public static AddressAddRequestDto RequestDto(AddressAddRequestVo addressAddRequestVo) {
+        return AddressAddRequestDto.builder()
+                .addressName(addressAddRequestVo.getAddressName())
+                .address(addressAddRequestVo.getAddress())
+                .isDefault(addressAddRequestVo.getIsDefault())
+                .phone(addressAddRequestVo.getPhone())
+                .build();
+
+    }
+
+    public Address toEntity(AddressAddRequestDto addressAddRequestDto, String uuid) {
         return Address.builder()
                 .address(addressAddRequestDto.getAddress())
                 .isDefault(addressAddRequestDto.getIsDefault())
                 .addressName(addressAddRequestDto.getAddressName())
-                .user(user)
+                .userUuid(uuid)
+                .phone(addressAddRequestDto.getPhone())
                 .build();
     }
 }

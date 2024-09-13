@@ -4,7 +4,6 @@ import com.kimdabang.kdbserver.address.vo.AddressResponseVo;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +12,7 @@ public class AddressResponseDto {
     private String address;
     private Boolean isDefault;
     private String addressName;
+    private String phone;
 
     public AddressResponseVo toResponseVo() {
         return AddressResponseVo.builder()
@@ -20,6 +20,7 @@ public class AddressResponseDto {
                 .address(address)
                 .addressName(addressName)
                 .isDefault(isDefault)
+                .phone(phone)
                 .build();
     }
 }

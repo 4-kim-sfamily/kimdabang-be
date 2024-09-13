@@ -9,5 +9,5 @@ public class AddressAddRequestVo {
     private String address;
     private Boolean isDefault;
     private String addressName;
-    private String accessToken;
+    private String phone;
 }
