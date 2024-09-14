@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.SEASONMEDIA_NOT_FOUND;
 import static com.kimdabang.kdbserver.common.exception.ErrorCode.SEASON_NOT_FOUND;
 
 @Service
@@ -39,7 +40,7 @@ public class SeasonMediaListServiceImpl implements SeasonMediaListService {
     @Transactional
     public void updateSeasonMediaList(SeasonMediaListUpdateRequestDto seasonMediaListUpdateRequestDto) {
         SeasonMediaList seasonMediaList = seasonMediaListRepository.findById(seasonMediaListUpdateRequestDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 시즌의 미디어가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(SEASONMEDIA_NOT_FOUND));
         seasonMediaListRepository.save(seasonMediaListUpdateRequestDto.toEntity(seasonMediaList));
     }
 
@@ -47,19 +48,34 @@ public class SeasonMediaListServiceImpl implements SeasonMediaListService {
     @Transactional
     public void deleteSeasonMediaList(Long id) {
         SeasonMediaList deleteSeasonMediaList = seasonMediaListRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 시즌의 미디어가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(SEASONMEDIA_NOT_FOUND));
         seasonMediaListRepository.delete(deleteSeasonMediaList);
     }
 
     @Override
     public SeasonMediaListResponseDto getOneSeasonMediaList(Long id) {
-        // TODO: 9/13/24  
-        return null;
+        SeasonMediaList getSeasonMediaList = seasonMediaListRepository.findById(id)
+                .orElseThrow(() -> new CustomException(SEASONMEDIA_NOT_FOUND));
+        return SeasonMediaListResponseDto.builder()
+                .id(getSeasonMediaList.getId())
+                .season(getSeasonMediaList.getSeason())
+                .mediaURL(getSeasonMediaList.getMediaURL())
+                .imageName(getSeasonMediaList.getImageName())
+                .mediaType(getSeasonMediaList.getMediaType())
+                .build();
     }
 
     @Override
     public List<SeasonMediaListResponseDto> getAllSeasonMediaList() {
-        // TODO: 9/13/24  
-        return null;
+        List<SeasonMediaList> seasonMediaLists = seasonMediaListRepository.findAll();
+        return seasonMediaLists.stream()
+                .map(seasonMediaList -> SeasonMediaListResponseDto.builder()
+                        .id(seasonMediaList.getId())
+                        .season(seasonMediaList.getSeason())
+                        .mediaURL(seasonMediaList.getMediaURL())
+                        .imageName(seasonMediaList.getImageName())
+                        .mediaType(seasonMediaList.getMediaType())
+                        .build())
+                .toList();
     }
 }
