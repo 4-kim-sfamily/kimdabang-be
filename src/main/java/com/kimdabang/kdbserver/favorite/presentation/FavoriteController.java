@@ -37,18 +37,19 @@ public class FavoriteController {
     }
 
     @PutMapping("/{productCode}")
-    public CommonResponseEntity<Void> changeFavoriteCheck(
+    public CommonResponseEntity<FavoriteCheckResponseVo> changeFavoriteCheck(
             @RequestHeader ("Authorization") String Authorization,
             @PathVariable String productCode) {
         FavoriteRequestDto favoriteRequestDto = FavoriteRequestDto.builder()
                 .productCode(productCode)
                 .accessToken(Authorization)
                 .build();
-        favoriteService.putFavorite(favoriteRequestDto);
+        FavoriteCheckResponseDto favoriteCheckResponseDto = favoriteService.putFavorite(favoriteRequestDto);
+
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "좋아요 상태 업데이트 성공",
-                null
+                favoriteCheckResponseDto.toVo()
         );
     }
 

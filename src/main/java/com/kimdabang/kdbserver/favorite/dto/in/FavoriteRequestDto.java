@@ -10,9 +10,8 @@ public class FavoriteRequestDto {
 
     private String productCode;
     private String accessToken;
-    private boolean isCanceled;
 
-    public Favorite toFavoriteEntity(String userUuid) {
+    public Favorite toFavoriteEntity(String userUuid, Boolean isCanceled) {
         return Favorite.builder()
                 .productCode(productCode)
                 .userUuid(userUuid)
@@ -21,11 +20,10 @@ public class FavoriteRequestDto {
     }
 
     @Builder
-    public FavoriteRequestDto(String productCode, String accessToken, boolean isCanceled) {
+    public FavoriteRequestDto(String productCode, String accessToken) {
 
         this.productCode = productCode;
         this.accessToken = accessToken;
-        this.isCanceled = isCanceled;
 
     }
 

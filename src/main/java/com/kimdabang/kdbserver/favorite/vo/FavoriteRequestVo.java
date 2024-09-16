@@ -7,5 +7,5 @@ public class FavoriteRequestVo {
 
     private String productCode;
     private String accessToken;
-    private boolean isCanceled;
+
 }

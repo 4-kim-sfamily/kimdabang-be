@@ -31,15 +31,9 @@ public class FavoriteServiceImpl implements FavoriteService {
         String userUuid = jwtTokenProvider.useToken(Authorization);
 
         Favorite favorite = favoriteRepository.findByProductCodeAndUserUuid(productCode, userUuid)
-                .orElseThrow(() -> new CustomException(FAVORITE_NOT_FOUND));
+                .orElse(null);
 
-        boolean favoriteStatus;
-
-        if (favorite == null) {
-            favoriteStatus = false;
-        } else {
-            favoriteStatus = !favorite.isCanceled();
-        }
+        boolean favoriteStatus = (favorite != null && !favorite.isCanceled());
 
         return new FavoriteCheckResponseDto(favoriteStatus);
     }
@@ -49,41 +43,32 @@ public class FavoriteServiceImpl implements FavoriteService {
 
         String userUuid = jwtTokenProvider.useToken(favoriteDto.getAccessToken());
 
-        Favorite favorite = favoriteRepository.findByProductCodeAndUserUuid(favoriteDto.getProductCode(), userUuid)
-                .orElseThrow(() -> {
-                    if (!favoriteRepository.existsByProductCode(favoriteDto.getProductCode())) {
-                        throw new CustomException(FAVORITE_NOT_FOUND);
-                    }
-
-                    if (!favoriteRepository.existsByUserUuid(userUuid)) {
-                        throw new CustomException(USER_NOT_FOUND);
-                    }
-
-                    return new EntityNotFoundException("Favorite not found with productCode and UserUuid: " + favoriteDto.getProductCode() + ", " + userUuid);
-                });
-
-        favoriteRepository.save(favoriteDto.toFavoriteEntity(userUuid));
+        favoriteRepository.save(favoriteDto.toFavoriteEntity(userUuid, false));
 
     }
 
     @Override
-    public void putFavorite(FavoriteRequestDto favoriteDto) {
+    public FavoriteCheckResponseDto putFavorite(FavoriteRequestDto favoriteDto) {
 
         String userUuid = jwtTokenProvider.useToken(favoriteDto.getAccessToken());
 
         Favorite favorite = favoriteRepository.findByProductCodeAndUserUuid(favoriteDto.getProductCode(), userUuid)
-                .orElseThrow(() -> new EntityNotFoundException("Favorite not found with productCode and UserUuid: " + favoriteDto.getProductCode() + ", " + userUuid));
+                .orElse(null);
 
         boolean favoriteStatus;
 
         if (favorite == null) {
+            // 좋아요 데이터가 없으면 새로운 데이터 추가
             addFavorite(favoriteDto);
+            favoriteStatus = true; // 새로운 데이터가 추가되었으므로 기본값 false
         } else {
+            // 좋아요 데이터가 있으면 is_canceled 값을 변경
             favorite.change();
+            favoriteRepository.save(favorite);
+            favoriteStatus = !favorite.isCanceled(); // 변경된 is_canceled 값을 가져옴
         }
 
-        favoriteRepository.save(favoriteDto.toFavoriteEntity(userUuid));
-
+        return new FavoriteCheckResponseDto(favoriteStatus);
     }
 
     @Override

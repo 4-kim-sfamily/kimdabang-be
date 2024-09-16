@@ -9,7 +9,7 @@ import java.util.List;
 public interface FavoriteService {
 
     void addFavorite(FavoriteRequestDto favoriteRequestDto);
-    void putFavorite(FavoriteRequestDto favoriteRequestDto);
+    FavoriteCheckResponseDto putFavorite(FavoriteRequestDto favoriteRequestDto);
     FavoriteCheckResponseDto getFavoriteCheck(String productCode, String Authorization);
     List<FavoriteResponseDto> getAllFavorites(String Authorization);
 
