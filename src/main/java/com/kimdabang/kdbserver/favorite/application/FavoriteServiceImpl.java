@@ -79,10 +79,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         if (favoriteList != null) {
             return favoriteList.stream()
                     .map(favorite -> FavoriteResponseDto.builder()
-                            .id(favorite.getId())
                             .productCode(favorite.getProductCode())
-                            .userUuid(favorite.getUserUuid())
-                            .isCanceled(favorite.getIsCanceled())
                             .build())
                     .toList();
         }

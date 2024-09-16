@@ -7,26 +7,18 @@ import lombok.Getter;
 @Getter
 public class FavoriteResponseDto {
 
-    private Long id;
     private String productCode;
-    private String userUuid;
-    private Boolean isCanceled;
 
     public FavoriteResponseVo toFavoriteResponseVo() {
         return FavoriteResponseVo.builder()
-                .id(id)
                 .productCode(productCode)
-                .userUuid(userUuid)
-                .isCanceled(isCanceled)
                 .build();
     }
 
     @Builder
-    public FavoriteResponseDto(Long id, String productCode, String userUuid, Boolean isCanceled) {
+    public FavoriteResponseDto(String productCode) {
 
-        this.id = id;
         this.productCode = productCode;
-        this.userUuid = userUuid;
-        this.isCanceled = isCanceled;
+
     }
 }

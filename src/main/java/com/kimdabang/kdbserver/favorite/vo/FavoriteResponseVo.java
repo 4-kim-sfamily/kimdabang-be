@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FavoriteResponseVo {
 
-    private Long id;
     private String productCode;
-    private String userUuid;
-    private Boolean isCanceled;
 
 }
