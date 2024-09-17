@@ -78,6 +78,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         List<Favorite> favoriteList = favoriteRepository.findAllByUserUuid(userUuid);
         if (favoriteList != null) {
             return favoriteList.stream()
+                    .filter(favorite -> !favorite.isCanceled())
                     .map(favorite -> FavoriteResponseDto.builder()
                             .productCode(favorite.getProductCode())
                             .build())
