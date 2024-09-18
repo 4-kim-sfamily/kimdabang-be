@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -81,6 +82,19 @@ public class ProductController {
                 "상품 조회 성공",
                 productResponseDto.toProductResponseVo()
         );
+    }
+
+    @GetMapping("/all")
+    public CommonResponseEntity<List<ProductResponseVo>> getAllProduct() {
+
+        List<ProductResponseVo> productResponseVoList = productService.getAllProducts();
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "상품 전체 조회 성공",
+                productResponseVoList
+        );
+
     }
 
     

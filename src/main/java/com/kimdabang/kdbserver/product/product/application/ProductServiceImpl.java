@@ -6,6 +6,7 @@ import com.kimdabang.kdbserver.product.product.domain.Product;
 import com.kimdabang.kdbserver.product.product.dto.in.ProductRequestDto;
 import com.kimdabang.kdbserver.product.product.dto.out.ProductResponseDto;
 import com.kimdabang.kdbserver.product.product.infrastructure.ProductRepository;
+import com.kimdabang.kdbserver.product.product.vo.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -67,20 +68,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDto> getProducts() {
+    public List<ProductResponseVo> getAllProducts() {
         List<Product> products = productRepository.findAll();
         if (products != null) {
             return products.stream()
                     .map(product -> ProductResponseDto.builder()
                             .productCode(product.getProductCode())
                             .productName(product.getProductName())
-                            .productCode(product.getProductCode())
-                            .productName(product.getProductName())
+                            .productPrice(product.getProductPrice())
                             .description(product.getDescription())
                             .releaseDate(product.getReleaseDate())
                             .content(product.getContent())
                             .categoryId(product.getCategoryId())
-                            .build())
+                            .build().toProductResponseVo())
                     .toList();
         }
         return List.of();
