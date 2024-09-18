@@ -9,7 +9,6 @@ import java.util.Date;
 @Getter
 public class ProductResponseDto {
 
-    private Long id;
     private String productCode;
     private String productName;
     private String description;
@@ -19,7 +18,6 @@ public class ProductResponseDto {
 
     public ProductResponseVo toProductResponseVo() {
         return ProductResponseVo.builder()
-                .id(id)
                 .productCode(productCode)
                 .productName(productName)
                 .description(description)
@@ -30,8 +28,7 @@ public class ProductResponseDto {
     }
 
     @Builder
-    public ProductResponseDto(Long id, String productCode, String productName, String description, Date releaseDate, String content, Long categoryId) {
-        this.id = id;
+    public ProductResponseDto(String productCode, String productName, String description, Date releaseDate, String content, Long categoryId) {
         this.productCode = productCode;
         this.productName = productName;
         this.description = description;

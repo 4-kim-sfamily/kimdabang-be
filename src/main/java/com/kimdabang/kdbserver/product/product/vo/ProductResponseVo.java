@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class ProductResponseVo {
 
-    private Long id;
     private String productCode;
     private String productName;
     private String description;
