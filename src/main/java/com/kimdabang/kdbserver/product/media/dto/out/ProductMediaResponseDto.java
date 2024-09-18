@@ -7,16 +7,12 @@ import lombok.Getter;
 @Getter
 public class ProductMediaResponseDto {
 
-    private Long id;
-    private Long productId;
     private String mediaName;
     private String mediaType;
     private String mediaURL;
 
     public ProductMediaResponseVo toProductMediaResponseVo() {
         return ProductMediaResponseVo.builder()
-                .id(id)
-                .productId(productId)
                 .mediaName(mediaName)
                 .mediaType(mediaType)
                 .mediaURL(mediaURL)
@@ -24,9 +20,7 @@ public class ProductMediaResponseDto {
     }
 
     @Builder
-    public ProductMediaResponseDto(Long id, Long productId, String mediaName, String mediaType, String mediaURL) {
-        this.id = id;
-        this.productId = productId;
+    public ProductMediaResponseDto(String mediaName, String mediaType, String mediaURL) {
         this.mediaName = mediaName;
         this.mediaType = mediaType;
         this.mediaURL = mediaURL;

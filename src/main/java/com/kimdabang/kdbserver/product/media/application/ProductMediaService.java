@@ -10,5 +10,5 @@ public interface ProductMediaService {
     void addProductMedia(ProductMediaRequestDto productMediaDto);
     void updateProductMedia(ProductMediaRequestDto productMediaDto);
     void deleteProductMedia(String productMediaId);
-    List<ProductMediaResponseDto> getAllProductMedia(String productId);
+    List<ProductMediaResponseDto> getAllProductMedia(String productCode);
 }

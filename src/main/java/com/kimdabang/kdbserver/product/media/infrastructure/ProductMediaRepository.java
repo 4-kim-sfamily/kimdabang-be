@@ -12,6 +12,6 @@ public interface ProductMediaRepository extends JpaRepository<ProductMedia, Long
 
     Optional<ProductMedia> findById(Long productMediaId);
     Optional<ProductMedia> findByProductId(Long productId);
-    List<ProductMedia> findAllByProductId(Long productId);
+    List<ProductMedia> findAllByProductCode(String productCode);
 
 }

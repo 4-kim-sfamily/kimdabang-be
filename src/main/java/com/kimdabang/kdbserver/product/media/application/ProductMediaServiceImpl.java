@@ -52,14 +52,12 @@ public class ProductMediaServiceImpl implements ProductMediaService {
     }
 
     @Override
-    public List<ProductMediaResponseDto> getAllProductMedia(String productId) {
-        Long longProductId = Long.parseLong(productId);
-        List<ProductMedia> productMediaList = productMediaRepository.findAllByProductId(longProductId);
+    public List<ProductMediaResponseDto> getAllProductMedia(String productCode) {
+
+        List<ProductMedia> productMediaList = productMediaRepository.findAllByProductCode(productCode);
         if (productMediaList != null) {
             return productMediaList.stream()
                     .map(productMedia -> ProductMediaResponseDto.builder()
-                            .id(productMedia.getId())
-                            .productId(longProductId)
                             .mediaName(productMedia.getMediaName())
                             .mediaType(productMedia.getMediaType())
                             .mediaURL(productMedia.getMediaURL())

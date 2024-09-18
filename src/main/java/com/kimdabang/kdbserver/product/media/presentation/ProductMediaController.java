@@ -80,10 +80,10 @@ public class ProductMediaController {
 //        );
 //    }
 
-    @GetMapping("{productId}/all")
+    @GetMapping("{productCode}/all")
     public CommonResponseEntity<List<ProductMediaResponseVo>> getAllProductMedia(
-            @PathVariable String productId) {
-        List<ProductMediaResponseDto> productMediaResponseDtoList = productMediaService.getAllProductMedia(productId);
+            @PathVariable String productCode) {
+        List<ProductMediaResponseDto> productMediaResponseDtoList = productMediaService.getAllProductMedia(productCode);
 
         List<ProductMediaResponseVo> productMediaResponseVoList
                 = productMediaResponseDtoList.stream()

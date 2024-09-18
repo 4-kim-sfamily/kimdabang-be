@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductMediaResponseVo {
 
-    private Long id;
-    private Long productId;
     private String mediaName;
     private String mediaType;
     private String mediaURL;
