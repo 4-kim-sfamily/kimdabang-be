@@ -26,6 +26,9 @@ public class Product extends BaseEntity {
     @Comment("상품 이름")
     @Column(nullable = false, length = 100)
     private String productName;
+    @Comment("상품 가격")
+    @Column(nullable = false)
+    private Long productPrice;
     @Comment("상품 설명")
     @Column(nullable = false, length = 100)
     private String description;

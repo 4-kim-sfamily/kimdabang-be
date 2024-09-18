@@ -11,6 +11,7 @@ public class ProductResponseDto {
 
     private String productCode;
     private String productName;
+    private Long productPrice;
     private String description;
     private Date releaseDate;
     private String content;
@@ -20,6 +21,7 @@ public class ProductResponseDto {
         return ProductResponseVo.builder()
                 .productCode(productCode)
                 .productName(productName)
+                .productPrice(productPrice)
                 .description(description)
                 .releaseDate(releaseDate)
                 .content(content)
@@ -28,9 +30,10 @@ public class ProductResponseDto {
     }
 
     @Builder
-    public ProductResponseDto(String productCode, String productName, String description, Date releaseDate, String content, Long categoryId) {
+    public ProductResponseDto(String productCode, String productName, Long productPrice, String description, Date releaseDate, String content, Long categoryId) {
         this.productCode = productCode;
         this.productName = productName;
+        this.productPrice = productPrice;
         this.description = description;
         this.releaseDate = releaseDate;
         this.content = content;

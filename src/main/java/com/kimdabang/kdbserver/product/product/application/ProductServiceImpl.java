@@ -58,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductResponseDto.builder()
                 .productCode(getProduct.getProductCode())
                 .productName(getProduct.getProductName())
+                .productPrice(getProduct.getProductPrice())
                 .description(getProduct.getDescription())
                 .releaseDate(getProduct.getReleaseDate())
                 .content(getProduct.getContent())
