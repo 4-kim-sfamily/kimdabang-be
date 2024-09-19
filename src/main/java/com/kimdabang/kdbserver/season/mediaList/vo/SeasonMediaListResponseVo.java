@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class SeasonMediaListResponseVo {
     private Long id;
-    private Season season;
+    private Long seasonId;
     private String mediaURL;
     private String imageName;
     private String mediaType;

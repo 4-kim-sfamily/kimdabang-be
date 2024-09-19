@@ -58,7 +58,7 @@ public class SeasonMediaListServiceImpl implements SeasonMediaListService {
                 .orElseThrow(() -> new CustomException(SEASONMEDIA_NOT_FOUND));
         return SeasonMediaListResponseDto.builder()
                 .id(getSeasonMediaList.getId())
-                .season(getSeasonMediaList.getSeason())
+                .seasonId(getSeasonMediaList.getSeason().getId())
                 .mediaURL(getSeasonMediaList.getMediaURL())
                 .imageName(getSeasonMediaList.getImageName())
                 .mediaType(getSeasonMediaList.getMediaType())
@@ -71,7 +71,7 @@ public class SeasonMediaListServiceImpl implements SeasonMediaListService {
         return seasonMediaLists.stream()
                 .map(seasonMediaList -> SeasonMediaListResponseDto.builder()
                         .id(seasonMediaList.getId())
-                        .season(seasonMediaList.getSeason())
+                        .seasonId(seasonMediaList.getSeason().getId())
                         .mediaURL(seasonMediaList.getMediaURL())
                         .imageName(seasonMediaList.getImageName())
                         .mediaType(seasonMediaList.getMediaType())
