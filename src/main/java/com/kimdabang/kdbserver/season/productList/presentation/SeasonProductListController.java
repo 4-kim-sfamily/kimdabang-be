@@ -5,12 +5,16 @@ import com.kimdabang.kdbserver.season.mediaList.vo.SeasonMediaListUpdateRequestV
 import com.kimdabang.kdbserver.season.productList.application.SeasonProductListService;
 import com.kimdabang.kdbserver.season.productList.dto.in.SeasonProductListAddRequestDto;
 import com.kimdabang.kdbserver.season.productList.dto.in.SeasonProductListUpdateRequestDto;
+import com.kimdabang.kdbserver.season.productList.dto.out.SeasonProductListResponseDto;
 import com.kimdabang.kdbserver.season.productList.vo.SeasonProductListAddRequestVo;
+import com.kimdabang.kdbserver.season.productList.vo.SeasonProductListResponseVo;
 import com.kimdabang.kdbserver.season.productList.vo.SeasonProductListUpdateRequestVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -30,7 +34,7 @@ public class SeasonProductListController {
         seasonProductListService.addSeasonProductList(seasonProductListAddRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "시즌상품리스트 등록 성공",
+                "시즌 상품 리스트 등록 성공",
                 null
         );
     }
@@ -46,7 +50,7 @@ public class SeasonProductListController {
         seasonProductListService.updateSeasonProductList(seasonProductListUpdateRequestDto);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "시즌상품리스트 업데이트 성공",
+                "시즌 상품 리스트 업데이트 성공",
                 null
         );
     }
@@ -57,8 +61,31 @@ public class SeasonProductListController {
         seasonProductListService.deleteSeasonProductList(id);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "시즌상품리스트 삭제 성공",
+                "시즌 상품 리스트 삭제 성공",
                 null
+        );
+    }
+
+    @GetMapping
+    public CommonResponseEntity<List<SeasonProductListResponseVo>> getAllSeasonProductList() {
+        List<SeasonProductListResponseDto> seasonProductListResponseDtos = seasonProductListService.getAllSeasonProductList();
+        List<SeasonProductListResponseVo> seasonProductListResponseVos = seasonProductListResponseDtos.stream()
+                .map(SeasonProductListResponseDto::toResponseVo)
+                .toList();
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "시즌 상품 리스트 전체 조회 성공",
+                seasonProductListResponseVos
+        );
+    }
+
+    @GetMapping("/{id}")
+    public CommonResponseEntity<SeasonProductListResponseVo> getOneSeasonProductList(@PathVariable Long id) {
+        SeasonProductListResponseDto seasonProductListResponseDto = seasonProductListService.getOneSeasonProductList(id);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "시즌 상품 리스트 조회 성공",
+                seasonProductListResponseDto.toResponseVo()
         );
     }
 }

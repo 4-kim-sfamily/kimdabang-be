@@ -56,13 +56,24 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
 
     @Override
     public SeasonProductListResponseDto getOneSeasonProductList(Long id) {
-        // TODO: 9/19/24
-        return null;
+        SeasonProductList seasonProductList = seasonProductListRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+        return SeasonProductListResponseDto.builder()
+                .id(seasonProductList.getId())
+                .seasonId(seasonProductList.getSeason().getId())
+                .productCode(seasonProductList.getProductCode())
+                .build();
     }
 
     @Override
     public List<SeasonProductListResponseDto> getAllSeasonProductList() {
-        // TODO: 9/19/24
-        return null;
+        List<SeasonProductList> seasonProductLists = seasonProductListRepository.findAll();
+        return seasonProductLists.stream()
+                .map(seasonProductList -> SeasonProductListResponseDto.builder()
+                        .id(seasonProductList.getId())
+                        .seasonId(seasonProductList.getSeason().getId())
+                        .productCode(seasonProductList.getProductCode())
+                        .build())
+                .toList();
     }
 }
