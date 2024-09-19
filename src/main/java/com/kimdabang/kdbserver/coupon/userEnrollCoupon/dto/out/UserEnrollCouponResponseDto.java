@@ -12,7 +12,7 @@ public class UserEnrollCouponResponseDto {
 
     private Long id;
     private String uuid;
-    private Coupon coupon;
+    private Long couponId;
     private LocalDateTime createdAt;
     private Boolean isUsed;
     private LocalDateTime usedAt;
@@ -22,7 +22,7 @@ public class UserEnrollCouponResponseDto {
         return UserEnrollCouponResponseVo.builder()
                 .id(id)
                 .uuid(uuid)
-                .coupon(coupon)
+                .couponId(couponId)
                 .createdAt(createdAt)
                 .isUsed(isUsed)
                 .usedAt(usedAt)
@@ -31,10 +31,10 @@ public class UserEnrollCouponResponseDto {
     }
 
     @Builder
-    public UserEnrollCouponResponseDto(Long id, String uuid, Coupon coupon, LocalDateTime createdAt, Boolean isUsed, LocalDateTime usedAt, LocalDateTime expiredDate) {
+    public UserEnrollCouponResponseDto(Long id, String uuid, Long couponId, LocalDateTime createdAt, Boolean isUsed, LocalDateTime usedAt, LocalDateTime expiredDate) {
         this.id = id;
         this.uuid = uuid;
-        this.coupon = coupon;
+        this.couponId = couponId;
         this.createdAt = createdAt;
         this.isUsed = isUsed;
         this.usedAt = usedAt;

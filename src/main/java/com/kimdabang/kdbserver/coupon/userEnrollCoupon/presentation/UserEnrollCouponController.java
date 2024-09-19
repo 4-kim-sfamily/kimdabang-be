@@ -60,7 +60,7 @@ public class UserEnrollCouponController {
     }
 
     @DeleteMapping
-    public CommonResponseEntity<Void> deleteCoupon(@RequestParam Long id) {
+    public CommonResponseEntity<Void> deleteUserEnrollCoupon(@RequestParam Long id) {
         log.info("userEnrollCouponId = {}", id);
         userEnrollCouponService.deleteUserEnrollCoupon(id);
         return new CommonResponseEntity<>(
@@ -71,8 +71,8 @@ public class UserEnrollCouponController {
     }
 
     @GetMapping
-    public CommonResponseEntity<List<UserEnrollCouponResponseVo>> getAllUserEnrollCoupon() {
-        List<UserEnrollCouponResponseDto> userEnrollCouponDtos = userEnrollCouponService.getAllUserEnrollCoupon();
+    public CommonResponseEntity<List<UserEnrollCouponResponseVo>> getAllUserEnrollCoupon(@RequestHeader("Authorization") String Authorization) {
+        List<UserEnrollCouponResponseDto> userEnrollCouponDtos = userEnrollCouponService.getAllUserEnrollCoupon(Authorization);
         List<UserEnrollCouponResponseVo> userEnrollCouponResponseVos = userEnrollCouponDtos.stream()
                 .map(UserEnrollCouponResponseDto::toResponseVo)
                 .toList();
@@ -83,13 +83,13 @@ public class UserEnrollCouponController {
         );
     }
 
-    @GetMapping("/{id}")
-    public CommonResponseEntity<UserEnrollCouponResponseVo> getOneUserEnrollCoupon(@PathVariable Long id) {
-        UserEnrollCouponResponseDto userEnrollCouponResponseDto = userEnrollCouponService.getOneUserEnrollCoupon(id);
-        return new CommonResponseEntity<>(
-                HttpStatus.OK,
-                "유저 등록 쿠폰 조회 성공",
-                userEnrollCouponResponseDto.toResponseVo()
-        );
-    }
+//    @GetMapping("/{id}")
+//    public CommonResponseEntity<UserEnrollCouponResponseVo> getOneUserEnrollCoupon(@PathVariable Long id) {
+//        UserEnrollCouponResponseDto userEnrollCouponResponseDto = userEnrollCouponService.getOneUserEnrollCoupon(id);
+//        return new CommonResponseEntity<>(
+//                HttpStatus.OK,
+//                "유저 등록 쿠폰 조회 성공",
+//                userEnrollCouponResponseDto.toResponseVo()
+//        );
+//    }
 }

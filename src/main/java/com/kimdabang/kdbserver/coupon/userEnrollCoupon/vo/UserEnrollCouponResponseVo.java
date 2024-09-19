@@ -14,7 +14,7 @@ public class UserEnrollCouponResponseVo {
 
     private Long id;
     private String uuid;
-    private Coupon coupon;
+    private Long couponId;
     private LocalDateTime createdAt;
     private Boolean isUsed;
     private LocalDateTime usedAt;

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,35 +66,39 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         userEnrollCouponRepository.delete(deleteUserEnrollCoupon);
     }
 
-    @Override
-    public UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id) {
-        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(id)
-                .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
-        return UserEnrollCouponResponseDto.builder()
-                .id(userEnrollCoupon.getId())
-                .uuid(userEnrollCoupon.getUuid())
-                .coupon(userEnrollCoupon.getCoupon())
-                .createdAt(userEnrollCoupon.getCreatedAt())
-                .isUsed(userEnrollCoupon.getIsUsed())
-                .usedAt(userEnrollCoupon.getUsedAt())
-                .expiredDate(userEnrollCoupon.getExpiredDate())
-                .build();
-    }
+//    @Override
+//    public UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id) {
+//        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(id)
+//                .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
+//        return UserEnrollCouponResponseDto.builder()
+//                .id(userEnrollCoupon.getId())
+//                .uuid(userEnrollCoupon.getUuid())
+//                .coupon(userEnrollCoupon.getCoupon())
+//                .createdAt(userEnrollCoupon.getCreatedAt())
+//                .isUsed(userEnrollCoupon.getIsUsed())
+//                .usedAt(userEnrollCoupon.getUsedAt())
+//                .expiredDate(userEnrollCoupon.getExpiredDate())
+//                .build();
+//    }
 
     @Override
-    public List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon() {
-        List<UserEnrollCoupon> userEnrollCoupons = userEnrollCouponRepository.findAll();
+    public List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon(String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        List<UserEnrollCoupon> userEnrollCoupons = userEnrollCouponRepository.findAllByUuid(userUuid);
 
-        return userEnrollCoupons.stream()
-                .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
-                        .id(userEnrollCoupon.getId())
-                        .uuid(userEnrollCoupon.getUuid())
-                        .coupon(userEnrollCoupon.getCoupon())
-                        .createdAt(userEnrollCoupon.getCreatedAt())
-                        .isUsed(userEnrollCoupon.getIsUsed())
-                        .usedAt(userEnrollCoupon.getUsedAt())
-                        .expiredDate(userEnrollCoupon.getExpiredDate())
-                        .build())
-                .toList();
+        if (userEnrollCoupons != null) {
+            return userEnrollCoupons.stream()
+                    .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
+                            .id(userEnrollCoupon.getId())
+                            .uuid(userEnrollCoupon.getUuid())
+                            .couponId(userEnrollCoupon.getCoupon().getId())
+                            .createdAt(userEnrollCoupon.getCreatedAt())
+                            .isUsed(userEnrollCoupon.getIsUsed())
+                            .usedAt(userEnrollCoupon.getUsedAt())
+                            .expiredDate(userEnrollCoupon.getExpiredDate())
+                            .build())
+                    .toList();
+        }
+        return List.of();
     }
 }

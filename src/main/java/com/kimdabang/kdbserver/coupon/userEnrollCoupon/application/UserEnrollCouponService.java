@@ -11,6 +11,6 @@ public interface UserEnrollCouponService {
     void addUserEnrollCoupon(UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto);
     void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto);
     void deleteUserEnrollCoupon(Long id);
-    UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id);
-    List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon();
+//    UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id);
+    List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon(String Authorization);
 }
