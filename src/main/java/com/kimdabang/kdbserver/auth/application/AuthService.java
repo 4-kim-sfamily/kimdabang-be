@@ -16,5 +16,7 @@ public interface AuthService {
     LoginIdFindResponseDto findEmail(KeyRequestDto keyRequestDto);
     KeyResponseDto verifyEmail(KeyRequestDto keyRequestDto);
     KeyResponseDto verifyLoginId(KeyRequestDto keyRequestDto);
-    //SignInResponseDto kakoLogin(KakaoLoginRequestDto kakaoLoginRequestDto);
+    SignInResponseDto oAuthSignIn(OAuthSignInRequestDto oAuthSignInRequestDto);
+    void oAuthSignUp(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken);
+    void oAuthDelete(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken);
 }

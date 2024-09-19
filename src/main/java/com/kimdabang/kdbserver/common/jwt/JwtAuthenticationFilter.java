@@ -1,15 +1,16 @@
 package com.kimdabang.kdbserver.common.jwt;
 
+import com.kimdabang.kdbserver.auth.application.AuthUserDetailService;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,13 +18,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 //    todo JwtTokenProvider
-    private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService;
+private final JwtTokenProvider jwtTokenProvider;
+    private final AuthUserDetailService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -44,6 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         uuid = Jwts.parser().verifyWith((SecretKey) jwtTokenProvider.getSignKey())
                 .build().parseSignedClaims(jwt).getPayload().get("uuid", String.class);
+
+        log.info("uuid: {}", uuid);
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(uuid);

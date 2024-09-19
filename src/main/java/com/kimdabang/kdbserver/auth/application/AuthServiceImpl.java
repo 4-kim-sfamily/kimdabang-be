@@ -6,7 +6,9 @@ import com.kimdabang.kdbserver.auth.dto.out.LoginIdFindResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.KeyResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.SignInResponseDto;
 import com.kimdabang.kdbserver.auth.dto.out.TestTokenResponseDto;
+import com.kimdabang.kdbserver.auth.entity.OAuth;
 import com.kimdabang.kdbserver.auth.infrastructure.AuthRepository;
+import com.kimdabang.kdbserver.auth.infrastructure.OAuthRepository;
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.user.domain.User;
@@ -28,6 +30,7 @@ import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 public class AuthServiceImpl implements AuthService{
 
     private final AuthRepository authRepository;
+    private final OAuthRepository oAuthRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -42,6 +45,10 @@ public class AuthServiceImpl implements AuthService{
         }
         User user = authRepository.save(signUpRequestDto.toEntity(passwordEncoder));
         agreementRepository.save(signUpRequestDto.toAgreement(user));
+        log.info("signUpRequestDto.getProvider():{}",signUpRequestDto.getProvider());
+        if(!signUpRequestDto.getProvider().isEmpty()) {
+            oAuthRepository.save(signUpRequestDto.toOAuth(user));
+        }
     }
 
     @Override
@@ -137,28 +144,55 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
-//    @Override
-//    public SignInResponseDto kakoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
-//        User user = authRepository.findByKakaoId(kakaoLoginRequestDto.getProviderAccountId()).orElse(null);
-//        if (user != null) {
-//            try {
-//                Authentication authentication =
-//                        authenticationManager.authenticate(
-//                                new UsernamePasswordAuthenticationToken(
-//                                        user.getLoginId(),
-//                                        user.getId()
-//                                )
-//                        );
-//                return SignInResponseDto.builder()
-//                        .accessToken(createToken(authentication))
-//                        .name(user.getName())
-//                        .build();
-//            } catch (Exception e) {
-//                throw new IllegalArgumentException("로그인 실패");
-//            }
-//        }
-//        throw new IllegalArgumentException("카카오 아이디로 가입된 정보가 없습니다");
-//    }
+    @Override
+    public SignInResponseDto oAuthSignIn(OAuthSignInRequestDto oAuthSignInRequestDto) {
+
+        OAuth oAuth = oAuthRepository.findByProviderAndProviderId(oAuthSignInRequestDto.getProvider(), oAuthSignInRequestDto.getProviderAccountId()).orElseThrow(
+                () -> new CustomException(USER_NOT_FOUND)
+        );
+        User user = authRepository.findByUuid(oAuth.getUserUuid()).orElseThrow(
+                () -> new CustomException(USER_NOT_FOUND)
+        );
+        String token = createToken(oAuthAuthenticate(oAuth.getUserUuid()));
+
+        return SignInResponseDto.builder().accessToken(token).name(user.getName()).build();
+
+    }
+    private Authentication oAuthAuthenticate(String uuid) {
+        log.info("uuid : {}", uuid);
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        uuid,
+                        null
+                )
+        );
+    }
+    @Override
+    public void oAuthSignUp(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken) {
+        String uuid = jwtTokenProvider.useToken(accessToken);
+        User user = authRepository.findByUuid(uuid).orElseThrow(
+                () -> new CustomException(USER_NOT_FOUND)
+        );
+        oAuthRepository.findByProviderAndProviderId(oAuthSignInRequestDto.getProvider(), oAuthSignInRequestDto.getProviderAccountId())
+                .ifPresentOrElse( (existingUser) -> {
+                    throw new CustomException(BAD_USER_REQUEST);
+                }, () -> {
+                    oAuthRepository.save(oAuthSignInRequestDto.toEntity(user.getUuid()));
+                }
+        );
+    }
+
+    @Override
+    public void oAuthDelete(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken) {
+        String uuid = jwtTokenProvider.useToken(accessToken);
+
+        OAuth oAuth =  oAuthRepository.findByUserUuid(uuid).orElseThrow(
+                () -> new CustomException(USER_NOT_FOUND)
+        );
+
+        oAuthRepository.delete(oAuth);
+
+    }
 
     @Override
     public TestTokenResponseDto testToken(TestTokenRequestDto testTokenRequestDto) {

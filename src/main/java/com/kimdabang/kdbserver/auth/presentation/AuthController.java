@@ -52,23 +52,44 @@ public class AuthController {
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 
-//    @Operation(summary = "kakaojoin API", description = "kakaojoin API 입니다.", tags = {"Auth"})
-//    @PostMapping("/kakaologin")
-//    public CommonResponseEntity<SignInResponseVo> kakaoLogin(
-//            @RequestBody KakaoLoginRequestVo kakaoLoginRequestVo) {
-//        ModelMapper modelMapper = new ModelMapper();
-//        KakaoLoginRequestDto kakaoLoginRequestDto = KakaoLoginRequestDto.builder().
-//                providerAccountId(kakaoLoginRequestVo.getProviderAccountId()).
-//                build();
-//        SignInResponseVo signInResponseVo = modelMapper.map(authService.kakoLogin(kakaoLoginRequestDto), SignInResponseVo.class);
-//        log.info("signInResponseVo: {}", signInResponseVo);
-//        return new CommonResponseEntity<>(
-//                    HttpStatus.OK,
-//                    CommonResponseMessage.SUCCESS.getMessage(),
-//                    signInResponseVo);
-//
-//    }
+    @Operation(summary = "OAuth login API", description = "OAuth login API 입니다.", tags = {"OAuth"})
+    @PostMapping("/sociallogin")
+    public CommonResponseEntity<SignInResponseVo> oAuthSignIn(
+            @RequestBody OAuthSignInRequestVo oAuthSignInRequestVo) {
+        OAuthSignInRequestDto oAuthSignInRequestDto = OAuthSignInRequestDto.toRequestDto(oAuthSignInRequestVo);
+        SignInResponseDto signInResponseDto = authService.oAuthSignIn(oAuthSignInRequestDto);
 
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                CommonResponseMessage.SUCCESS.getMessage(),
+                signInResponseDto.toResponseVo());
+    }
+
+    @Operation(summary = "OAuth join API", description = "OAuth join API 입니다.", tags = {"OAuth"})
+    @PostMapping("/socialjoin")
+    public CommonResponseEntity<Void> oAuthSignUp(
+            @RequestHeader ("Authorization") String Authorization,
+            @RequestBody OAuthSignInRequestVo oAuthSignInRequestVo) {
+        OAuthSignInRequestDto oAuthSignInRequestDto = OAuthSignInRequestDto.toRequestDto(oAuthSignInRequestVo);
+        authService.oAuthSignUp(oAuthSignInRequestDto, Authorization);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                CommonResponseMessage.SUCCESS.getMessage(), null);
+    }
+
+    @Operation(summary = "OAuth delete API", description = "OAuth delete API 입니다.", tags = {"OAuth"})
+    @DeleteMapping("/socialdelete")
+    public CommonResponseEntity<Void> oAuthDelete(
+            @RequestHeader ("Authorization") String Authorization,
+            @RequestBody OAuthSignInRequestVo oAuthSignInRequestVo) {
+        OAuthSignInRequestDto oAuthSignInRequestDto = OAuthSignInRequestDto.toRequestDto(oAuthSignInRequestVo);
+        authService.oAuthDelete(oAuthSignInRequestDto, Authorization);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                CommonResponseMessage.SUCCESS.getMessage(), null);
+    }
     @Operation(summary = "findid API", description = "findid API 입니다.", tags = {"Auth"})
     @PostMapping("/findid")
     public CommonResponseEntity<LoginIdFindResponseVo> findId(

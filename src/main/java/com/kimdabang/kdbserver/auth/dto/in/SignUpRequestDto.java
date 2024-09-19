@@ -1,6 +1,7 @@
 package com.kimdabang.kdbserver.auth.dto.in;
 
 import com.kimdabang.kdbserver.agreement.domain.Agreement;
+import com.kimdabang.kdbserver.auth.entity.OAuth;
 import com.kimdabang.kdbserver.auth.vo.in.SignUpRequestVo;
 import com.kimdabang.kdbserver.user.domain.Gender;
 import com.kimdabang.kdbserver.user.domain.Grade;
@@ -24,7 +25,8 @@ public class SignUpRequestDto {
     private Boolean smsChecked;
     private String loginId;
     private String password;
-    private String kakaoId;
+    private String provider;
+    private String providerId;
     private String name;
     private String email;
     private String phone;
@@ -42,7 +44,8 @@ public class SignUpRequestDto {
                 .smsChecked(signUpRequestVo.getSmsChecked())
                 .loginId(signUpRequestVo.getLoginId())
                 .password(signUpRequestVo.getPassword())
-                .kakaoId(signUpRequestVo.getKakaoId())
+                .provider(signUpRequestVo.getProvider())
+                .providerId(signUpRequestVo.getProviderId())
                 .name(signUpRequestVo.getName())
                 .email(signUpRequestVo.getEmail())
                 .phone(signUpRequestVo.getPhone())
@@ -59,7 +62,6 @@ public class SignUpRequestDto {
                 .loginId(loginId)
                 .uuid(UUID.randomUUID().toString())
                 .password(passwordEncoder.encode(password))
-                .kakaoId(kakaoId)
                 .name(name)
                 .email(email)
                 .phone(phone)
@@ -79,6 +81,13 @@ public class SignUpRequestDto {
                 .emailChecked(emailChecked)
                 .smsChecked(smsChecked)
                 .user(user)
+                .build();
+    }
+    public OAuth toOAuth(User user) {
+        return OAuth.builder()
+                .provider(provider)
+                .providerId(providerId)
+                .userUuid(user.getUuid())
                 .build();
     }
 

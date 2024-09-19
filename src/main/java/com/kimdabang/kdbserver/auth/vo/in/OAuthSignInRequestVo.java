@@ -5,6 +5,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class KakaoLoginRequestVo {
+public class OAuthSignInRequestVo {
+    private String provider;
     private String providerAccountId;
 }

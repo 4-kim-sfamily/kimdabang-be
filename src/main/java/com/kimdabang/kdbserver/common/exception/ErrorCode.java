@@ -8,7 +8,8 @@ public enum ErrorCode {
     DUPLICATED_LOGIN_ID(409, "USER-001", "중복된 로그인 아이디입니다."),
     USER_NOT_FOUND(400, "USER-002", "해당 회원을 찾을 수 없습니다."),
     BAD_CREDENTIALS(401, "USER-003", "아이디 또는 비밀번호가 일치하지 않습니다."),
-    BAD_USER_REQUEST(402, "USER-004", "잘못된 유저 접근입니다."),
+    BAD_SOCIAL_CREDENTIALS(401, "USER-004", "소셜 로그인 정보가 없습니다."),
+    BAD_USER_REQUEST(402, "USER-005", "잘못된 유저 접근입니다."),
 
     DATA_NOT_FOUND(400, "DATA-001", "데이터를 찾을 수 없습니다."),
 

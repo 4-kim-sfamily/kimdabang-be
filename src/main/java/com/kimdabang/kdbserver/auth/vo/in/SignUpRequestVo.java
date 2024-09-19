@@ -17,7 +17,8 @@ public class SignUpRequestVo {
     private Boolean smsChecked;
     private String loginId;
     private String password;
-    private String kakaoId;
+    private String provider;
+    private String providerId;
     private String name;
     private String email;
     private String phone;
