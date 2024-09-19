@@ -1,7 +1,6 @@
 package com.kimdabang.kdbserver.product.optionList.domain;
 
 import com.kimdabang.kdbserver.common.entity.BaseEntity;
-import com.kimdabang.kdbserver.product.option.domain.Option;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +24,9 @@ public class OptionList extends BaseEntity {
     @Column(nullable = false)
     private String productCode;
 
-    @Comment("옵션 pk")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "options_id")
-    private Option option;
+    @Comment("최상위 옵션 ID")
+    @Column(nullable = false)
+    private Long optionId;
 
 
 }

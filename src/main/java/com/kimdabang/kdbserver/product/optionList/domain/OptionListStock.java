@@ -40,12 +40,8 @@ public class OptionListStock extends BaseEntity {
     @Column(nullable = false)
     private Long minStock;
 
-    @Comment("옵션별 상품 할인율")
-    @Column(nullable = true)
-    private int discount;
-
-    @Comment("옵션별 상품 할인가")
-    @Column(nullable = true)
-    private int discountPrice;
+    @Comment("옵션 별 변동 가격")
+    @Column(nullable = false)
+    private int variablePrice;
 
 }
