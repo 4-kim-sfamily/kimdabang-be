@@ -5,9 +5,9 @@ import com.kimdabang.kdbserver.notification.domain.Notification;
 import com.kimdabang.kdbserver.notification.dto.in.NotificationRequestDto;
 import com.kimdabang.kdbserver.notification.dto.out.NotificationResponseDto;
 import com.kimdabang.kdbserver.notification.infrastructure.NotificationRepository;
-import com.kimdabang.kdbserver.notification.infrastructure.NotificationRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,18 +20,21 @@ import static com.kimdabang.kdbserver.common.exception.ErrorCode.DATA_NOT_FOUND;
 @Service
 public class NotificationServiceImpl implements NotificationService{
 
-    private final NotificationRepositoryCustom notificationRepositoryCustom;
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<NotificationResponseDto> getNotification(Date start, Date end) {
-        List<Notification> notificationList = notificationRepositoryCustom.getNotificationWithDate(start, end);
+    public List<NotificationResponseDto> getNotification() {
+        Date now = new Date();
+        Sort sort = Sort.by(Sort.Direction.ASC, "activeDate");
+
+        List<Notification> notificationList = notificationRepository.findByActiveDateBeforeAndExpireDateAfter(now, now, sort);
         log.info("notificationList: {}", notificationList);
         if (notificationList != null) {
 
             return notificationList.stream()
                     .map(notification -> {
                         return NotificationResponseDto.builder()
+                                .id(notification.getId())
                                 .title(notification.getTitle())
                                 .activeDate(notification.getActiveDate())
                                 .expireDate(notification.getExpireDate())

@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationResponseDto {
+    private Long id;
     private String title;
     private Date activeDate;
     private Date expireDate;
@@ -20,6 +21,7 @@ public class NotificationResponseDto {
 
     public NotificationResponseVo toResponseVo() {
         return NotificationResponseVo.builder()
+                .id(id)
                 .title(title)
                 .activeDate(activeDate)
                 .expireDate(expireDate)

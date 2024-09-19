@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -28,14 +26,9 @@ public class NotificationController {
     @Operation(summary = "NotificationGet API", description = "NotificationGet API 입니다.", tags = {"Notification-controller"})
     @GetMapping("/get-Notification")
     public CommonResponseEntity<List<NotificationResponseVo>> getNotification(
-            @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
-        start = start+"-00:00:00";
-        end = end+"-23:59:59";
-        Date startDate = formatter.parse(start);
-        Date endDate = formatter.parse(end);
+            ) throws ParseException {
         List<NotificationResponseDto> notificationResponseDtoList =
-                notificationService.getNotification(startDate, endDate);
+                notificationService.getNotification();
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "공지 조회 성공",
