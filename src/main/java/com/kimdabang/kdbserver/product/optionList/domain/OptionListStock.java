@@ -20,6 +20,18 @@ public class OptionListStock extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Comment("상품 코드")
+    @Column(nullable = false)
+    private String productCode;
+
+    @Comment("옵션 ID")
+    @Column(nullable = false)
+    private Long optionId;
+
+    @Comment("옵션별 상품 판매 가능 여부")
+    @Column(nullable = false)
+    private Boolean state;
+
     @Comment("옵션별 상품 재고량")
     @Column(nullable = false)
     private Long quantity;
@@ -28,8 +40,12 @@ public class OptionListStock extends BaseEntity {
     @Column(nullable = false)
     private Long minStock;
 
-    @OneToOne
-    @JoinColumn(name = "option_list")
-    private OptionList optionList;
+    @Comment("옵션별 상품 할인율")
+    @Column(nullable = true)
+    private int discount;
+
+    @Comment("옵션별 상품 할인가")
+    @Column(nullable = true)
+    private int discountPrice;
 
 }
