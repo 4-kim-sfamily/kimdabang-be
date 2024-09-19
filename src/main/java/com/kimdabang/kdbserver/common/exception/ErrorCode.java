@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     SEASON_NOT_FOUND(400, "SEASON-001", "시즌을 찾을 수 없습니다."),
     SEASONMEDIA_NOT_FOUND(400, "SEASONMEDIA-001", "시즌미디어를 찾을 수 없습니다."),
+    SEASONPRODUCT_NOT_FOUND(400, "SEASONPRODUCT-001", "시즌상품을 찾을 수 없습니다."),
 
     // 500 번대 에러
     INTERNAL_SERVER_ERROR(500, "COMMON-002", "서버에서 요청을 처리하지 못했습니다.");

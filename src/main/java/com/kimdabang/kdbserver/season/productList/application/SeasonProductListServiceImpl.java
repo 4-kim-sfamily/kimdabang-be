@@ -3,6 +3,7 @@ package com.kimdabang.kdbserver.season.productList.application;
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.exception.ErrorCode;
 import com.kimdabang.kdbserver.product.product.infrastructure.ProductRepository;
+import com.kimdabang.kdbserver.season.productList.domain.SeasonProductList;
 import com.kimdabang.kdbserver.season.productList.dto.in.SeasonProductListAddRequestDto;
 import com.kimdabang.kdbserver.season.productList.dto.in.SeasonProductListUpdateRequestDto;
 import com.kimdabang.kdbserver.season.productList.dto.out.SeasonProductListResponseDto;
@@ -36,13 +37,21 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
     }
 
     @Override
+    @Transactional
     public void updateSeasonProductList(SeasonProductListUpdateRequestDto seasonProductListUpdateRequestDto) {
-        // TODO: 9/19/24
+        SeasonProductList seasonProductList = seasonProductListRepository.findById(seasonProductListUpdateRequestDto.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+
+        seasonProductListRepository.save(seasonProductListUpdateRequestDto.toEntity(seasonProductList));
     }
 
     @Override
+    @Transactional
     public void deleteSeasonProductList(Long id) {
-        // TODO: 9/19/24
+        SeasonProductList seasonProductList = seasonProductListRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+
+        seasonProductListRepository.delete(seasonProductList);
     }
 
     @Override
