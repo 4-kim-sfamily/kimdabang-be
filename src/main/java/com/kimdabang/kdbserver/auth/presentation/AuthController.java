@@ -82,9 +82,9 @@ public class AuthController {
     @DeleteMapping("/socialdelete")
     public CommonResponseEntity<Void> oAuthDelete(
             @RequestHeader ("Authorization") String Authorization,
-            @RequestBody OAuthSignInRequestVo oAuthSignInRequestVo) {
-        OAuthSignInRequestDto oAuthSignInRequestDto = OAuthSignInRequestDto.toRequestDto(oAuthSignInRequestVo);
-        authService.oAuthDelete(oAuthSignInRequestDto, Authorization);
+            @RequestBody KeyRequestVo keyRequestVo) {
+        KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
+        authService.oAuthDelete(keyRequestDto, Authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,

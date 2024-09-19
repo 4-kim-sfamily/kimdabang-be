@@ -173,7 +173,7 @@ public class AuthServiceImpl implements AuthService{
         User user = authRepository.findByUuid(uuid).orElseThrow(
                 () -> new CustomException(USER_NOT_FOUND)
         );
-        oAuthRepository.findByProviderAndProviderId(oAuthSignInRequestDto.getProvider(), oAuthSignInRequestDto.getProviderAccountId())
+        oAuthRepository.findByProviderAndUserUuid(oAuthSignInRequestDto.getProvider(), uuid)
                 .ifPresentOrElse( (existingUser) -> {
                     throw new CustomException(BAD_USER_REQUEST);
                 }, () -> {
@@ -183,10 +183,10 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void oAuthDelete(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken) {
+    public void oAuthDelete(KeyRequestDto keyRequestDto, String accessToken) {
         String uuid = jwtTokenProvider.useToken(accessToken);
 
-        OAuth oAuth =  oAuthRepository.findByUserUuid(uuid).orElseThrow(
+        OAuth oAuth =  oAuthRepository.findByProviderAndUserUuid(keyRequestDto.getKey(), uuid).orElseThrow(
                 () -> new CustomException(USER_NOT_FOUND)
         );
 

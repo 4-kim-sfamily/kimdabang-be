@@ -18,5 +18,5 @@ public interface AuthService {
     KeyResponseDto verifyLoginId(KeyRequestDto keyRequestDto);
     SignInResponseDto oAuthSignIn(OAuthSignInRequestDto oAuthSignInRequestDto);
     void oAuthSignUp(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken);
-    void oAuthDelete(OAuthSignInRequestDto oAuthSignInRequestDto, String accessToken);
+    void oAuthDelete(KeyRequestDto keyRequestDto, String accessToken);
 }
