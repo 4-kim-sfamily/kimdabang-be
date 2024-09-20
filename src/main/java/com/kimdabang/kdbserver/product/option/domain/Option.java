@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -19,13 +21,13 @@ public class Option extends BaseEntity {
     @Column(name = "options_id")
     private Long id;
 
+    @Comment("상품 코드")
+    @Column(nullable = false)
+    private String productCode;
+
     @Comment("상품 정보")
     @Column(nullable = false)
     private String optionValue;
-
-    @Comment("상품 경로")
-    @Column(nullable = false)
-    private String optionDetail;
 
     @Comment("옵션 깊이")
     @Column(nullable = false)
@@ -34,6 +36,9 @@ public class Option extends BaseEntity {
     @Comment("부모 옵션")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Option parent;
+    private Option parentOptionsId;
+
+    @Transient
+    private List<Option> children; // 자식 옵션
 
 }

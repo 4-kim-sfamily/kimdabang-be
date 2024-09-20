@@ -14,7 +14,7 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "option_list_stock")
-public class OptionListStock extends BaseEntity {
+public class OptionDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
