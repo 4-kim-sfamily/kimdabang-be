@@ -13,13 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.kimdabang.kdbserver.common.exception.ErrorCode.COUPON_NOT_ENROLL;
-import static com.kimdabang.kdbserver.common.exception.ErrorCode.COUPON_NOT_FOUND;
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -33,27 +31,33 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
 
     @Override
     @Transactional
-    public void addUserEnrollCoupon(UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto) {
+    public void addUserEnrollCoupon(UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto, String Authorization) {
 
-        String uuid = jwtTokenProvider.useToken(userEnrollCouponAddRequestDto.getAccessToken());
+        String uuid = jwtTokenProvider.useToken(Authorization);
 
         Coupon coupon = couponRepository.findById(userEnrollCouponAddRequestDto.getCouponId())
                 .orElseThrow(() -> new CustomException(COUPON_NOT_FOUND));
 
-        LocalDateTime toolTime = LocalDateTime.now().plus(coupon.getValidityYear()).plus(coupon.getValidityMonth()).plus(coupon.getValidityDay());
-        LocalDateTime expiredDate = coupon.getExpiredDate();
-
-        if (toolTime.isBefore(expiredDate)) {
-            expiredDate = toolTime;
+        boolean alreadyEnrolled = userEnrollCouponRepository.existsByUuidAndCouponId(uuid, userEnrollCouponAddRequestDto.getCouponId());
+        if (alreadyEnrolled) {
+            throw new CustomException(COUPON_ALREADY_ENROLLED);
         }
 
-        userEnrollCouponRepository.save(userEnrollCouponAddRequestDto.toEntity(uuid, LocalDateTime.now(), expiredDate, coupon));
+        LocalDateTime expiredDate = coupon.getExpiredDate();
+
+        if (expiredDate.isAfter(userEnrollCouponAddRequestDto.getExpiredDate())) {
+            expiredDate = userEnrollCouponAddRequestDto.getExpiredDate();
+        }
+
+        userEnrollCouponRepository.save(userEnrollCouponAddRequestDto.toEntity(uuid, userEnrollCouponAddRequestDto.getCreatedAt(), expiredDate, coupon));
     }
 
     @Override
     @Transactional
-    public void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto) {
-        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findById(userEnrollCouponRequestDto.getId())
+    public void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto, String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+
+        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findByIdAndUuid(userEnrollCouponRequestDto.getId(), userUuid)
                 .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
         userEnrollCouponRepository.save(userEnrollCouponRequestDto.toEntity(userEnrollCoupon));
     }
@@ -101,4 +105,6 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         }
         return List.of();
     }
+
+
 }

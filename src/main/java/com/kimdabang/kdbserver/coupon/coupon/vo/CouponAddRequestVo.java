@@ -14,7 +14,7 @@ public class CouponAddRequestVo {
     private CouponType couponType;
     private LocalDateTime expiredDate;
     private int value;
-    private Period validityYear;
-    private Period validityMonth;
-    private Period validityDay;
+    private String validityYear;
+    private String validityMonth;
+    private String validityDay;
 }

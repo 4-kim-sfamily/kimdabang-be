@@ -8,9 +8,10 @@ import java.util.List;
 
 public interface UserEnrollCouponService {
 
-    void addUserEnrollCoupon(UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto);
-    void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto);
+    void addUserEnrollCoupon(UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto, String Authorization);
+    void updateUserEnrollCoupon(UserEnrollCouponUpdateRequestDto userEnrollCouponRequestDto, String Authorization);
     void deleteUserEnrollCoupon(Long id);
 //    UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id);
     List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon(String Authorization);
+
 }

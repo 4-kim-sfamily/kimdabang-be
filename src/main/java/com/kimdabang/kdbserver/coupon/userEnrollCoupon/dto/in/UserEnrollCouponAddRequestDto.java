@@ -12,12 +12,8 @@ import java.time.LocalDateTime;
 public class
 UserEnrollCouponAddRequestDto {
 
-    private String accessToken;
-//    private Coupon coupon;
     private Long couponId;
     private LocalDateTime createdAt;
-    private Boolean isUsed;
-    private LocalDateTime usedAt;
     private LocalDateTime expiredDate;
 
     public UserEnrollCoupon toEntity(String uuid, LocalDateTime createdAt, LocalDateTime expiredDate, Coupon coupon) {
@@ -25,19 +21,16 @@ UserEnrollCouponAddRequestDto {
                 .uuid(uuid)
                 .coupon(coupon)
                 .createdAt(createdAt)
-                .isUsed(isUsed)
-                .usedAt(usedAt)
+                .isUsed(false)
+                .usedAt(null)
                 .expiredDate(expiredDate)
                 .build();
     }
 
     @Builder
-    public UserEnrollCouponAddRequestDto(String accessToken, Long couponId, LocalDateTime createdAt, Boolean isUsed, LocalDateTime usedAt, LocalDateTime expiredDate) {
-        this.accessToken = accessToken;
+    public UserEnrollCouponAddRequestDto(Long couponId, LocalDateTime createdAt, LocalDateTime expiredDate) {
         this.couponId = couponId;
         this.createdAt = createdAt;
-        this.isUsed = isUsed;
-        this.usedAt = usedAt;
         this.expiredDate = expiredDate;
     }
 }

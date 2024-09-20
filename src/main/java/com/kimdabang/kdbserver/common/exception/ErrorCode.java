@@ -16,6 +16,7 @@ public enum ErrorCode {
 
     COUPON_NOT_FOUND(400, "COUPON-001", "쿠폰을 찾을 수 없습니다."),
     COUPON_NOT_ENROLL(401, "COUPON-002", "쿠폰이 등록되지 않았습니다."),
+    COUPON_ALREADY_ENROLLED(402, "COUPON-003", "이미 발행받은 쿠폰입니다."),
 
     FAVORITE_NOT_FOUND(400, "FAVORITE-001", "좋아요를 찾을 수 없습니다."),
 

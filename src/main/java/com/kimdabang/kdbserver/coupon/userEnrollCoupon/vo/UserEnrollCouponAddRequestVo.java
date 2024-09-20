@@ -8,10 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 public class UserEnrollCouponAddRequestVo {
-    private String accessToken;
     private Long couponId;
     private LocalDateTime createdAt;
-    private Boolean isUsed;
-    private LocalDateTime usedAt;
     private LocalDateTime expiredDate;
 }

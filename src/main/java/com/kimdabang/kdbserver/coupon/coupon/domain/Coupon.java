@@ -38,18 +38,18 @@ public class Coupon extends BaseEntity {
 
     @Comment("쿠폰 유효 기간(년)")
     @Column(nullable = false)
-    private Period validityYear;
+    private String validityYear;
 
     @Comment("쿠폰 유효 기간(월)")
     @Column(nullable = false)
-    private Period validityMonth;
+    private String validityMonth;
 
     @Comment("쿠폰 유효 기간(일)")
     @Column(nullable = false)
-    private Period validityDay;
+    private String validityDay;
 
     @Builder
-    public Coupon(Long id, String name, CouponType couponType, LocalDateTime expiredDate, int value, Period validityYear, Period validityMonth, Period validityDay) {
+    public Coupon(Long id, String name, CouponType couponType, LocalDateTime expiredDate, int value, String validityYear, String validityMonth, String validityDay) {
         this.id = id;
         this.name = name;
         this.couponType = couponType;

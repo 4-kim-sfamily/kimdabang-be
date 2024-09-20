@@ -24,17 +24,16 @@ public class UserEnrollCouponController {
     private final UserEnrollCouponService userEnrollCouponService;
 
     @PostMapping
-    public CommonResponseEntity<Void> createUserEnrollCoupon(@RequestBody UserEnrollCouponAddRequestVo userEnrollCouponRequestVo) {
+    public CommonResponseEntity<Void> createUserEnrollCoupon(
+            @RequestHeader ("Authorization") String Authorization,
+            @RequestBody UserEnrollCouponAddRequestVo userEnrollCouponRequestVo) {
         log.info("userEnrollCouponRequestVo = {}", userEnrollCouponRequestVo);
         UserEnrollCouponAddRequestDto userEnrollCouponAddRequestDto = UserEnrollCouponAddRequestDto.builder()
-                .accessToken(userEnrollCouponRequestVo.getAccessToken())
                 .couponId(userEnrollCouponRequestVo.getCouponId())
                 .createdAt(userEnrollCouponRequestVo.getCreatedAt())
-                .isUsed(userEnrollCouponRequestVo.getIsUsed())
-                .usedAt(userEnrollCouponRequestVo.getUsedAt())
                 .expiredDate(userEnrollCouponRequestVo.getExpiredDate())
                 .build();
-        userEnrollCouponService.addUserEnrollCoupon(userEnrollCouponAddRequestDto);
+        userEnrollCouponService.addUserEnrollCoupon(userEnrollCouponAddRequestDto, Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "유저 쿠폰 등록 성공",
@@ -43,7 +42,9 @@ public class UserEnrollCouponController {
     }
 
     @PutMapping
-    public CommonResponseEntity<Void> updateUserEnrollCoupon (@RequestBody UserEnrollCouponUpdateRequestVo userEnrollCouponUpdateRequestVo) {
+    public CommonResponseEntity<Void> updateUserEnrollCoupon (
+            @RequestHeader ("Authorization") String Authorization,
+            @RequestBody UserEnrollCouponUpdateRequestVo userEnrollCouponUpdateRequestVo) {
         log.info("userEnrollCouponRequestVo = {}", userEnrollCouponUpdateRequestVo);
         UserEnrollCouponUpdateRequestDto userEnrollCouponUpdateRequestDto = UserEnrollCouponUpdateRequestDto.builder()
                 .id(userEnrollCouponUpdateRequestVo.getId())
@@ -51,7 +52,7 @@ public class UserEnrollCouponController {
                 .usedAt(userEnrollCouponUpdateRequestVo.getUsedAt())
                 .expiredDate(userEnrollCouponUpdateRequestVo.getExpiredDate())
                 .build();
-        userEnrollCouponService.updateUserEnrollCoupon(userEnrollCouponUpdateRequestDto);
+        userEnrollCouponService.updateUserEnrollCoupon(userEnrollCouponUpdateRequestDto, Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "유저 쿠폰 등록 업데이트 성공",
@@ -81,10 +82,11 @@ public class UserEnrollCouponController {
                 "유저 등록 쿠폰 전체 조회 성공",
                 userEnrollCouponResponseVos
         );
+
     }
 
 //    @GetMapping("/{id}")
-//    public CommonResponseEntity<UserEnrollCouponResponseVo> getOneUserEnrollCoupon(@PathVariable Long id) {
+//    public CommonResponseEntity<UserEnrollCouponResponseVo> getOLneUserEnrollCoupon(@PathVariable Long id) {
 //        UserEnrollCouponResponseDto userEnrollCouponResponseDto = userEnrollCouponService.getOneUserEnrollCoupon(id);
 //        return new CommonResponseEntity<>(
 //                HttpStatus.OK,
