@@ -13,5 +13,6 @@ public interface UserEnrollCouponService {
     void deleteUserEnrollCoupon(Long id);
 //    UserEnrollCouponResponseDto getOneUserEnrollCoupon(Long id);
     List<UserEnrollCouponResponseDto> getAllUserEnrollCoupon(String Authorization);
+    Long countEnrollCoupon(String Authorization);
 
 }

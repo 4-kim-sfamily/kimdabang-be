@@ -11,7 +11,7 @@ public interface UserEnrollCouponRepository extends JpaRepository<UserEnrollCoup
 
     Optional<UserEnrollCoupon> findByIdAndUuid(Long id, String uuid);
 
-    long countByUuid(String uuid);
+    Optional<Long> countByUuid(String uuid);
 
     boolean existsByUuidAndCouponId(String uuid, Long couponId);
 }

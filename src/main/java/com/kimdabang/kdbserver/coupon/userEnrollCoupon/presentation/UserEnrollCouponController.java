@@ -85,6 +85,16 @@ public class UserEnrollCouponController {
 
     }
 
+    @GetMapping("/count")
+    public CommonResponseEntity<Long> countUserEnrollCoupon(@RequestHeader("Authorization") String Authorization) {
+        long countEnrollCoupon = userEnrollCouponService.countEnrollCoupon(Authorization);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "해당 유저가 등록한 쿠폰의 갯수",
+                countEnrollCoupon
+        );
+    }
+
 //    @GetMapping("/{id}")
 //    public CommonResponseEntity<UserEnrollCouponResponseVo> getOLneUserEnrollCoupon(@PathVariable Long id) {
 //        UserEnrollCouponResponseDto userEnrollCouponResponseDto = userEnrollCouponService.getOneUserEnrollCoupon(id);

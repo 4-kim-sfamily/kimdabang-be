@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
@@ -106,5 +107,12 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         return List.of();
     }
 
+    @Override
+    public Long countEnrollCoupon(String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        Long count = userEnrollCouponRepository.countByUuid(userUuid)
+                .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
+        return count;
+    }
 
 }
