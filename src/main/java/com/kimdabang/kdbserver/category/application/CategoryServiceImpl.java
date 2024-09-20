@@ -24,12 +24,9 @@ public class CategoryServiceImpl implements CategoryService{
     public List<CategoryResponseDto> getCategoryList(){
         List<Category> categoryList= categoryRepository.findByParentIsNullAndActiveTrue();
         log.info("categories: {}", categoryList);
-        if (categoryList != null) {
             return categoryList.stream()
                     .map(CategoryResponseDto::of) // 메서드 참조를 사용하여 간결화
                     .toList();
-        }
-        return List.of();
     }
 
     @Override
@@ -56,7 +53,6 @@ public class CategoryServiceImpl implements CategoryService{
     }
     @Override
     public void deleteCategory(Long id) {
-
         Category category = categoryRepository.findById(id)
                     .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));
         category.updateActive(false);
