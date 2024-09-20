@@ -1,5 +1,8 @@
 package com.kimdabang.kdbserver.mobileGift.mobileGift.application;
 
+import com.kimdabang.kdbserver.common.exception.CustomException;
+import com.kimdabang.kdbserver.common.exception.ErrorCode;
+import com.kimdabang.kdbserver.mobileGift.mobileGift.domain.MobileGifticon;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.in.MobileGifticonAddRequestDto;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.in.MobileGifticonUpdateRequestDto;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.out.MobileGifticonResponseDto;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -28,13 +33,18 @@ public class MobileGifticonServiceImpl implements MobileGifticonService {
     @Override
     @Transactional
     public void updateMobileGifticon(MobileGifticonUpdateRequestDto mobileGifticonUpdateRequestDto) {
-        // TODO: 9/20/24  
+        mobileGifticonRepository.findById(mobileGifticonUpdateRequestDto.getId())
+                .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_FOUND));
+
+        mobileGifticonRepository.save(mobileGifticonUpdateRequestDto.toEntity());
     }
 
     @Override
     @Transactional
     public void deleteMobileGifticon(Long id) {
-        // TODO: 9/20/24  
+        MobileGifticon mobileGifticon = mobileGifticonRepository.findById(id)
+                .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_FOUND));
+        mobileGifticonRepository.delete(mobileGifticon);
     }
 
     @Override

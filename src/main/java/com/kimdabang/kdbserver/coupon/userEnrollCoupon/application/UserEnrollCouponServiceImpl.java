@@ -91,7 +91,7 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         String userUuid = jwtTokenProvider.useToken(Authorization);
         List<UserEnrollCoupon> userEnrollCoupons = userEnrollCouponRepository.findAllByUuid(userUuid);
 
-        if (userEnrollCoupons != null) {
+        if (!userEnrollCoupons.isEmpty()) {
             return userEnrollCoupons.stream()
                     .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
                             .id(userEnrollCoupon.getId())
