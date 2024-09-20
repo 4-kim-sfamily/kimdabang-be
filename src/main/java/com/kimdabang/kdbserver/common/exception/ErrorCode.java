@@ -21,6 +21,8 @@ public enum ErrorCode {
 
     FAVORITE_NOT_FOUND(400, "FAVORITE-001", "좋아요를 찾을 수 없습니다."),
 
+    OPTIONDETAIL_NOT_FOUND(400, "OPTIONDETAIL-001", "해당 옵션 세부정보를 찾을 수 없습니다."),
+
     PRODUCT_NOT_FOUND(400, "PRODUCT-001", "상품을 찾을 수 없습니다."),
     PRODUCTMEDIA_NOT_FOUND(400, "PRODUCTMEDIA-001", "상품미디어를 찾을 수 없습니다."),
 

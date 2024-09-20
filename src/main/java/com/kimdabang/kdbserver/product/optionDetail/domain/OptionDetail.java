@@ -1,4 +1,4 @@
-package com.kimdabang.kdbserver.product.optionList.domain;
+package com.kimdabang.kdbserver.product.optionDetail.domain;
 
 import com.kimdabang.kdbserver.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "option_list_stock")
+@Table(name = "option_detail")
 public class OptionDetail extends BaseEntity {
 
     @Id
