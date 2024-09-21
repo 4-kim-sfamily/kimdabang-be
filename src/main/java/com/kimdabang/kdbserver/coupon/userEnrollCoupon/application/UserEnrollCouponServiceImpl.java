@@ -91,28 +91,24 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         String userUuid = jwtTokenProvider.useToken(Authorization);
         List<UserEnrollCoupon> userEnrollCoupons = userEnrollCouponRepository.findAllByUuid(userUuid);
 
-        if (!userEnrollCoupons.isEmpty()) {
-            return userEnrollCoupons.stream()
-                    .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
-                            .id(userEnrollCoupon.getId())
-                            .uuid(userEnrollCoupon.getUuid())
-                            .couponId(userEnrollCoupon.getCoupon().getId())
-                            .createdAt(userEnrollCoupon.getCreatedAt())
-                            .isUsed(userEnrollCoupon.getIsUsed())
-                            .usedAt(userEnrollCoupon.getUsedAt())
-                            .expiredDate(userEnrollCoupon.getExpiredDate())
-                            .build())
-                    .toList();
-        }
-        return List.of();
+        return userEnrollCoupons.stream()
+                .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
+                        .id(userEnrollCoupon.getId())
+                        .uuid(userEnrollCoupon.getUuid())
+                        .couponId(userEnrollCoupon.getCoupon().getId())
+                        .createdAt(userEnrollCoupon.getCreatedAt())
+                        .isUsed(userEnrollCoupon.getIsUsed())
+                        .usedAt(userEnrollCoupon.getUsedAt())
+                        .expiredDate(userEnrollCoupon.getExpiredDate())
+                        .build())
+                .toList();
     }
 
     @Override
     public Long countEnrollCoupon(String Authorization) {
         String userUuid = jwtTokenProvider.useToken(Authorization);
-        Long count = userEnrollCouponRepository.countByUuid(userUuid)
+        return userEnrollCouponRepository.countByUuid(userUuid)
                 .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
-        return count;
     }
 
 }

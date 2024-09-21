@@ -49,13 +49,26 @@ public class MobileGifticonServiceImpl implements MobileGifticonService {
 
     @Override
     public MobileGifticonResponseDto getOneMobileGifticon(Long id) {
-        // TODO: 9/20/24  
-        return null;
+        MobileGifticon mobileGifticon = mobileGifticonRepository.findById(id)
+                .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_FOUND));
+
+        return MobileGifticonResponseDto.builder()
+                .id(mobileGifticon.getId())
+                .number(mobileGifticon.getNumber())
+                .price(mobileGifticon.getPrice())
+                .build();
     }
 
     @Override
     public List<MobileGifticonResponseDto> getAllMobileGifticon() {
-        // TODO: 9/20/24  
-        return null;
+        List<MobileGifticon> mobileGifticons = mobileGifticonRepository.findAll();
+
+        return mobileGifticons.stream()
+                .map(mobileGifticon -> MobileGifticonResponseDto.builder()
+                        .id(mobileGifticon.getId())
+                        .number(mobileGifticon.getNumber())
+                        .price(mobileGifticon.getPrice())
+                        .build())
+                .toList();
     }
 }

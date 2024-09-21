@@ -4,12 +4,16 @@ import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.application.MobileGifticonService;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.in.MobileGifticonAddRequestDto;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.in.MobileGifticonUpdateRequestDto;
+import com.kimdabang.kdbserver.mobileGift.mobileGift.dto.out.MobileGifticonResponseDto;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.vo.MobileGifticonAddRequestVo;
+import com.kimdabang.kdbserver.mobileGift.mobileGift.vo.MobileGifticonResponseVo;
 import com.kimdabang.kdbserver.mobileGift.mobileGift.vo.MobileGifticonUpdateRequestVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -58,6 +62,30 @@ public class MobileGifticonController {
                 HttpStatus.OK,
                 "모바일 상품권 삭제 성공",
                 null
+        );
+    }
+
+    @GetMapping
+    public CommonResponseEntity<List<MobileGifticonResponseVo>> getAllMobileGifticon() {
+        List<MobileGifticonResponseDto> mobileGifticonResponseDtos = mobileGifticonService.getAllMobileGifticon();
+        List<MobileGifticonResponseVo> mobileGifticonResponseVos = mobileGifticonResponseDtos.stream()
+                .map(MobileGifticonResponseDto::toResponseVo)
+                .toList();
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "모바일 상품권 전체 조회 성공",
+                mobileGifticonResponseVos
+        );
+    }
+
+    @GetMapping("/{id}")
+    public CommonResponseEntity<MobileGifticonResponseVo> getOneMobileGifticon(@PathVariable Long id) {
+        MobileGifticonResponseDto mobileGifticonDto = mobileGifticonService.getOneMobileGifticon(id);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "모바일 상품권 조회 성공",
+                mobileGifticonDto.toResponseVo()
         );
     }
 }
