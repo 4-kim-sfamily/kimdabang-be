@@ -31,9 +31,7 @@ public class CouponController {
                 .couponType(couponAddRequestVo.getCouponType())
                 .expiredDate(couponAddRequestVo.getExpiredDate())
                 .value(couponAddRequestVo.getValue())
-                .validityYear(couponAddRequestVo.getValidityYear())
-                .validityMonth(couponAddRequestVo.getValidityMonth())
-                .validityDay(couponAddRequestVo.getValidityDay())
+                .validity(couponAddRequestVo.getValidity())
                 .build();
         couponService.addCoupon(couponAddRequestDto);
         return new CommonResponseEntity<>(
@@ -52,9 +50,7 @@ public class CouponController {
                 .couponType(couponUpdateRequestVo.getCouponType())
                 .expiredDate(couponUpdateRequestVo.getExpiredDate())
                 .value(couponUpdateRequestVo.getValue())
-                .validityYear(couponUpdateRequestVo.getValidityYear())
-                .validityMonth(couponUpdateRequestVo.getValidityMonth())
-                .validityDay(couponUpdateRequestVo.getValidityDay())
+                .validity(couponUpdateRequestVo.getValidity())
                 .build();
         couponService.updateCoupon(couponUpdateRequestDto);
         return new CommonResponseEntity<>(

@@ -17,7 +17,5 @@ public class CouponResponseVo {
     private CouponType couponType;
     private LocalDateTime expiredDate;
     private int value;
-    private String validityYear;
-    private String validityMonth;
-    private String validityDay;
+    private long validity;
 }

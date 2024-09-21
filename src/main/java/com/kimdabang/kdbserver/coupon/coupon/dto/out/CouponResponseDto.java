@@ -16,9 +16,7 @@ public class CouponResponseDto {
     private CouponType couponType;
     private LocalDateTime expiredDate;
     private int value;
-    private String validityYear;
-    private String validityMonth;
-    private String validityDay;
+    private long validity;
 
     public CouponResponseVo toResponseVo() {
         return CouponResponseVo.builder()
@@ -27,21 +25,17 @@ public class CouponResponseDto {
                 .couponType(couponType)
                 .expiredDate(expiredDate)
                 .value(value)
-                .validityYear(validityYear)
-                .validityMonth(validityMonth)
-                .validityDay(validityDay)
+                .validity(validity)
                 .build();
     }
 
     @Builder
-    public CouponResponseDto(Long id, String name, CouponType couponType, LocalDateTime expiredDate, int value, String validityYear, String validityMonth, String validityDay) {
+    public CouponResponseDto(Long id, String name, CouponType couponType, LocalDateTime expiredDate, int value, long validity) {
         this.id = id;
         this.name = name;
         this.couponType = couponType;
         this.expiredDate = expiredDate;
         this.value = value;
-        this.validityYear = validityYear;
-        this.validityMonth = validityMonth;
-        this.validityDay = validityDay;
+        this.validity = validity;
     }
 }
