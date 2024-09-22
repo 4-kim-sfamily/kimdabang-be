@@ -9,6 +9,7 @@ import com.kimdabang.kdbserver.auth.dto.out.TestTokenResponseDto;
 import com.kimdabang.kdbserver.auth.entity.OAuth;
 import com.kimdabang.kdbserver.auth.infrastructure.AuthRepository;
 import com.kimdabang.kdbserver.auth.infrastructure.OAuthRepository;
+import com.kimdabang.kdbserver.common.entity.OAuthAuthenticationToken;
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.user.domain.User;
@@ -161,10 +162,7 @@ public class AuthServiceImpl implements AuthService{
     private Authentication oAuthAuthenticate(String uuid) {
         log.info("uuid : {}", uuid);
         return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        uuid,
-                        null
-                )
+                new OAuthAuthenticationToken(uuid)
         );
     }
     @Override

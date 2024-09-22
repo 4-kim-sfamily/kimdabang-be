@@ -2,6 +2,7 @@ package com.kimdabang.kdbserver.common.provider;
 
 import com.kimdabang.kdbserver.auth.application.OAuthUserDetailService;
 import com.kimdabang.kdbserver.auth.entity.AuthUserDetail;
+import com.kimdabang.kdbserver.common.entity.OAuthAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -21,9 +22,12 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        if (!(authentication instanceof OAuthAuthenticationToken)) {
+            return null; // OAuthAuthenticationToken만 지원
+        }
 
         String uuid = authentication.getName();
-        log.info("uuid: {}", uuid);
+        log.info("OAuthuuid: {}", uuid);
 
         AuthUserDetail authUserDetail = (AuthUserDetail) authUserDetailService.loadUserByUsername(uuid);
         return new UsernamePasswordAuthenticationToken(authUserDetail, null, authUserDetail.getAuthorities());
@@ -31,6 +35,6 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return OAuthAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

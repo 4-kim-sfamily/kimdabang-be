@@ -22,7 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationProvider oAuthAuthenticationProvider;
+    private final AuthenticationProvider daoAuthenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -64,9 +65,11 @@ public class SecurityConfig {
                           sessionManagement -> sessionManagement
                                  .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                )
-               .authenticationProvider(authenticationProvider)
+               .authenticationProvider(daoAuthenticationProvider)
+               .authenticationProvider(oAuthAuthenticationProvider)
                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                .addFilter(corsFilter());
        return http.build();
     }
+
 }
