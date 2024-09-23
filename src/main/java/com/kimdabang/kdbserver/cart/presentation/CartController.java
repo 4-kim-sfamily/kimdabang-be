@@ -70,6 +70,18 @@ public class CartController {
         );
     }
 
+    @GetMapping("/checkedList")
+    public CommonResponseEntity<List<CartResponseVo>> getCheckedList(
+            @RequestHeader ("Authorization") String Authorization) {
+        List<CartResponseVo> cartResponseVoList = cartService.getAllCheckedCarts(Authorization);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "체크된 장바구니 리스트 조회 성공(결제용)",
+                cartResponseVoList
+        );
+    }
+
     @GetMapping("/checkBox/{productCode}")
     public CommonResponseEntity<CartCheckBoxResponseVo> getCartCheckBox(
             @RequestHeader ("Authorization") String Authorization,

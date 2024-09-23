@@ -103,6 +103,26 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public List<CartResponseVo> getAllCheckedCarts(String Authorization) {
+
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        List<Cart> cartList = cartRepository.findAllByUserUuidAndCheckBox(userUuid, true);
+
+        if (cartList != null) {
+            return cartList.stream()
+                    .filter(cart -> cart.getAmount() != 0)
+                    .map(cart -> CartResponseDto.builder()
+                            .productCode(cart.getProductCode())
+                            .amount(cart.getAmount())
+                            .productOptionId(cart.getProductOptionId())
+                            .carving(cart.getCarving())
+                            .build().toVo())
+                    .toList();
+        }
+        return List.of();
+    }
+
+    @Override
     public CartCheckBoxResponseVo getCheckBox(String productCode, String Authorization, Long productOptionId) {
 
         String userUuid = jwtTokenProvider.useToken(Authorization);

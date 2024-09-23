@@ -15,4 +15,5 @@ public interface CartService {
     CartCheckBoxResponseVo changeCheckBox(String productCode, String Authorization, Long productOptionId);
     CartCheckResponseVo getCartCheck(String productCode, String Authorization, Long productOptionId);
     List<CartResponseVo> getAllCarts(String Authorization);
+    List<CartResponseVo> getAllCheckedCarts(String Authorization);
 }
