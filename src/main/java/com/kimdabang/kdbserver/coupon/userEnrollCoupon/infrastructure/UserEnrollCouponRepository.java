@@ -24,4 +24,6 @@ public interface UserEnrollCouponRepository extends JpaRepository<UserEnrollCoup
 
     @Query("SELECT uec FROM UserEnrollCoupon uec WHERE uec.uuid = :uuid AND uec.expiredDate > CURRENT_TIMESTAMP")
     List<UserEnrollCoupon> findValidCouponsByUuid(@Param("uuid") String uuid);
+
+
 }

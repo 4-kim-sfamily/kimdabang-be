@@ -8,6 +8,7 @@ import com.kimdabang.kdbserver.coupon.coupon.infrastructure.CouponRepository;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.domain.UserEnrollCoupon;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponAddRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUpdateRequestDto;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUsingRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.out.UserEnrollCouponResponseDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.infrastructure.UserEnrollCouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
@@ -145,6 +145,15 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
                         .expiredDate(userEnrollCoupon.getExpiredDate())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public void usingUserEnrollCoupon(UserEnrollCouponUsingRequestDto userEnrollCouponUsingRequestDto, String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+
+        UserEnrollCoupon userEnrollCoupon = userEnrollCouponRepository.findByIdAndUuid(userEnrollCouponUsingRequestDto.getId(), userUuid)
+                .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
+        userEnrollCouponRepository.save(userEnrollCouponUsingRequestDto.toEntity(userEnrollCoupon));
     }
 
 }

@@ -3,6 +3,7 @@ package com.kimdabang.kdbserver.coupon.userEnrollCoupon.application;
 import com.kimdabang.kdbserver.coupon.coupon.dto.out.CouponResponseDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponAddRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUpdateRequestDto;
+import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponUsingRequestDto;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.out.UserEnrollCouponResponseDto;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface UserEnrollCouponService {
     Long countEnrollCoupon(String Authorization);
     List<CouponResponseDto> getNotEnrolledCoupon(String Authorization);
     List<UserEnrollCouponResponseDto> getEnrolledCoupon(String Authorization);
-
+    void usingUserEnrollCoupon(UserEnrollCouponUsingRequestDto userEnrollCouponUsingRequestDto, String Authorization);
 }
