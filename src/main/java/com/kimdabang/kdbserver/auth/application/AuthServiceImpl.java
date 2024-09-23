@@ -149,7 +149,7 @@ public class AuthServiceImpl implements AuthService{
     public SignInResponseDto oAuthSignIn(OAuthSignInRequestDto oAuthSignInRequestDto) {
 
         OAuth oAuth = oAuthRepository.findByProviderAndProviderId(oAuthSignInRequestDto.getProvider(), oAuthSignInRequestDto.getProviderAccountId()).orElseThrow(
-                () -> new CustomException(USER_NOT_FOUND)
+                () -> new CustomException(BAD_SOCIAL_CREDENTIALS)
         );
         User user = authRepository.findByUuid(oAuth.getUserUuid()).orElseThrow(
                 () -> new CustomException(USER_NOT_FOUND)

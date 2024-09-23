@@ -27,6 +27,8 @@ public enum ErrorCode {
 
     PRODUCT_NOT_FOUND(400, "PRODUCT-001", "상품을 찾을 수 없습니다."),
     PRODUCTMEDIA_NOT_FOUND(400, "PRODUCTMEDIA-001", "상품미디어를 찾을 수 없습니다."),
+    PRODUCTDETAIL_NOT_FOUND(400, "PRODUCTDETAIL-001", "상품 상세 정보를 찾을 수 없습니다."),
+    PRODUCTDETAIL_ALREADY_INIT(401, "PRODUCTDETAIL-002", "상품 상세 정보는 중복 등록이 불가능합니다."),
 
     SEASON_NOT_FOUND(400, "SEASON-001", "시즌을 찾을 수 없습니다."),
     SEASONMEDIA_NOT_FOUND(400, "SEASONMEDIA-001", "시즌미디어를 찾을 수 없습니다."),
