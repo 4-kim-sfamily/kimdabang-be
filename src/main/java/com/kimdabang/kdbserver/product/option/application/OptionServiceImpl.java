@@ -35,6 +35,7 @@ public class OptionServiceImpl implements OptionService {
 
             OptionResponseDto dto = OptionResponseDto.builder()
                     .optionsId(o.getId())
+                    .depth(o.getDepth())
                     .optionValue(o.getOptionValue())
                     .children(children)
                     .build();

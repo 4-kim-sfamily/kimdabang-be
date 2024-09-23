@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class OptionResponseDto {
 
     private Long optionsId;
+    private int depth;
     private String optionValue;
     private List<OptionResponseDto> children = new ArrayList<>();
 

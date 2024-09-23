@@ -14,6 +14,7 @@ import java.util.List;
 public class OptionResponseVo {
 
     private Long optionId;
+    private int depth;
     private String optionValue;
     private List<OptionResponseVo> optionList;
 
