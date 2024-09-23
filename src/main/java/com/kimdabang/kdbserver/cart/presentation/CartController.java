@@ -3,6 +3,7 @@ package com.kimdabang.kdbserver.cart.presentation;
 import com.kimdabang.kdbserver.cart.application.CartService;
 import com.kimdabang.kdbserver.cart.dto.in.CartRequestDto;
 import com.kimdabang.kdbserver.cart.dto.out.CartCheckResponseDto;
+import com.kimdabang.kdbserver.cart.vo.CartCheckBoxResponseVo;
 import com.kimdabang.kdbserver.cart.vo.CartCheckResponseVo;
 import com.kimdabang.kdbserver.cart.vo.CartResponseVo;
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
@@ -67,4 +68,33 @@ public class CartController {
                 cartResponseVoList
         );
     }
+
+    @GetMapping("/checkBox/{productCode}")
+    public CommonResponseEntity<CartCheckBoxResponseVo> getCartCheckBox(
+            @RequestHeader ("Authorization") String Authorization,
+            @PathVariable String productCode,
+            @RequestParam(defaultValue = "0") Long productOptionId) {
+        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.getCheckBox(productCode, Authorization, productOptionId);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "개별 상품 체크박스 상태 조회 성공",
+                cartCheckBoxResponseVo
+        );
+    }
+
+    @PutMapping("/checkBox/{productCode}")
+    public CommonResponseEntity<CartCheckBoxResponseVo> changeCartCheckBox(
+            @RequestHeader ("Authorization") String Authorization,
+            @PathVariable String productCode,
+            @RequestParam(defaultValue = "0") Long productOptionId) {
+        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.changeCheckBox(productCode, Authorization, productOptionId);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "개별 상품 체크박스 상태 변경 성공",
+                cartCheckBoxResponseVo
+        );
+    }
+
 }

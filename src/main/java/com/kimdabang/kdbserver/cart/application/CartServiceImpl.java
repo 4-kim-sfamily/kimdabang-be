@@ -2,17 +2,23 @@ package com.kimdabang.kdbserver.cart.application;
 
 import com.kimdabang.kdbserver.cart.domain.Cart;
 import com.kimdabang.kdbserver.cart.dto.in.CartRequestDto;
+import com.kimdabang.kdbserver.cart.dto.out.CartCheckBoxResponseDto;
 import com.kimdabang.kdbserver.cart.dto.out.CartCheckResponseDto;
 import com.kimdabang.kdbserver.cart.dto.out.CartResponseDto;
 import com.kimdabang.kdbserver.cart.infrastructure.CartRepository;
+import com.kimdabang.kdbserver.cart.vo.CartCheckBoxResponseVo;
 import com.kimdabang.kdbserver.cart.vo.CartCheckResponseVo;
 import com.kimdabang.kdbserver.cart.vo.CartResponseVo;
+import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.CHECKBOX_NOT_FOUND;
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @Slf4j
@@ -93,6 +99,33 @@ public class CartServiceImpl implements CartService {
                     .toList();
         }
         return List.of();
+    }
+
+    @Override
+    public CartCheckBoxResponseVo getCheckBox(String productCode, String Authorization, Long productOptionId) {
+
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        Cart cart = cartRepository.findByProductCodeAndUserUuidAndProductOptionId(productCode, userUuid, productOptionId)
+                .orElseThrow(() -> new CustomException(CHECKBOX_NOT_FOUND));
+
+        return CartCheckBoxResponseDto.builder()
+                .checkBox(cart.getCheckBox())
+                .build().toVo();
+    }
+
+    @Override
+    public CartCheckBoxResponseVo changeCheckBox(String productCode, String Authorization, Long productOptionId) {
+
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        Cart cart = cartRepository.findByProductCodeAndUserUuidAndProductOptionId(productCode, userUuid, productOptionId)
+                .orElseThrow(() -> new CustomException(CHECKBOX_NOT_FOUND));
+        cart.changeCheckBox();
+        cartRepository.save(cart);
+
+        return CartCheckBoxResponseDto.builder()
+                .checkBox(cart.getCheckBox())
+                .build().toVo();
+
     }
 
 }

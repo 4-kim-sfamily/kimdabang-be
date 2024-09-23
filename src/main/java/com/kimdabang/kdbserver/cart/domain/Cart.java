@@ -55,6 +55,10 @@ public class Cart extends BaseEntity {
     @Column(nullable = false)
     private Boolean isChecked = true;
 
+    @Comment("장바구니 체크박스")
+    @Column(nullable = false)
+    private Boolean checkBox = true;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();
@@ -78,4 +82,6 @@ public class Cart extends BaseEntity {
     }
 
     public boolean isChecked() {return this.isChecked;}
+
+    public void changeCheckBox() {this.checkBox = !this.checkBox;}
 }

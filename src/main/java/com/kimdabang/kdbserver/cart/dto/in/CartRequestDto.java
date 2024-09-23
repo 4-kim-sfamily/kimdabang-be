@@ -20,6 +20,7 @@ public class CartRequestDto {
                 .productCode(productCode)
                 .amount(amount)
                 .productOptionId(productOptionId)
+                .checkBox(true)
                 .isChecked(isChecked)
                 .build();
     }
