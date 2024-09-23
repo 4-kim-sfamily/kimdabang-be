@@ -3,6 +3,7 @@ package com.kimdabang.kdbserver.coupon.userEnrollCoupon.application;
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.coupon.coupon.domain.Coupon;
+import com.kimdabang.kdbserver.coupon.coupon.dto.out.CouponResponseDto;
 import com.kimdabang.kdbserver.coupon.coupon.infrastructure.CouponRepository;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.domain.UserEnrollCoupon;
 import com.kimdabang.kdbserver.coupon.userEnrollCoupon.dto.in.UserEnrollCouponAddRequestDto;
@@ -109,6 +110,41 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
         String userUuid = jwtTokenProvider.useToken(Authorization);
         return userEnrollCouponRepository.countByUuid(userUuid)
                 .orElseThrow(() -> new CustomException(COUPON_NOT_ENROLL));
+    }
+
+    @Override
+    public List<CouponResponseDto> getNotEnrolledCoupon(String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        List<Coupon> notEnrolledCoupons = userEnrollCouponRepository.findNotEnrolledCouponsByUuid(userUuid);
+
+        return notEnrolledCoupons.stream()
+                .map(coupon -> CouponResponseDto.builder()
+                        .id(coupon.getId())
+                        .name(coupon.getName())
+                        .couponType(coupon.getCouponType())
+                        .expiredDate(coupon.getExpiredDate())
+                        .value(coupon.getValue())
+                        .validity(coupon.getValidity())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<UserEnrollCouponResponseDto> getEnrolledCoupon(String Authorization) {
+        String userUuid = jwtTokenProvider.useToken(Authorization);
+        List<UserEnrollCoupon> validCoupons = userEnrollCouponRepository.findValidCouponsByUuid(userUuid);
+
+        return validCoupons.stream()
+                .map(userEnrollCoupon -> UserEnrollCouponResponseDto.builder()
+                        .id(userEnrollCoupon.getId())
+                        .uuid(userEnrollCoupon.getUuid())
+                        .couponId(userEnrollCoupon.getCoupon().getId())
+                        .createdAt(userEnrollCoupon.getCreatedAt())
+                        .isUsed(userEnrollCoupon.getIsUsed())
+                        .usedAt(userEnrollCoupon.getUsedAt())
+                        .expiredDate(userEnrollCoupon.getExpiredDate())
+                        .build())
+                .toList();
     }
 
 }
