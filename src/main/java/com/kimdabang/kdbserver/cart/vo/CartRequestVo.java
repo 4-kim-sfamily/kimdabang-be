@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public class CartRequestVo {
 
-    private String productCode;
-    private String accessToken;
+    private Integer amount;
+    private Long productOptionId;
+    private String carving;
+
 }

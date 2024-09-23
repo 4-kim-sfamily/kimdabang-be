@@ -95,6 +95,7 @@ public class CartServiceImpl implements CartService {
                             .productCode(cart.getProductCode())
                             .amount(cart.getAmount())
                             .productOptionId(cart.getProductOptionId())
+                            .carving(cart.getCarving())
                             .build().toVo())
                     .toList();
         }

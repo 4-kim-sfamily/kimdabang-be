@@ -14,5 +14,6 @@ public class CartResponseVo {
     private String productCode;
     private Integer amount;
     private Long productOptionId;
+    private String carving;
 
 }

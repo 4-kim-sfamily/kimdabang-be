@@ -13,6 +13,7 @@ public class CartRequestDto {
     private String accessToken;
     private Integer amount;
     private Long productOptionId;
+    private String carving;
 
     public Cart toCartEntity(String userUuid, Boolean isChecked) {
         return Cart.builder()
@@ -20,6 +21,7 @@ public class CartRequestDto {
                 .productCode(productCode)
                 .amount(amount)
                 .productOptionId(productOptionId)
+                .carving(carving)
                 .checkBox(true)
                 .isChecked(isChecked)
                 .build();
@@ -27,12 +29,13 @@ public class CartRequestDto {
 
 
     @Builder
-    public CartRequestDto(String productCode, String accessToken, Integer amount, Long productOptionId) {
+    public CartRequestDto(String productCode, String accessToken, Integer amount, Long productOptionId, String carving) {
 
         this.productCode = productCode;
         this.accessToken = accessToken;
         this.amount = amount;
         this.productOptionId = productOptionId;
+        this.carving = carving;
 
     }
 }

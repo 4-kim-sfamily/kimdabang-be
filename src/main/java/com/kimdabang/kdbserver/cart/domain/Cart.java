@@ -59,6 +59,10 @@ public class Cart extends BaseEntity {
     @Column(nullable = false)
     private Boolean checkBox = true;
 
+    @Comment("상품 각인 데이터")
+    @Column(nullable = true, length = 10)
+    private String carving;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();
