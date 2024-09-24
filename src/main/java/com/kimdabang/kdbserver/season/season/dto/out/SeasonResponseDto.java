@@ -28,7 +28,7 @@ public class SeasonResponseDto {
     }
 
     @Builder
-    SeasonResponseDto(Long id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, int discount) {
+    public SeasonResponseDto(Long id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, int discount) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -1,8 +1,10 @@
 package com.kimdabang.kdbserver.starbucksCard.card.application;
 
-import com.kimdabang.kdbserver.season.season.dto.out.SeasonResponseDto;
+import com.kimdabang.kdbserver.common.exception.CustomException;
+import com.kimdabang.kdbserver.starbucksCard.card.domain.StarbucksCard;
 import com.kimdabang.kdbserver.starbucksCard.card.dto.in.StarbucksCardAddRequestDto;
 import com.kimdabang.kdbserver.starbucksCard.card.dto.in.StarbucksCardUpdateRequestDto;
+import com.kimdabang.kdbserver.starbucksCard.card.dto.out.StarbucksCardResponseDto;
 import com.kimdabang.kdbserver.starbucksCard.card.infrastructure.StarbucksCardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -28,24 +32,43 @@ public class StarbucksCardServiceImpl implements StarbucksCardService {
     @Override
     @Transactional
     public void updateStarbucksCard(StarbucksCardUpdateRequestDto starbucksCardUpdateRequestDto) {
-        // TODO: 9/23/24
+        starbucksCardRepository.findById(starbucksCardUpdateRequestDto.getId())
+                .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
+        starbucksCardRepository.save(starbucksCardUpdateRequestDto.toEntity());
     }
 
     @Override
     @Transactional
     public void deleteStarbucksCard(Long id) {
-        // TODO: 9/23/24
+        StarbucksCard deleteStarbucksCard = starbucksCardRepository.findById(id)
+                .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
+        starbucksCardRepository.delete(deleteStarbucksCard);
     }
 
     @Override
-    public SeasonResponseDto getOneStarbucksCard(Long id) {
-        // TODO: 9/23/24
-        return null;
+    public StarbucksCardResponseDto getOneStarbucksCard(Long id) {
+        StarbucksCard starbucksCard = starbucksCardRepository.findById(id)
+                .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
+        return StarbucksCardResponseDto.builder()
+                .id(starbucksCard.getId())
+                .cardNumber(starbucksCard.getCardNumber())
+                .lastUsedDate(starbucksCard.getLastUsedDate())
+                .balance(starbucksCard.getBalance())
+                .cardName(starbucksCard.getCardName())
+                .build();
     }
 
     @Override
-    public List<SeasonResponseDto> getAllStarbucksCard() {
-        // TODO: 9/23/24
-        return null;
+    public List<StarbucksCardResponseDto> getAllStarbucksCard() {
+        List<StarbucksCard> starbucksCards = starbucksCardRepository.findAll();
+        return starbucksCards.stream()
+                .map(starbucksCard -> StarbucksCardResponseDto.builder()
+                        .id(starbucksCard.getId())
+                        .cardNumber(starbucksCard.getCardNumber())
+                        .lastUsedDate(starbucksCard.getLastUsedDate())
+                        .balance(starbucksCard.getBalance())
+                        .cardName(starbucksCard.getCardName())
+                        .build())
+                .toList();
     }
 }

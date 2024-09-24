@@ -148,6 +148,7 @@ public class UserEnrollCouponServiceImpl implements UserEnrollCouponService {
     }
 
     @Override
+    @Transactional
     public void usingUserEnrollCoupon(UserEnrollCouponUsingRequestDto userEnrollCouponUsingRequestDto, String Authorization) {
         String userUuid = jwtTokenProvider.useToken(Authorization);
 

@@ -45,6 +45,7 @@ public class SeasonController {
     public CommonResponseEntity<Void> updateSeason(@RequestBody SeasonUpdateRequestVo seasonUpdateRequestVo) {
         log.info("seasonUpdateRequestVo = {}", seasonUpdateRequestVo);
         SeasonUpdateRequestDto seasonUpdateRequestDto = SeasonUpdateRequestDto.builder()
+                .id(seasonUpdateRequestVo.getId())
                 .name(seasonUpdateRequestVo.getName())
                 .description(seasonUpdateRequestVo.getDescription())
                 .startDate(seasonUpdateRequestVo.getStartDate())
