@@ -13,4 +13,8 @@ public interface ProductService {
     void deleteProduct(String productCode);
     ProductResponseDto getProduct(String productCode);
     List<ProductResponseVo> getAllProducts();
+
+    List<ProductResponseVo> getProductsByCategory(Long categoryId, int page, int size);
+    long getTotalPagesByCategory(Long categoryId, int size);
+
 }

@@ -86,4 +86,30 @@ public class ProductServiceImpl implements ProductService {
         return List.of();
     }
 
+    @Override
+    public List<ProductResponseVo> getProductsByCategory(Long categoryId, int page, int size) {
+
+        int offset = (page - 1) * size;
+        List<Product> products = productRepository.findProductsByCategoryWithPagination(categoryId, offset, size);
+        return products.stream()
+                .map(product -> ProductResponseDto.builder()
+                        .productCode(product.getProductCode())
+                        .productName(product.getProductName())
+                        .productPrice(product.getProductPrice())
+                        .description(product.getDescription())
+                        .releaseDate(product.getReleaseDate())
+                        .content(product.getContent())
+                        .categoryId(product.getCategoryId())
+                        .build().toProductResponseVo())
+                .toList();
+    }
+
+    @Override
+    public long getTotalPagesByCategory(Long categoryId, int size) {
+
+        long totalProducts = productRepository.countProductsByCategory(categoryId);
+
+        return (long) Math.ceil((double) totalProducts / size);
+    }
+
 }
