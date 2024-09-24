@@ -11,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -95,6 +94,27 @@ public class ProductController {
                 productResponseVoList
         );
 
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public CommonResponseEntity<Map<String, Object>> getAllProductByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        List<ProductResponseVo> products = productService.getProductsByCategory(categoryId, page, size);
+        long totalPages = productService.getTotalPagesByCategory(categoryId, size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("products", products);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "카테고리별 상품 조회 성공",
+                response
+        );
     }
 
     
