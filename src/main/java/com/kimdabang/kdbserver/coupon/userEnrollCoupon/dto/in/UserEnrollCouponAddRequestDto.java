@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-public class
-UserEnrollCouponAddRequestDto {
+public class UserEnrollCouponAddRequestDto {
 
     private Long couponId;
     private LocalDateTime createdAt;
