@@ -129,7 +129,7 @@ public class UserEnrollCouponController {
     public CommonResponseEntity<Void> usingUserEnrollCoupon(
             @RequestHeader("Authorization") String Authorization,
             @RequestBody UserEnrollCouponUpdateRequestVo userEnrollCouponUpdateRequestVo) {
-        log.info("userEnrollCouponUpdateRequestVo ={}", userEnrollCouponUpdateRequestVo);
+        log.info("userEnrollCouponUpdateRequestVo = {}", userEnrollCouponUpdateRequestVo);
         UserEnrollCouponUsingRequestDto userEnrollCouponUsingRequestDto = UserEnrollCouponUsingRequestDto.builder()
                 .id(userEnrollCouponUpdateRequestVo.getId())
                 .isUsed(userEnrollCouponUpdateRequestVo.getIsUsed())
