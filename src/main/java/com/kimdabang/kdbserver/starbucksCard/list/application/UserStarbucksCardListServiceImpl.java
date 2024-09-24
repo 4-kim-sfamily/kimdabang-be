@@ -1,13 +1,13 @@
 package com.kimdabang.kdbserver.starbucksCard.list.application;
 
 import com.kimdabang.kdbserver.common.exception.CustomException;
-import com.kimdabang.kdbserver.common.exception.ErrorCode;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
 import com.kimdabang.kdbserver.starbucksCard.card.domain.StarbucksCard;
+import com.kimdabang.kdbserver.starbucksCard.card.dto.in.StarbucksCardChargeRequestDto;
+import com.kimdabang.kdbserver.starbucksCard.card.dto.in.StarbucksCardUseRequestDto;
 import com.kimdabang.kdbserver.starbucksCard.card.infrastructure.StarbucksCardRepository;
 import com.kimdabang.kdbserver.starbucksCard.list.domain.UserStarbucksCardList;
 import com.kimdabang.kdbserver.starbucksCard.list.dto.in.UserStarbucksCardListAddRequestDto;
-import com.kimdabang.kdbserver.starbucksCard.list.dto.in.UserStarbucksCardListUpdateRequestDto;
 import com.kimdabang.kdbserver.starbucksCard.list.dto.out.UserStarbucksCardListResponseDto;
 import com.kimdabang.kdbserver.starbucksCard.list.infrastructure.UserStarbucksCardListRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +46,7 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
     }
 
     @Override
+    @Transactional
     public void deleteUserStarbucksCardList(Long id, String Authorization) {
         String uuid = jwtTokenProvider.useToken(Authorization);
 
@@ -78,5 +79,41 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
                         .starbucksCardId(userStarbucksCardList.getStarbucksCard().getId())
                         .build())
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void chargeStarbucksCard(Long id, StarbucksCardChargeRequestDto starbucksCardChargeRequestDto, String Authorization) {
+        String uuid = jwtTokenProvider.useToken(Authorization);
+
+        boolean isExist = userStarbucksCardListRepository.existsByIdAndUuidAndStarbucksCard_Id(id, uuid, starbucksCardChargeRequestDto.getId());
+        if (!isExist) {
+            throw new CustomException(STARBUCKSCARD_NOT_ENROLL);
+        }
+
+        StarbucksCard starbucksCard = starbucksCardRepository.findById(starbucksCardChargeRequestDto.getId())
+                .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
+
+        starbucksCardRepository.save(starbucksCardChargeRequestDto.toEntity(starbucksCard));
+    }
+
+    @Override
+    @Transactional
+    public void useStarbucksCard(Long id, StarbucksCardUseRequestDto starbucksCardUseRequestDto, String Authorization) {
+        String uuid = jwtTokenProvider.useToken(Authorization);
+
+        boolean isExist = userStarbucksCardListRepository.existsByIdAndUuidAndStarbucksCard_Id(id, uuid, starbucksCardUseRequestDto.getId());
+        if (!isExist) {
+            throw new CustomException(STARBUCKSCARD_NOT_ENROLL);
+        }
+
+        StarbucksCard starbucksCard = starbucksCardRepository.findById(starbucksCardUseRequestDto.getId())
+                .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
+
+        if (starbucksCard.getBalance() < starbucksCardUseRequestDto.getCharge()) {
+            throw new CustomException(STARBUCKSCARD_NOT_ENOUGH_BALANCE);
+        }
+
+        starbucksCardRepository.save(starbucksCardUseRequestDto.toEntity(starbucksCard));
     }
 }

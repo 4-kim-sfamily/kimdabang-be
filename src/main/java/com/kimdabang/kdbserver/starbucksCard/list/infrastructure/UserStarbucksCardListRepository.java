@@ -10,4 +10,5 @@ public interface UserStarbucksCardListRepository extends JpaRepository<UserStarb
     boolean existsByUuidAndStarbucksCardId(String uuid, Long starbucksCardId);
     Optional<UserStarbucksCardList> findByIdAndUuid(Long id, String Uuid);
     List<UserStarbucksCardList> findAllByUuid(String Uuid);
+    boolean existsByIdAndUuidAndStarbucksCard_Id(Long id, String uuid, Long starbucksCardId);
 }
