@@ -33,18 +33,15 @@ public class AddressServiceImpl implements AddressService {
         if(address.getUserUuid().equals(uuid)) {
             return AddressResponseDto.toResponseDto(address);
         }
-        else { return null; }
+        else { throw new CustomException(BAD_USER_REQUEST); }
     }
     @Override
     public List<AddressResponseDto> getAddressList(String authorization){
         List<Address> addresses = addressRepository.findByUserUuid(jwtTokenProvider.useToken(authorization));
         log.info("userAddresses: {}", addresses);
-        if (addresses != null) {
             return addresses.stream()
                     .map(AddressResponseDto::toResponseDto)
                     .toList();
-        }
-        return List.of();
     }
     @Override
     public AddressResponseDto getAddressDefault(String authorization){

@@ -53,14 +53,10 @@ public class PurchaseServiceImpl implements PurchaseService{
         String uuid = jwtTokenProvider.useToken(authorization);
         log.info("start:{},end:{}",start,end);
         List<Purchase> purchaseList = purchaseRepository.findByUserUuidAndPurchaseDateBetween(uuid, start, end);
-        if(!purchaseList.isEmpty()) {
-            return purchaseList.stream().map(
-                    purchase -> PurchaseResponseDto.toResponseDto(purchase, purchaseItemRepository.findByPurchase(purchase))
+
+        return purchaseList.stream().map(
+                purchase -> PurchaseResponseDto.toResponseDto(purchase, purchaseItemRepository.findByPurchase(purchase))
             ).toList();
-        }
-        else {
-            throw new CustomException(PURCHASE_NOT_FOUND);
-        }
     }
     @Override
     public PurchaseDetailResponseDto getPurchase(Long purchaseCode) {
