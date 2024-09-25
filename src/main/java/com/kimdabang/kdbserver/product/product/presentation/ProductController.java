@@ -1,13 +1,18 @@
 package com.kimdabang.kdbserver.product.product.presentation;
 
+import co.elastic.clients.elasticsearch.nodes.Http;
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
+import com.kimdabang.kdbserver.product.product.application.ProductSearchService;
 import com.kimdabang.kdbserver.product.product.application.ProductService;
+import com.kimdabang.kdbserver.product.product.domain.ProductDocument;
 import com.kimdabang.kdbserver.product.product.dto.in.ProductRequestDto;
 import com.kimdabang.kdbserver.product.product.dto.out.ProductResponseDto;
 import com.kimdabang.kdbserver.product.product.vo.ProductRequestVo;
 import com.kimdabang.kdbserver.product.product.vo.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,7 @@ import java.util.*;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductSearchService productSearchService;
 
     public CommonResponseEntity<Void> createProduct(
             @RequestBody ProductRequestVo productRequestVo) {
@@ -117,8 +123,34 @@ public class ProductController {
         );
     }
 
-    
+    @GetMapping("/search")
+    public CommonResponseEntity<List<ProductDocument>> searchProducts(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
+        List<ProductDocument> productSearchList = productSearchService.searchProducts(keyword, pageable);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "제품 검색 성공",
+                productSearchList
+        );
+
+    }
+
+    @PostMapping("/elasticIndex")
+    public CommonResponseEntity<Void> indexProducts() {
+
+        productSearchService.indexProducts();
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "엘라스틱 서치 인덱싱 성공",
+                null
+        );
+    }
 
 
 }
