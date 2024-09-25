@@ -20,7 +20,7 @@ public class PurchaseResponseDto {
 
     public static PurchaseResponseDto toResponseDto(Purchase purchase, List<PurchaseItem> purchaseItemList) {
         return PurchaseResponseDto.builder()
-                .purchaseCode(purchase.getPaymentCode())
+                .purchaseCode(purchase.getPurchaseCode())
                 .purchaseDate(purchase.getPurchaseDate())
                 .status(purchase.getStatus())
                 .itemList(purchaseItemList.stream().map(
