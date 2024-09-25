@@ -116,4 +116,14 @@ public class ProductServiceImpl implements ProductService {
         return (long) Math.ceil((double) totalProducts / size);
     }
 
+    @Override
+    public void indexProducts() {
+
+        List<Product> products = productRepository.findAll();
+        for (Product product : products) {
+            ProductDocument document = ProductMapper.toDocument(product);
+            elasticsearchTemplate.save(document);
+        }
+    }
+
 }
