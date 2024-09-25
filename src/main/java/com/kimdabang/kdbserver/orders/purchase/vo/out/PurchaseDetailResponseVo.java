@@ -2,6 +2,7 @@ package com.kimdabang.kdbserver.orders.purchase.vo.out;
 
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -11,6 +12,7 @@ import java.util.List;
 public class PurchaseDetailResponseVo {
     private Long purchaseCode;
     private Long paymentCode;
+    private Date purchaseDate;
     private String address;
     private String name;
     private String phone;

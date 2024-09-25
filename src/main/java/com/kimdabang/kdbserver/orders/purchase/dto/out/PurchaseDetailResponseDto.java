@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,7 @@ public class PurchaseDetailResponseDto {
 
     private Long purchaseCode;
     private Long paymentCode;
+    private Date purchaseDate;
     private String address;
     private String name;
     private String phone;
@@ -35,6 +37,7 @@ public class PurchaseDetailResponseDto {
         return PurchaseDetailResponseDto.builder()
                 .purchaseCode(purchase.getPurchaseCode())
                 .paymentCode(purchase.getPaymentCode())
+                .purchaseDate(purchase.getPurchaseDate())
                 .address(purchase.getAddress())
                 .name(purchase.getName())
                 .phone(purchase.getPhone())
@@ -58,6 +61,7 @@ public class PurchaseDetailResponseDto {
         return PurchaseDetailResponseVo.builder()
                 .purchaseCode(purchaseCode)
                 .paymentCode(paymentCode)
+                .purchaseDate(purchaseDate)
                 .address(address)
                 .name(name)
                 .phone(phone)
