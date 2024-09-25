@@ -6,5 +6,5 @@ import lombok.ToString;
 @Getter
 @ToString
 public class UserStarbucksCardListAddRequestVo {
-    private Long starbucksCardListId;
+    private Long starbucksCardId;
 }

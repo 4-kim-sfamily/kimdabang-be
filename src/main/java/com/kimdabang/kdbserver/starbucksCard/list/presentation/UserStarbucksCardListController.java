@@ -32,7 +32,7 @@ public class UserStarbucksCardListController {
             @RequestBody UserStarbucksCardListAddRequestVo userStarbucksCardListAddRequestVo) {
         log.info("userStarbucksCardListAddRequestVo = {}", userStarbucksCardListAddRequestVo);
         UserStarbucksCardListAddRequestDto userStarbucksCardListAddRequestDto = UserStarbucksCardListAddRequestDto.builder()
-                .starbucksCardId(userStarbucksCardListAddRequestVo.getStarbucksCardListId())
+                .starbucksCardId(userStarbucksCardListAddRequestVo.getStarbucksCardId())
                 .build();
         userStarbucksCardListService.addUserStarbucksCardList(userStarbucksCardListAddRequestDto, Authorization);
         return new CommonResponseEntity<>(
@@ -44,8 +44,8 @@ public class UserStarbucksCardListController {
 
     @DeleteMapping
     public CommonResponseEntity<Void> deleteUserStarbucksCardList(
-            @RequestHeader("Authorization") String Authorization,
-            @RequestParam Long id) {
+            @RequestParam Long id,
+            @RequestHeader("Authorization") String Authorization) {
         log.info("userStarbucksCardListId = {}", id);
         userStarbucksCardListService.deleteUserStarbucksCardList(id, Authorization);
         return new CommonResponseEntity<>(
@@ -70,8 +70,8 @@ public class UserStarbucksCardListController {
 
     @GetMapping("/{id}")
     public CommonResponseEntity<UserStarbucksCardListResponseVo> getOneUserStarbucksCardList(
-            @RequestHeader("Authorization") String Authorization,
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String Authorization) {
         UserStarbucksCardListResponseDto userStarbucksCardListDto = userStarbucksCardListService.getOneUserStarbucksCardList(id, Authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
