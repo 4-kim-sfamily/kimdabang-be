@@ -23,8 +23,8 @@ public class RestockServiceImpl implements RestockService {
     private final RestockRepository restockRepository;
 
     @Override
-    public List<RestockResponseDto> getRestock(String Authorization) {
-        List<Restock> restocks = restockRepository.findByUuid(jwtTokenProvider.useToken(Authorization));
+    public List<RestockResponseDto> getRestock(String authorization) {
+        List<Restock> restocks = restockRepository.findByUuid(jwtTokenProvider.useToken(authorization));
         log.info("restocks: {}", restocks);
         if (restocks != null) {
             return restocks.stream()
@@ -34,8 +34,8 @@ public class RestockServiceImpl implements RestockService {
         return List.of();
     }
     @Override
-    public void addRestock(RestockRequestDto restockRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void addRestock(RestockRequestDto restockRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         Optional<Restock> existingRestock = restockRepository.findByUuidAndProductCode(uuid, restockRequestDto.getProductCode());
 
@@ -44,8 +44,8 @@ public class RestockServiceImpl implements RestockService {
         }
     }
     @Override
-    public void deleteRestock(String productCode, String Authorization) {
-        Restock deleteRestock = restockRepository.findByUuidAndProductCode(jwtTokenProvider.useToken(Authorization), productCode)
+    public void deleteRestock(String productCode, String authorization) {
+        Restock deleteRestock = restockRepository.findByUuidAndProductCode(jwtTokenProvider.useToken(authorization), productCode)
                 .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));
         restockRepository.delete(deleteRestock);
     }

@@ -24,19 +24,19 @@ public class AgreementController {
     @Operation(summary = "AgreementGet API", description = "AgreementGet API 입니다.", tags = {"user-controller"})
     @GetMapping("/get-Agreement")
     public CommonResponseEntity<AgreementResponseVo> getAgreement(
-            @RequestHeader("Authorization") String Authorization) {
+            @RequestHeader("Authorization") String authorization) {
 
-        AgreementResponseDto agreementResponseDto = agreementService.getAgreement(Authorization);
+        AgreementResponseDto agreementResponseDto = agreementService.getAgreement(authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), agreementResponseDto.toResponseVo());
     }
 
     @Operation(summary = "AgreementPut API", description = "AgreementPut API 입니다.", tags = {"user-controller"})
     @PutMapping("/put-Agreement")
     public CommonResponseEntity<Void> putAgreement(
-            @RequestHeader("Authorization") String Authorization,
+            @RequestHeader("Authorization") String authorization,
             @RequestBody AgreementRequestVo agreementRequestVo) {
 
-        agreementService.putAgreement(AgreementRequestDto.toRequestDto(agreementRequestVo), Authorization);
+        agreementService.putAgreement(AgreementRequestDto.toRequestDto(agreementRequestVo), authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 }

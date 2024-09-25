@@ -29,9 +29,9 @@ public class CartServiceImpl implements CartService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public CartCheckResponseVo getCartCheck(String productCode, String Authorization, Long productOptionId) {
+    public CartCheckResponseVo getCartCheck(String productCode, String authorization, Long productOptionId) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
 
         Cart cart = cartRepository.findByProductCodeAndUserUuidAndProductOptionId(productCode, userUuid, productOptionId)
                 .orElse(null);
@@ -84,9 +84,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartResponseVo> getAllCarts(String Authorization) {
+    public List<CartResponseVo> getAllCarts(String authorization) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
         List<Cart> cartList = cartRepository.findAllByUserUuid(userUuid);
         if (cartList != null) {
             return cartList.stream()
@@ -103,9 +103,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartResponseVo> getAllCheckedCarts(String Authorization) {
+    public List<CartResponseVo> getAllCheckedCarts(String authorization) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
         List<Cart> cartList = cartRepository.findAllByUserUuidAndCheckBox(userUuid, true);
 
         if (cartList != null) {
@@ -123,9 +123,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartCheckBoxResponseVo getCheckBox(String productCode, String Authorization, Long productOptionId) {
+    public CartCheckBoxResponseVo getCheckBox(String productCode, String authorization, Long productOptionId) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
         Cart cart = cartRepository.findByProductCodeAndUserUuidAndProductOptionId(productCode, userUuid, productOptionId)
                 .orElseThrow(() -> new CustomException(CHECKBOX_NOT_FOUND));
 
@@ -135,9 +135,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartCheckBoxResponseVo changeCheckBox(String productCode, String Authorization, Long productOptionId) {
+    public CartCheckBoxResponseVo changeCheckBox(String productCode, String authorization, Long productOptionId) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
         Cart cart = cartRepository.findByProductCodeAndUserUuidAndProductOptionId(productCode, userUuid, productOptionId)
                 .orElseThrow(() -> new CustomException(CHECKBOX_NOT_FOUND));
         cart.changeCheckBox();

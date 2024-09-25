@@ -23,13 +23,13 @@ public class UserEnrollMobileGifticonController {
 
     @PostMapping
     public CommonResponseEntity<Void> createUserEnrollMobileGifticon(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody UserEnrollMobileGifticonAddRequestVo userEnrollMobileGifticonAddRequestVo) {
         log.info("userEnrollMobileGifticonAddRequestVo = {}", userEnrollMobileGifticonAddRequestVo);
         UserEnrollMobileGifticonAddRequestDto userEnrollMobileGifticonAddRequestDto = UserEnrollMobileGifticonAddRequestDto.builder()
                 .mobileGifticonId(userEnrollMobileGifticonAddRequestVo.getMobileGifticonId())
                 .build();
-        userEnrollMobileGifticonService.addUserEnrollMobileGifticon(userEnrollMobileGifticonAddRequestDto, Authorization);
+        userEnrollMobileGifticonService.addUserEnrollMobileGifticon(userEnrollMobileGifticonAddRequestDto, authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "유저 모바일상품권 등록 성공",
@@ -40,9 +40,9 @@ public class UserEnrollMobileGifticonController {
     @DeleteMapping
     public CommonResponseEntity<Void> deleteUserEnrollMobileGifticon(
             @RequestParam Long id,
-            @RequestHeader ("Authorization") String Authorization) {
+            @RequestHeader ("Authorization") String authorization) {
         log.info("userEnrollMobileGifticonId = {}", id);
-        userEnrollMobileGifticonService.deleteUserEnrollMobileGifticon(id, Authorization);
+        userEnrollMobileGifticonService.deleteUserEnrollMobileGifticon(id, authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "유저 모바일상품권 삭제 성공",
@@ -51,8 +51,8 @@ public class UserEnrollMobileGifticonController {
     }
 
     @GetMapping
-    public CommonResponseEntity<List<UserEnrollMobileGifticonResponseVo>> getAllUserEnrollMobileGifticon(@RequestHeader("Authorization") String Authorization) {
-        List<UserEnrollMobileGifticonResponseDto> userEnrollMobileGifticonResponseDtos = userEnrollMobileGifticonService.getAllUserEnrollMobileGifticon(Authorization);
+    public CommonResponseEntity<List<UserEnrollMobileGifticonResponseVo>> getAllUserEnrollMobileGifticon(@RequestHeader("Authorization") String authorization) {
+        List<UserEnrollMobileGifticonResponseDto> userEnrollMobileGifticonResponseDtos = userEnrollMobileGifticonService.getAllUserEnrollMobileGifticon(authorization);
         List<UserEnrollMobileGifticonResponseVo> userEnrollMobileGifticonResponseVos = userEnrollMobileGifticonResponseDtos.stream()
                 .map(UserEnrollMobileGifticonResponseDto::toResponseVo)
                 .toList();
@@ -66,8 +66,8 @@ public class UserEnrollMobileGifticonController {
     @GetMapping("/{id}")
     public CommonResponseEntity<UserEnrollMobileGifticonResponseVo> getOneUserEnrollMobileGifticon(
             @PathVariable Long id,
-            @RequestHeader("Authorization") String Authorization) {
-        UserEnrollMobileGifticonResponseDto userEnrollMobileGifticonResponseDto = userEnrollMobileGifticonService.getOneUserEnrollMobileGifticon(id, Authorization);
+            @RequestHeader("Authorization") String authorization) {
+        UserEnrollMobileGifticonResponseDto userEnrollMobileGifticonResponseDto = userEnrollMobileGifticonService.getOneUserEnrollMobileGifticon(id, authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "유저 모바일상품권 조회 성공",

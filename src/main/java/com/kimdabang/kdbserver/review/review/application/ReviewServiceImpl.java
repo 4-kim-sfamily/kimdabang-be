@@ -1,14 +1,14 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.application;
+package com.kimdabang.kdbserver.review.review.application;
 
 import com.kimdabang.kdbserver.auth.infrastructure.AuthRepository;
 import com.kimdabang.kdbserver.common.entity.SnowFlakeGenerator;
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.common.jwt.JwtTokenProvider;
-import com.kimdabang.kdbserver.reviwe.media.infrastructure.ReviewMediaRepository;
-import com.kimdabang.kdbserver.reviwe.reviwe.domain.Review;
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.in.ReviewRequestDto;
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.out.ReviewResponseDto;
-import com.kimdabang.kdbserver.reviwe.reviwe.infrastructure.ReviewRepository;
+import com.kimdabang.kdbserver.review.media.infrastructure.ReviewMediaRepository;
+import com.kimdabang.kdbserver.review.review.domain.Review;
+import com.kimdabang.kdbserver.review.review.dto.in.ReviewRequestDto;
+import com.kimdabang.kdbserver.review.review.dto.out.ReviewResponseDto;
+import com.kimdabang.kdbserver.review.review.infrastructure.ReviewRepository;
 import com.kimdabang.kdbserver.user.domain.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

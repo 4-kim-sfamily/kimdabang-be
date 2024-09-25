@@ -1,6 +1,6 @@
-package com.kimdabang.kdbserver.reviwe.media.infrastructure;
+package com.kimdabang.kdbserver.review.media.infrastructure;
 
-import com.kimdabang.kdbserver.reviwe.media.domain.ReviewMedia;
+import com.kimdabang.kdbserver.review.media.domain.ReviewMedia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

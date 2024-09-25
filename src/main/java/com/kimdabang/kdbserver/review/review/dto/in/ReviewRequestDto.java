@@ -1,9 +1,9 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.dto.in;
+package com.kimdabang.kdbserver.review.review.dto.in;
 
 import com.kimdabang.kdbserver.common.entity.SnowFlakeGenerator;
-import com.kimdabang.kdbserver.reviwe.media.domain.ReviewMedia;
-import com.kimdabang.kdbserver.reviwe.reviwe.domain.Review;
-import com.kimdabang.kdbserver.reviwe.reviwe.vo.in.ReviewRequestVo;
+import com.kimdabang.kdbserver.review.media.domain.ReviewMedia;
+import com.kimdabang.kdbserver.review.review.domain.Review;
+import com.kimdabang.kdbserver.review.review.vo.in.ReviewRequestVo;
 import com.kimdabang.kdbserver.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

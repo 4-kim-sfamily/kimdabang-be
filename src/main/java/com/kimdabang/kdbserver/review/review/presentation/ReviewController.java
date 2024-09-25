@@ -1,11 +1,11 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.presentation;
+package com.kimdabang.kdbserver.review.review.presentation;
 
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
-import com.kimdabang.kdbserver.reviwe.reviwe.application.ReviewService;
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.in.ReviewRequestDto;
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.out.ReviewResponseDto;
-import com.kimdabang.kdbserver.reviwe.reviwe.vo.in.ReviewRequestVo;
-import com.kimdabang.kdbserver.reviwe.reviwe.vo.out.ReviewResponseVo;
+import com.kimdabang.kdbserver.review.review.application.ReviewService;
+import com.kimdabang.kdbserver.review.review.dto.in.ReviewRequestDto;
+import com.kimdabang.kdbserver.review.review.dto.out.ReviewResponseDto;
+import com.kimdabang.kdbserver.review.review.vo.in.ReviewRequestVo;
+import com.kimdabang.kdbserver.review.review.vo.out.ReviewResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

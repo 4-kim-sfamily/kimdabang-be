@@ -26,9 +26,9 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public FavoriteCheckResponseDto getFavoriteCheck(String productCode, String Authorization) {
+    public FavoriteCheckResponseDto getFavoriteCheck(String productCode, String authorization) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
 
         Favorite favorite = favoriteRepository.findByProductCodeAndUserUuid(productCode, userUuid)
                 .orElse(null);
@@ -72,9 +72,9 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public List<FavoriteResponseDto> getAllFavorites(String Authorization) {
+    public List<FavoriteResponseDto> getAllFavorites(String authorization) {
 
-        String userUuid = jwtTokenProvider.useToken(Authorization);
+        String userUuid = jwtTokenProvider.useToken(authorization);
         List<Favorite> favoriteList = favoriteRepository.findAllByUserUuid(userUuid);
         if (favoriteList != null) {
             return favoriteList.stream()

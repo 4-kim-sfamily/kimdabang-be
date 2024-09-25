@@ -26,17 +26,17 @@ public class RestockController {
     @Operation(summary = "RestockAdd API", description = "RestockAdd API 입니다.", tags = {"restock-controller"})
     @PostMapping("/add-restock")
     public CommonResponseEntity<Void> addRestock(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody RestockRequestVo restockRequestVo) {
-        restockService.addRestock(RestockRequestDto.toRequestDto(restockRequestVo), Authorization);
+        restockService.addRestock(RestockRequestDto.toRequestDto(restockRequestVo), authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
     @Operation(summary = "RestockGet API", description = "RestockGet API 입니다.", tags = {"restock-controller"})
     @GetMapping("/get-restock")
     public CommonResponseEntity<List<RestockResponseVo>> getStar(
-            @RequestHeader ("Authorization") String Authorization) throws ParseException {
+            @RequestHeader ("Authorization") String authorization) throws ParseException {
         List<RestockResponseDto> restockResponseDtoList =
-                restockService.getRestock(Authorization);
+                restockService.getRestock(authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "Restock 조회 성공",
@@ -48,9 +48,9 @@ public class RestockController {
     @Operation(summary = "RestockDelete API", description = "RestockDelete API 입니다.", tags = {"restock-controller"})
     @DeleteMapping("/delete-restock")
     public CommonResponseEntity<Void> deleteRestock(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestParam(value = "id") String productCode) {
-        restockService.deleteRestock(productCode, Authorization);
+        restockService.deleteRestock(productCode, authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 }

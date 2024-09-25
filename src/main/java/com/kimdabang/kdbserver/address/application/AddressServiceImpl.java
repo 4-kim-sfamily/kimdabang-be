@@ -25,8 +25,8 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
 
     @Override
-    public AddressResponseDto getAddress(Long id, String Authorization){
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public AddressResponseDto getAddress(Long id, String authorization){
+        String uuid = jwtTokenProvider.useToken(authorization);
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));
         log.info("address: {}", address);
@@ -36,8 +36,8 @@ public class AddressServiceImpl implements AddressService {
         else { return null; }
     }
     @Override
-    public List<AddressResponseDto> getAddressList(String Authorization){
-        List<Address> addresses = addressRepository.findByUserUuid(jwtTokenProvider.useToken(Authorization));
+    public List<AddressResponseDto> getAddressList(String authorization){
+        List<Address> addresses = addressRepository.findByUserUuid(jwtTokenProvider.useToken(authorization));
         log.info("userAddresses: {}", addresses);
         if (addresses != null) {
             return addresses.stream()
@@ -47,18 +47,18 @@ public class AddressServiceImpl implements AddressService {
         return List.of();
     }
     @Override
-    public AddressResponseDto getAddressDefault(String Authorization){
-        List<Address> addresses = addressRepository.findByUserUuid(jwtTokenProvider.useToken(Authorization));
+    public AddressResponseDto getAddressDefault(String authorization){
+        List<Address> addresses = addressRepository.findByUserUuid(jwtTokenProvider.useToken(authorization));
         Address defaultAddress = addresses.stream().filter(address  -> address.getIsDefault().equals(true)).findFirst()  // 첫 번째 값을 가져옵니다.
                 .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));  // 기본 주소가 없을 경우 예외 처리
             return AddressResponseDto.toResponseDto(defaultAddress);
     }
     @Override
-    public void addAddress(AddressAddRequestDto addressAddRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void addAddress(AddressAddRequestDto addressAddRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         Address address = addressAddRequestDto.toEntity(addressAddRequestDto, uuid);
-        Optional<Address> defaultAddress = addressRepository.findByUserUuidAndIsDefault(jwtTokenProvider.useToken(Authorization), true);
+        Optional<Address> defaultAddress = addressRepository.findByUserUuidAndIsDefault(jwtTokenProvider.useToken(authorization), true);
         if(addressAddRequestDto.getIsDefault()) { //기본 주소 갱신 처리
             if(defaultAddress.isPresent()) {
                 defaultAddress.get().updateIsDefault(false);
@@ -73,13 +73,13 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
     }
     @Override
-    public void putAddress(AddressRequestDto addressRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void putAddress(AddressRequestDto addressRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         Address address = addressRepository.findById(addressRequestDto.getId()).orElseThrow();
 
         if(addressRequestDto.getIsDefault()) { //기본 주소 갱신 처리
-            Optional<Address> defaultAddress = addressRepository.findByUserUuidAndIsDefault(jwtTokenProvider.useToken(Authorization), true);
+            Optional<Address> defaultAddress = addressRepository.findByUserUuidAndIsDefault(jwtTokenProvider.useToken(authorization), true);
 
             if(defaultAddress.isPresent() && !(addressRequestDto.getId().equals(defaultAddress.get().getId()))) {
                 defaultAddress.get().updateIsDefault(false);
@@ -94,8 +94,8 @@ public class AddressServiceImpl implements AddressService {
             addressRepository.save(addressRequestDto.toEntity(addressRequestDto, uuid));
     }
     @Override
-    public void deleteAddress(Long id, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void deleteAddress(Long id, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
         Address deleteAddress = addressRepository.findById(id)
                 .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));
         if(deleteAddress.getIsDefault().equals(true))

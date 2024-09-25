@@ -1,4 +1,4 @@
-package com.kimdabang.kdbserver.reviwe.media.application;
+package com.kimdabang.kdbserver.review.media.application;
 
 import org.springframework.web.multipart.MultipartFile;
 

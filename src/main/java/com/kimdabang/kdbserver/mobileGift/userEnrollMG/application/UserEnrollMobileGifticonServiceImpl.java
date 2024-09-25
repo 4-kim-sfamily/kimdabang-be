@@ -31,8 +31,8 @@ public class UserEnrollMobileGifticonServiceImpl implements UserEnrollMobileGift
 
     @Override
     @Transactional
-    public void addUserEnrollMobileGifticon(UserEnrollMobileGifticonAddRequestDto userEnrollMobileGifticonAddRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void addUserEnrollMobileGifticon(UserEnrollMobileGifticonAddRequestDto userEnrollMobileGifticonAddRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         MobileGifticon mobileGifticon = mobileGifticonRepository.findById(userEnrollMobileGifticonAddRequestDto.getMobileGifticonId())
                 .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_FOUND));
@@ -47,8 +47,8 @@ public class UserEnrollMobileGifticonServiceImpl implements UserEnrollMobileGift
 
     @Override
     @Transactional
-    public void deleteUserEnrollMobileGifticon(Long id, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void deleteUserEnrollMobileGifticon(Long id, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         UserEnrollMobileGifticon userEnrollMobileGifticon = userEnrollMobileGifticonRepository.findByIdAndUuid(id, uuid)
                 .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_ENROLL));
@@ -57,8 +57,8 @@ public class UserEnrollMobileGifticonServiceImpl implements UserEnrollMobileGift
     }
 
     @Override
-    public UserEnrollMobileGifticonResponseDto getOneUserEnrollMobileGifticon(Long id, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public UserEnrollMobileGifticonResponseDto getOneUserEnrollMobileGifticon(Long id, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
         UserEnrollMobileGifticon userEnrollMobileGifticon = userEnrollMobileGifticonRepository.findByIdAndUuid(id, uuid)
                 .orElseThrow(() -> new CustomException(MOBILEGIFTICON_NOT_ENROLL));
         return UserEnrollMobileGifticonResponseDto.builder()
@@ -69,8 +69,8 @@ public class UserEnrollMobileGifticonServiceImpl implements UserEnrollMobileGift
     }
 
     @Override
-    public List<UserEnrollMobileGifticonResponseDto> getAllUserEnrollMobileGifticon(String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public List<UserEnrollMobileGifticonResponseDto> getAllUserEnrollMobileGifticon(String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
         List<UserEnrollMobileGifticon> userEnrollMobileGifticons = userEnrollMobileGifticonRepository.findAllByUuid(uuid);
         return userEnrollMobileGifticons.stream()
                 .map(userEnrollMobileGifticon -> UserEnrollMobileGifticonResponseDto.builder()

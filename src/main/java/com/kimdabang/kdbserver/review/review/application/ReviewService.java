@@ -1,7 +1,7 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.application;
+package com.kimdabang.kdbserver.review.review.application;
 
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.in.ReviewRequestDto;
-import com.kimdabang.kdbserver.reviwe.reviwe.dto.out.ReviewResponseDto;
+import com.kimdabang.kdbserver.review.review.dto.in.ReviewRequestDto;
+import com.kimdabang.kdbserver.review.review.dto.out.ReviewResponseDto;
 
 import java.util.Date;
 import java.util.List;

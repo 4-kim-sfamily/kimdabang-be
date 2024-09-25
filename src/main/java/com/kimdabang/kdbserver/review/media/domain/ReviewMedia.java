@@ -1,6 +1,6 @@
-package com.kimdabang.kdbserver.reviwe.media.domain;
+package com.kimdabang.kdbserver.review.media.domain;
 
-import com.kimdabang.kdbserver.reviwe.reviwe.domain.Review;
+import com.kimdabang.kdbserver.review.review.domain.Review;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

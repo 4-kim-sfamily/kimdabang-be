@@ -28,17 +28,17 @@ public class UserController {
     @Operation(summary = "UserGet API", description = "UserGet API 입니다.", tags = {"user-controller"})
     @GetMapping("/get-user")
     public CommonResponseEntity<UserResponseVo> getUser(
-            @RequestHeader ("Authorization") String Authorization) {
-        UserResponseDto userResponseDto = userService.getUser(Authorization);
+            @RequestHeader ("Authorization") String authorization) {
+        UserResponseDto userResponseDto = userService.getUser(authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), userResponseDto.toResponseVo());
     }
 
     @Operation(summary = "UserPut API", description = "UserPut API 입니다.", tags = {"user-controller"})
     @PutMapping("/put-user")
     public CommonResponseEntity<Void> putUser(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody UserRequestVo userRequestVo) {
-            userService.putUser(new ModelMapper().map(userRequestVo, UserRequestDto.class), Authorization);
+            userService.putUser(new ModelMapper().map(userRequestVo, UserRequestDto.class), authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 }

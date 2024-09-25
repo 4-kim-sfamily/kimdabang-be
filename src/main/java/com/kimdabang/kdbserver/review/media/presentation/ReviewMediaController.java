@@ -1,7 +1,7 @@
-package com.kimdabang.kdbserver.reviwe.media.presentation;
+package com.kimdabang.kdbserver.review.media.presentation;
 
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
-import com.kimdabang.kdbserver.reviwe.media.application.ReviewMediaService;
+import com.kimdabang.kdbserver.review.media.application.ReviewMediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

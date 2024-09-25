@@ -1,4 +1,4 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.vo.out;
+package com.kimdabang.kdbserver.review.review.vo.out;
 
 import lombok.Builder;
 import lombok.Getter;

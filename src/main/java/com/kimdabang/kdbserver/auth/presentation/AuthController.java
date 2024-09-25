@@ -68,10 +68,10 @@ public class AuthController {
     @Operation(summary = "OAuth join API", description = "OAuth join API 입니다.", tags = {"OAuth"})
     @PostMapping("/socialjoin")
     public CommonResponseEntity<Void> oAuthSignUp(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody OAuthSignInRequestVo oAuthSignInRequestVo) {
         OAuthSignInRequestDto oAuthSignInRequestDto = OAuthSignInRequestDto.toRequestDto(oAuthSignInRequestVo);
-        authService.oAuthSignUp(oAuthSignInRequestDto, Authorization);
+        authService.oAuthSignUp(oAuthSignInRequestDto, authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -81,10 +81,10 @@ public class AuthController {
     @Operation(summary = "OAuth delete API", description = "OAuth delete API 입니다.", tags = {"OAuth"})
     @DeleteMapping("/socialdelete")
     public CommonResponseEntity<Void> oAuthDelete(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        authService.oAuthDelete(keyRequestDto, Authorization);
+        authService.oAuthDelete(keyRequestDto, authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -102,10 +102,10 @@ public class AuthController {
     @Operation(summary = "verifypassword API", description = "verifypassword API 입니다.", tags = {"Auth"})
     @PostMapping("/verifypassword")
     public CommonResponseEntity<KeyResponseVo> verifyPassword(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, Authorization));
+        KeyResponseVo keyResponseVo = KeyResponseDto.toResponseVo(authService.verifyPassword(keyRequestDto, authorization));
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), keyResponseVo);
     }
 
@@ -130,10 +130,10 @@ public class AuthController {
     @Operation(summary = "putpassword API", description = "putpassword API 입니다.", tags = {"Auth"})
     @PostMapping("/putpassword")
     public CommonResponseEntity<Void> putPassword(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody KeyRequestVo keyRequestVo) {
         KeyRequestDto keyRequestDto = KeyRequestDto.toRequestDto(keyRequestVo);
-        authService.putPassword(keyRequestDto, Authorization);
+        authService.putPassword(keyRequestDto, authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
 

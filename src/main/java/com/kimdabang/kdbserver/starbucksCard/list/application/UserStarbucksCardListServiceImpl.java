@@ -31,8 +31,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
 
     @Override
     @Transactional
-    public void addUserStarbucksCardList(UserStarbucksCardListAddRequestDto userStarbucksCardListAddRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void addUserStarbucksCardList(UserStarbucksCardListAddRequestDto userStarbucksCardListAddRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         StarbucksCard starbucksCard = starbucksCardRepository.findById(userStarbucksCardListAddRequestDto.getStarbucksCardId())
                 .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_FOUND));
@@ -47,8 +47,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
 
     @Override
     @Transactional
-    public void deleteUserStarbucksCardList(Long id, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void deleteUserStarbucksCardList(Long id, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         UserStarbucksCardList userStarbucksCardList = userStarbucksCardListRepository.findByIdAndUuid(id, uuid)
                 .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_ENROLL));
@@ -57,8 +57,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
     }
 
     @Override
-    public UserStarbucksCardListResponseDto getOneUserStarbucksCardList(Long id, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public UserStarbucksCardListResponseDto getOneUserStarbucksCardList(Long id, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
         UserStarbucksCardList userStarbucksCardList = userStarbucksCardListRepository.findByIdAndUuid(id, uuid)
                 .orElseThrow(() -> new CustomException(STARBUCKSCARD_NOT_ENROLL));
         return UserStarbucksCardListResponseDto.builder()
@@ -69,8 +69,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
     }
 
     @Override
-    public List<UserStarbucksCardListResponseDto> getAllUserStarbucksCardList(String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public List<UserStarbucksCardListResponseDto> getAllUserStarbucksCardList(String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
         List<UserStarbucksCardList> userStarbucksCardLists = userStarbucksCardListRepository.findAllByUuid(uuid);
         return userStarbucksCardLists.stream()
                 .map(userStarbucksCardList -> UserStarbucksCardListResponseDto.builder()
@@ -83,8 +83,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
 
     @Override
     @Transactional
-    public void chargeStarbucksCard(Long id, StarbucksCardChargeRequestDto starbucksCardChargeRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void chargeStarbucksCard(Long id, StarbucksCardChargeRequestDto starbucksCardChargeRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         boolean isExist = userStarbucksCardListRepository.existsByIdAndUuidAndStarbucksCard_Id(id, uuid, starbucksCardChargeRequestDto.getId());
         if (!isExist) {
@@ -99,8 +99,8 @@ public class UserStarbucksCardListServiceImpl implements UserStarbucksCardListSe
 
     @Override
     @Transactional
-    public void useStarbucksCard(Long id, StarbucksCardUseRequestDto starbucksCardUseRequestDto, String Authorization) {
-        String uuid = jwtTokenProvider.useToken(Authorization);
+    public void useStarbucksCard(Long id, StarbucksCardUseRequestDto starbucksCardUseRequestDto, String authorization) {
+        String uuid = jwtTokenProvider.useToken(authorization);
 
         boolean isExist = userStarbucksCardListRepository.existsByIdAndUuidAndStarbucksCard_Id(id, uuid, starbucksCardUseRequestDto.getId());
         if (!isExist) {

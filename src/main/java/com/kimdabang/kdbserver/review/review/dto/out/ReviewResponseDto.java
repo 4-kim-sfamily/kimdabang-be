@@ -1,7 +1,7 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.dto.out;
+package com.kimdabang.kdbserver.review.review.dto.out;
 
-import com.kimdabang.kdbserver.reviwe.reviwe.domain.Review;
-import com.kimdabang.kdbserver.reviwe.reviwe.vo.out.ReviewResponseVo;
+import com.kimdabang.kdbserver.review.review.domain.Review;
+import com.kimdabang.kdbserver.review.review.vo.out.ReviewResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

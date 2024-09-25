@@ -25,10 +25,10 @@ public class CartController {
 
     @GetMapping("/{productCode}")
     public CommonResponseEntity<CartCheckResponseVo> getCartCheck(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode,
             @RequestParam(defaultValue = "0") Long productOptionId) {
-        CartCheckResponseVo cartCheckResponseVo = cartService.getCartCheck(productCode, Authorization, productOptionId);
+        CartCheckResponseVo cartCheckResponseVo = cartService.getCartCheck(productCode, authorization, productOptionId);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -39,12 +39,12 @@ public class CartController {
 
     @PutMapping("/{productCode}")
     public CommonResponseEntity<CartCheckResponseVo> updateCart(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode,
             @RequestBody CartRequestVo cartRequestVo) {
         CartRequestDto cartRequestDto = CartRequestDto.builder()
                 .productCode(productCode)
-                .accessToken(Authorization)
+                .accessToken(authorization)
                 .amount(cartRequestVo.getAmount())
                 .productOptionId(cartRequestVo.getProductOptionId())
                 .carving(cartRequestVo.getCarving())
@@ -60,8 +60,8 @@ public class CartController {
 
     @GetMapping("/list")
     public CommonResponseEntity<List<CartResponseVo>> getCartList(
-            @RequestHeader ("Authorization") String Authorization) {
-        List<CartResponseVo> cartResponseVoList = cartService.getAllCarts(Authorization);
+            @RequestHeader ("Authorization") String authorization) {
+        List<CartResponseVo> cartResponseVoList = cartService.getAllCarts(authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -72,8 +72,8 @@ public class CartController {
 
     @GetMapping("/checkedList")
     public CommonResponseEntity<List<CartResponseVo>> getCheckedList(
-            @RequestHeader ("Authorization") String Authorization) {
-        List<CartResponseVo> cartResponseVoList = cartService.getAllCheckedCarts(Authorization);
+            @RequestHeader ("Authorization") String authorization) {
+        List<CartResponseVo> cartResponseVoList = cartService.getAllCheckedCarts(authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -84,10 +84,10 @@ public class CartController {
 
     @GetMapping("/checkBox/{productCode}")
     public CommonResponseEntity<CartCheckBoxResponseVo> getCartCheckBox(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode,
             @RequestParam(defaultValue = "0") Long productOptionId) {
-        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.getCheckBox(productCode, Authorization, productOptionId);
+        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.getCheckBox(productCode, authorization, productOptionId);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -98,10 +98,10 @@ public class CartController {
 
     @PutMapping("/checkBox/{productCode}")
     public CommonResponseEntity<CartCheckBoxResponseVo> changeCartCheckBox(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode,
             @RequestParam(defaultValue = "0") Long productOptionId) {
-        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.changeCheckBox(productCode, Authorization, productOptionId);
+        CartCheckBoxResponseVo cartCheckBoxResponseVo = cartService.changeCheckBox(productCode, authorization, productOptionId);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,

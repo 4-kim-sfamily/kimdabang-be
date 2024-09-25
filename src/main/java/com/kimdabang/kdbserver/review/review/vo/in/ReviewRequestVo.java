@@ -1,4 +1,4 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.vo.in;
+package com.kimdabang.kdbserver.review.review.vo.in;
 
 import lombok.Getter;
 import lombok.ToString;

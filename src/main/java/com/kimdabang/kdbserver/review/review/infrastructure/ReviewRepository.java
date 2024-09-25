@@ -1,6 +1,6 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.infrastructure;
+package com.kimdabang.kdbserver.review.review.infrastructure;
 
-import com.kimdabang.kdbserver.reviwe.reviwe.domain.Review;
+import com.kimdabang.kdbserver.review.review.domain.Review;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

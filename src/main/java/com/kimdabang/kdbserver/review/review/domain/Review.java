@@ -1,4 +1,4 @@
-package com.kimdabang.kdbserver.reviwe.reviwe.domain;
+package com.kimdabang.kdbserver.review.review.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;

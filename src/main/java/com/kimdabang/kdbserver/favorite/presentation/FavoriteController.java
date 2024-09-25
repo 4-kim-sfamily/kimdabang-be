@@ -25,9 +25,9 @@ public class FavoriteController {
 
     @GetMapping("/{productCode}")
     public CommonResponseEntity<FavoriteCheckResponseVo> getFavoriteCheck(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode) {
-        FavoriteCheckResponseDto favoriteCheckResponseDto = favoriteService.getFavoriteCheck(productCode, Authorization);
+        FavoriteCheckResponseDto favoriteCheckResponseDto = favoriteService.getFavoriteCheck(productCode, authorization);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
@@ -38,11 +38,11 @@ public class FavoriteController {
 
     @PutMapping("/{productCode}")
     public CommonResponseEntity<FavoriteCheckResponseVo> changeFavoriteCheck(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @PathVariable String productCode) {
         FavoriteRequestDto favoriteRequestDto = FavoriteRequestDto.builder()
                 .productCode(productCode)
-                .accessToken(Authorization)
+                .accessToken(authorization)
                 .build();
         FavoriteCheckResponseDto favoriteCheckResponseDto = favoriteService.putFavorite(favoriteRequestDto);
 
@@ -55,8 +55,8 @@ public class FavoriteController {
 
     @GetMapping("/list")
     public CommonResponseEntity<List<FavoriteResponseVo>> getFavoriteCheckList(
-            @RequestHeader ("Authorization") String Authorization) {
-        List<FavoriteResponseDto> favoriteResponseDtoList = favoriteService.getAllFavorites(Authorization);
+            @RequestHeader ("Authorization") String authorization) {
+        List<FavoriteResponseDto> favoriteResponseDtoList = favoriteService.getAllFavorites(authorization);
 
         List<FavoriteResponseVo> favoriteResponseVoList
                 = favoriteResponseDtoList.stream()

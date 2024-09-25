@@ -32,15 +32,15 @@ public class StarController {
     @Operation(summary = "UserStarAdd API", description = "userStarAdd API 입니다.", tags = {"userstar-controller"})
     @PostMapping("/add-userstar")
     public CommonResponseEntity<Void> addStar(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestBody StarAddRequestVo starAddRequestVo) {
-        starService.addStar(StarAddRequestDto.toRequestDto(starAddRequestVo), Authorization);
+        starService.addStar(StarAddRequestDto.toRequestDto(starAddRequestVo), authorization);
         return new CommonResponseEntity<>(HttpStatus.OK, CommonResponseMessage.SUCCESS.getMessage(), null);
     }
     @Operation(summary = "UserStarGet API", description = "userStarGet API 입니다.", tags = {"userstar-controller"})
     @GetMapping("/get-userstar")
     public CommonResponseEntity<List<StarResponseVo>> getStar(
-            @RequestHeader ("Authorization") String Authorization,
+            @RequestHeader ("Authorization") String authorization,
             @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
         start = start+"-00:00:00";
@@ -48,7 +48,7 @@ public class StarController {
         Date startDate = formatter.parse(start);
         Date endDate = formatter.parse(end);
         List<StarResponseDto> starResponseDtoList =
-                starService.getStar(startDate, endDate, Authorization);
+                starService.getStar(startDate, endDate, authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "star 조회 성공",
@@ -61,8 +61,8 @@ public class StarController {
     @Operation(summary = "UserStarAmountGet API", description = "userStarGet API 입니다.", tags = {"userstar-controller"})
     @GetMapping("/get-userstaramount")
     public CommonResponseEntity<StarAmountResponseVo> getStarAmount(
-            @RequestHeader ("Authorization") String Authorization) {
-        StarAmountResponseDto starAmountResponseDto = starService.getStarAmount(Authorization);
+            @RequestHeader ("Authorization") String authorization) {
+        StarAmountResponseDto starAmountResponseDto = starService.getStarAmount(authorization);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "star 조회 성공",
