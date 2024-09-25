@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
@@ -52,11 +52,27 @@ public class PurchaseServiceImpl implements PurchaseService{
     public List<PurchaseResponseDto> getPurchaseList(Date start, Date end, String authorization) {
         String uuid = jwtTokenProvider.useToken(authorization);
         log.info("start:{},end:{}",start,end);
+
+//        List<Purchase> purchaseList = purchaseRepository.findByUserUuidAndPurchaseDateBetween(uuid, start, end);
+//
+//        return purchaseList.stream().map(
+//                purchase -> PurchaseResponseDto.toResponseDto(purchase, purchaseItemRepository.findByPurchase(purchase))
+//            ).toList();
+
         List<Purchase> purchaseList = purchaseRepository.findByUserUuidAndPurchaseDateBetween(uuid, start, end);
+        List<PurchaseItem> purchaseItems = purchaseItemRepository.findByPurchaseIn(purchaseList);
+
+        Map<Purchase, List<PurchaseItem>> purchaseItemMap =
+                purchaseItems.stream().collect(Collectors.groupingBy(PurchaseItem::getPurchase));
 
         return purchaseList.stream().map(
-                purchase -> PurchaseResponseDto.toResponseDto(purchase, purchaseItemRepository.findByPurchase(purchase))
-            ).toList();
+                purchase -> {
+                    List<PurchaseItem> item = purchaseItemMap.get(purchase);
+                    if (item == null) {
+                        item = Collections.emptyList(); // 값이 없을 경우 빈 리스트 반환
+                    }
+                    return PurchaseResponseDto.toResponseDto(purchase, item);
+                }).toList();
     }
     @Override
     public PurchaseDetailResponseDto getPurchase(Long purchaseCode) {
