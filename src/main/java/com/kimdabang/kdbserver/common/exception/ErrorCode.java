@@ -45,6 +45,12 @@ public enum ErrorCode {
     STARBUCKSCARD_NOT_ENROLL(401, "STARBUCKSCARD-002", "스타벅스카드가 등록되지 않았습니다."),
     STARBUCKSCARD_ALREADY_ENROLLED(402, "STARBUCKSCARD-003", "이미 등록된 스타벅스카드입니다."),
 
+    REVIWE_NOT_FOUND(400, "REVIWE-001", "리뷰를 찾을 수 없습니다."),
+    REVIWE_PROCESS_FAILED(401, "REVIWE-002", "리뷰를 등록하지 못했습니다."),
+
+    MEDIA_UPLODE_FAILED(401, "MEDIA-002", "파일을 업로드하지 못했습니다."),
+    MEDIA_PROCESS_FAILED(401, "MEDIA-003", "파일 처리에 실패했습니다."),
+
     INTERNAL_SERVER_ERROR(500, "COMMON-002", "서버에서 요청을 처리하지 못했습니다.");
 
 
