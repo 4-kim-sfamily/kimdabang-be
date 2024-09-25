@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class ProductDocument {
 
     private String id;
-    private String productName;
-    private String productDescription;
+    private String ProductName;
+    private String ProductDescription;
 
 }
