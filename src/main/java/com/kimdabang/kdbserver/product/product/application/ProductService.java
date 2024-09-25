@@ -17,7 +17,4 @@ public interface ProductService {
     List<ProductResponseVo> getProductsByCategory(Long categoryId, int page, int size);
     long getTotalPagesByCategory(Long categoryId, int size);
 
-    // elasticSearch
-    public void indexProducts();
-
 }
