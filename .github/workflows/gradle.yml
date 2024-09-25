@@ -34,14 +34,29 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-  
 
-    ## create application-prod.yml
+    ## create application-prod.yml with S3 configuration
     - name: make application-prod.yml
       run: |
-          mkdir -p ./src/main/resources
-          cd ./src/main/resources
-          touch ./application.yml
-          echo '${{ secrets.APPLICATION_YAML }}' > ./application.yml
+        mkdir -p ./src/main/resources
+        cd ./src/main/resources
+        touch ./application.yml
+        echo '${{ secrets.APPLICATION_YAML }}' > ./application.yml
+        echo 'cloud:' >> ./application.yml
+        echo '  aws:' >> ./application.yml
+        echo '    s3:' >> ./application.yml
+        echo '      bucket: kimganebucket' >> ./application.yml
+        echo '      imagedns: https://image.starbuckskorea.kr/' >> ./application.yml
+        echo '    region.static: ap-northeast-2' >> ./application.yml
+        echo '    credentials:' >> ./application.yml
+        echo '      accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}' >> ./application.yml
+        echo '      secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}' >> ./application.yml
       shell: bash
+
+    ## install AWS CLI
+    - name: Install AWS CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install awscli -y
 
     ## grant execute permission for gradlew
     - name: Grant execute permission for gradlew
