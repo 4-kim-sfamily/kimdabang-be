@@ -53,11 +53,11 @@ public class Cart extends BaseEntity {
 //    todo: 비회원 장바구니 관리를 위한 Key
     @Comment("장바구니 등록 여부")
     @Column(nullable = false)
-    private Boolean isChecked = true;
+    private Boolean isChecked;
 
     @Comment("장바구니 체크박스")
     @Column(nullable = false)
-    private Boolean checkBox = true;
+    private Boolean checkBox;
 
     @Comment("상품 각인 데이터")
     @Column(nullable = true, length = 10)

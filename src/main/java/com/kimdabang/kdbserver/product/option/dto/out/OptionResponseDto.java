@@ -18,6 +18,6 @@ public class OptionResponseDto {
     private Long optionsId;
     private int depth;
     private String optionValue;
-    private List<OptionResponseDto> children = new ArrayList<>();
+    private List<OptionResponseDto> children;
 
 }
