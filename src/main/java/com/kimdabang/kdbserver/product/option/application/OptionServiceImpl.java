@@ -1,5 +1,6 @@
 package com.kimdabang.kdbserver.product.option.application;
 
+import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.product.option.domain.Option;
 import com.kimdabang.kdbserver.product.option.dto.out.OptionResponseDto;
 import com.kimdabang.kdbserver.product.option.infrastructure.OptionRepository;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.PARENTSOPTION_NOT_FOUND;
 
 @Service
 @Slf4j
@@ -43,6 +46,34 @@ public class OptionServiceImpl implements OptionService {
             result.add(dto);
         }
         return result;
+    }
+
+    @Override
+    public String getFamilyOption(String productCode, Long optionId) {
+
+        Option option = optionRepository.findByProductCodeAndId(productCode, optionId)
+                .orElseThrow(() -> new CustomException(PARENTSOPTION_NOT_FOUND));
+
+        StringBuilder familyOption = new StringBuilder(", " + option.getOptionValue());
+        int depth = option.getDepth();
+        Long nextId = option.getParentOptionsId().getId();
+
+        if (depth == 1) {
+            return familyOption.toString();
+        }
+
+        for (int i=1; i<depth-1; i++) {
+            option = optionRepository.findByProductCodeAndId(productCode, nextId)
+                    .orElse(null);
+            if (option != null) {
+                familyOption.insert(0, ", " + option.getOptionValue());
+                nextId = option.getParentOptionsId().getId();
+            }
+        }
+        familyOption.insert(0, (option != null ? option.getParentOptionsId() : null) != null ? option.getParentOptionsId().getOptionValue() : null);
+        
+        return familyOption.toString();
+
     }
 
 

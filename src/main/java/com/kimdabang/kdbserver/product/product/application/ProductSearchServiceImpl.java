@@ -32,7 +32,7 @@ public class ProductSearchServiceImpl implements ProductSearchService{
         }
 
     }
-
+    
     public List<ProductPartialDocument> searchProducts(String keyword, Pageable pageable) {
 
         List<ProductDocument> searchResults = productSearchRepository.findByProductNameContainingOrDescriptionContaining(keyword, keyword, pageable);

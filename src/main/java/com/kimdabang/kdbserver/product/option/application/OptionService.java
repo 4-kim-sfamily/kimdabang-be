@@ -7,5 +7,6 @@ import java.util.List;
 public interface OptionService {
 
     List<OptionResponseDto> getOptionListByProductCode(String productCode, Long parentOptionsId);
+    String getFamilyOption(String productCode, Long optionId);
 
 }

@@ -7,10 +7,7 @@ import com.kimdabang.kdbserver.product.option.dto.out.OptionResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -32,6 +29,20 @@ public class OptionController {
                 HttpStatus.OK,
                 "특정 상품 전체 옵션 조회",
                 optionResponseDtoList
+        );
+    }
+
+    @GetMapping("/{productCode}/family")
+    public CommonResponseEntity<String> getParentOption(
+            @PathVariable String productCode,
+            @RequestParam Long optionId
+    ) {
+        String result = optionService.getFamilyOption(productCode, optionId);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "상위 옵션 조회 성공",
+                result
         );
     }
 }
