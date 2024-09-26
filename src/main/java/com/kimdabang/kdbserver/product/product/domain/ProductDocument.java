@@ -19,8 +19,12 @@ public class ProductDocument {
     @Id
     private String id;
     @Field(type = FieldType.Text)
+    private String productCode;
+    @Field(type = FieldType.Text)
     private String productName;
     @Field(type = FieldType.Text)
-    private String productDescription;
+    private Long categoryId;
+    @Field(type = FieldType.Text)
+    private String description;
 
 }

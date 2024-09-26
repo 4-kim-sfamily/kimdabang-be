@@ -5,6 +5,7 @@ import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.product.product.application.ProductSearchService;
 import com.kimdabang.kdbserver.product.product.application.ProductService;
 import com.kimdabang.kdbserver.product.product.domain.ProductDocument;
+import com.kimdabang.kdbserver.product.product.domain.ProductPartialDocument;
 import com.kimdabang.kdbserver.product.product.dto.in.ProductRequestDto;
 import com.kimdabang.kdbserver.product.product.dto.out.ProductResponseDto;
 import com.kimdabang.kdbserver.product.product.vo.ProductRequestVo;
@@ -124,13 +125,13 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public CommonResponseEntity<List<ProductDocument>> searchProducts(
+    public CommonResponseEntity<List<ProductPartialDocument>> searchProducts(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        List<ProductDocument> productSearchList = productSearchService.searchProducts(keyword, pageable);
+        List<ProductPartialDocument> productSearchList = productSearchService.searchProducts(keyword, pageable);
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,

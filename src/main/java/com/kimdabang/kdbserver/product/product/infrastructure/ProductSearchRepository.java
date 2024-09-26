@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ProductSearchRepository extends ElasticsearchRepository<ProductDocument, String> {
 
-    List<ProductDocument> findByProductNameContainingOrProductDescriptionContaining(String name, String description, Pageable pageable);
+    List<ProductDocument> findByProductNameContainingOrDescriptionContaining(String name, String description, Pageable pageable);
 }

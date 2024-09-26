@@ -3,6 +3,7 @@ package com.kimdabang.kdbserver.product.product.application;
 import com.kimdabang.kdbserver.product.product.domain.Product;
 import com.kimdabang.kdbserver.product.product.domain.ProductDocument;
 import com.kimdabang.kdbserver.product.product.domain.ProductMapper;
+import com.kimdabang.kdbserver.product.product.domain.ProductPartialDocument;
 import com.kimdabang.kdbserver.product.product.infrastructure.ProductRepository;
 import com.kimdabang.kdbserver.product.product.infrastructure.ProductSearchRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,9 +33,17 @@ public class ProductSearchServiceImpl implements ProductSearchService{
 
     }
 
-    public List<ProductDocument> searchProducts(String keyword, Pageable pageable) {
+    public List<ProductPartialDocument> searchProducts(String keyword, Pageable pageable) {
 
-        return productSearchRepository.findByProductNameContainingOrProductDescriptionContaining(keyword, keyword, pageable);
+        List<ProductDocument> searchResults = productSearchRepository.findByProductNameContainingOrDescriptionContaining(keyword, keyword, pageable);
+
+        return searchResults.stream()
+                .map(product -> ProductPartialDocument.builder()
+                        .productCode(product.getProductCode())
+                        .productName(product.getProductName())
+                        .categoryId(product.getCategoryId())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }
