@@ -3,15 +3,12 @@ package com.kimdabang.kdbserver.product.product.application;
 
 import com.kimdabang.kdbserver.common.exception.CustomException;
 import com.kimdabang.kdbserver.product.product.domain.Product;
-import com.kimdabang.kdbserver.product.product.domain.ProductDocument;
-import com.kimdabang.kdbserver.product.product.domain.ProductMapper;
 import com.kimdabang.kdbserver.product.product.dto.in.ProductRequestDto;
 import com.kimdabang.kdbserver.product.product.dto.out.ProductResponseDto;
 import com.kimdabang.kdbserver.product.product.infrastructure.ProductRepository;
 import com.kimdabang.kdbserver.product.product.vo.ProductResponseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +22,6 @@ import static com.kimdabang.kdbserver.common.exception.ErrorCode.PRODUCT_NOT_FOU
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ElasticsearchTemplate elasticsearchTemplate;
 
     @Override
     public void addProduct(ProductRequestDto productDto) {
