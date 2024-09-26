@@ -3,8 +3,10 @@ package com.kimdabang.kdbserver.review.review.presentation;
 import com.kimdabang.kdbserver.common.entity.CommonResponseEntity;
 import com.kimdabang.kdbserver.review.review.application.ReviewService;
 import com.kimdabang.kdbserver.review.review.dto.in.ReviewRequestDto;
+import com.kimdabang.kdbserver.review.review.dto.in.ReviewUpdateRequestDto;
 import com.kimdabang.kdbserver.review.review.dto.out.ReviewResponseDto;
 import com.kimdabang.kdbserver.review.review.vo.in.ReviewRequestVo;
+import com.kimdabang.kdbserver.review.review.vo.in.ReviewUpdateRequestVo;
 import com.kimdabang.kdbserver.review.review.vo.out.ReviewResponseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,30 @@ public class ReviewController {
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
                 "리뷰 등록 성공",
+                null
+        );
+    }
+    @PostMapping("/put-review")
+    public CommonResponseEntity<Void> putReview(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody ReviewUpdateRequestVo reviewUpdateRequestVo) throws ParseException {
+
+        reviewService.putReview(ReviewUpdateRequestDto.toRequestDto(reviewUpdateRequestVo), authorization);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "리뷰 갱신 성공",
+                null
+        );
+    }
+    @DeleteMapping("/delete-review")
+    public CommonResponseEntity<Void> deleteReview(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(value = "reviewCode") Long reviewCode) throws ParseException {
+
+        reviewService.deleteReview(reviewCode, authorization);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "리뷰 삭제 성공",
                 null
         );
     }

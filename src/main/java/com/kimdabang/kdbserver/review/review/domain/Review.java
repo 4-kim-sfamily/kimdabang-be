@@ -52,6 +52,7 @@ public class Review {
 
     @Builder
     public Review(
+            Long id,
             Long reviewCode,
             String productCode,
             String options,
@@ -61,6 +62,7 @@ public class Review {
             String nickname,
             String text
     ) {
+        this.id = id;
         this.reviewCode = reviewCode;
         this.productCode = productCode;
         this.options = options;

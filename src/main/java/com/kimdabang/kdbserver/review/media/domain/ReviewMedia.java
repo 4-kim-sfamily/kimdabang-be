@@ -36,11 +36,13 @@ public class ReviewMedia {
 
     @Builder
     public ReviewMedia(
+            Long id,
             Long reviewCode,
             Review review,
             String mediaType,
             String mediaURL
     ) {
+        this.id = id;
         this.reviewCode = reviewCode;
         this.review = review;
         this.mediaType = mediaType;
