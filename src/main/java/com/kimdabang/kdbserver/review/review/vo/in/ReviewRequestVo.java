@@ -8,6 +8,7 @@ import lombok.ToString;
 public class ReviewRequestVo {
 
     private String productCode;
+    private Long purchaseCode;
     private String options;
     private Integer rating;
     private String text;

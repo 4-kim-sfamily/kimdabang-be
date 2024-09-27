@@ -18,6 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ReviewRequestDto {
     private String productCode;
+    private Long purchaseCode;
     private String options;
     private Integer rating;
     private String text;
@@ -27,6 +28,7 @@ public class ReviewRequestDto {
     public static ReviewRequestDto toRequestDto(ReviewRequestVo reviewRequestVo) {
         return ReviewRequestDto.builder()
                 .productCode(reviewRequestVo.getProductCode())
+                .purchaseCode(reviewRequestVo.getPurchaseCode())
                 .options(reviewRequestVo.getOptions())
                 .rating(reviewRequestVo.getRating())
                 .text(reviewRequestVo.getText())
@@ -38,6 +40,7 @@ public class ReviewRequestDto {
         return Review.builder()
                 .reviewCode(snowFlakeGenerator.generateUniqueId())
                 .productCode(productCode)
+                .purchaseCode(purchaseCode)
                 .options(options)
                 .creationDate(new Date())
                 .rating(rating)

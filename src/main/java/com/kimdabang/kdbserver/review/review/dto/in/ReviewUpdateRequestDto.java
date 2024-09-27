@@ -35,6 +35,7 @@ public class ReviewUpdateRequestDto {
                 .id(review.getId())
                 .reviewCode(review.getReviewCode())
                 .productCode(review.getProductCode())
+                .purchaseCode(review.getPurchaseCode())
                 .options(review.getOptions())
                 .creationDate(new Date())
                 .rating(rating)

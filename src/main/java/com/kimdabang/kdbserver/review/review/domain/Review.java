@@ -18,6 +18,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Comment("주문 코드")
+    @Column(nullable = false)
+    private Long purchaseCode;
+
     @Comment("리뷰 코드")
     @Column(nullable = false)
     private Long reviewCode;
@@ -53,6 +57,7 @@ public class Review {
     @Builder
     public Review(
             Long id,
+            Long purchaseCode,
             Long reviewCode,
             String productCode,
             String options,
@@ -63,6 +68,7 @@ public class Review {
             String text
     ) {
         this.id = id;
+        this.purchaseCode = purchaseCode;
         this.reviewCode = reviewCode;
         this.productCode = productCode;
         this.options = options;

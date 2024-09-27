@@ -103,4 +103,14 @@ public class ReviewController {
                 reviewResponseDto.toResponseVo()
         );
     }
+    @GetMapping("/check-reviewavailable")
+    public CommonResponseEntity<Boolean> checkReview(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(value = "productCode") Long purchaseCode) throws ParseException {
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "상품 리뷰 리스트 조회 성공",
+                reviewService.checkReview(purchaseCode, authorization)
+        );
+    }
 }
