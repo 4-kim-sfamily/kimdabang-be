@@ -1,9 +1,11 @@
 name: CI/CD
 
 on:
+  push:
+      branches: ["main", "dev"]
   pull_request:
     types: [closed]
-    branches: [ "main", "dev" ]
+    branches: ["main", "dev"]
 
 permissions:  
   contents: read
