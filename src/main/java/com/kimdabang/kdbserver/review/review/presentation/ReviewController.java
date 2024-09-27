@@ -61,7 +61,7 @@ public class ReviewController {
         );
     }
 
-    @GetMapping("/get-myreviwe")
+    @GetMapping("/get-myreview")
     public CommonResponseEntity<List<ReviewResponseVo>> getUserReviewList(
             @RequestHeader("Authorization") String authorization,
             @RequestParam(value = "start") String start, @RequestParam(value = "end") String end) throws ParseException {
@@ -79,7 +79,7 @@ public class ReviewController {
                         .toList()
         );
     }
-    @GetMapping("/get-reviwelist")
+    @GetMapping("/get-reviewlist")
     public CommonResponseEntity<List<ReviewResponseVo>> getReviewList(
             @RequestParam(value = "productCode") String productCode,
             @RequestParam(value = "page", defaultValue = "1") int page,
@@ -91,6 +91,16 @@ public class ReviewController {
                 reviewResponseDtoList.stream()
                         .map(ReviewResponseDto::toResponseVo)
                         .toList()
+        );
+    }
+    @GetMapping("/get-review")
+    public CommonResponseEntity<ReviewResponseVo> getReview(
+            @RequestParam(value = "reviewCode") Long reviewCode) throws ParseException {
+        ReviewResponseDto reviewResponseDto = reviewService.getReview(reviewCode);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "상품 리뷰 리스트 조회 성공",
+                reviewResponseDto.toResponseVo()
         );
     }
 }

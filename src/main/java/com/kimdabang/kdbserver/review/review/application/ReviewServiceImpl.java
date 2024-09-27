@@ -119,4 +119,12 @@ public class ReviewServiceImpl implements ReviewService {
             throw new CustomException(REVIWE_NOT_FOUND);
         }
     }
+    @Override
+    public ReviewResponseDto getReview(Long reviewCode) {
+        Review review = reviewRepository.findByReviewCode(reviewCode)
+                .orElseThrow(
+                        ()->new CustomException(REVIWE_NOT_FOUND)
+                );
+            return ReviewResponseDto.toResponseDto(review);
+    }
 }
