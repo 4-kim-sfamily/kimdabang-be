@@ -1,11 +1,10 @@
 name: CI/CD
 
 on:
-  push:
-      branches: ["main", "dev"]
   pull_request:
     types: [closed]
-    branches: [ "main", "dev" ]
+    branches: [ "main", "develop" ]
+
 
 permissions:  
   contents: read
@@ -34,29 +33,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-  
 
-    ## create application-prod.yml with S3 configuration
+    ## create application-prod.yml
     - name: make application-prod.yml
       run: |
-        mkdir -p ./src/main/resources
-        cd ./src/main/resources
-        touch ./application.yml
-        echo '${{ secrets.APPLICATION_YAML }}' > ./application.yml
-        echo 'cloud:' >> ./application.yml
-        echo '  aws:' >> ./application.yml
-        echo '    s3:' >> ./application.yml
-        echo '      bucket: kimganebucket' >> ./application.yml
-        echo '      imagedns: https://image.starbuckskorea.kr/' >> ./application.yml
-        echo '    region.static: ap-northeast-2' >> ./application.yml
-        echo '    credentials:' >> ./application.yml
-        echo '      accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}' >> ./application.yml
-        echo '      secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}' >> ./application.yml
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+          touch ./application.yml
+          echo '${{ secrets.APPLICATION_YAML }}' > ./application.yml
       shell: bash
-
-    ## install AWS CLI
-    - name: Install AWS CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install awscli -y
 
     ## grant execute permission for gradlew
     - name: Grant execute permission for gradlew
@@ -70,8 +54,8 @@ jobs:
     - name: Docker build & push to prod
       run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_REPO }}/kimgane .
-          docker push ${{ secrets.DOCKER_REPO }}/kimgane
+          docker build -f Dockerfile-prod -t ${{ secrets.DOCKER_REPO }}/novels-prod .
+          docker push ${{ secrets.DOCKER_REPO }}/novels-prod
           
     ## deploy to production
     - name: Deploy to prod
@@ -83,20 +67,8 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-          sudo docker stop kimgane
-
-    ## deploy Elasticsearch & Kibana to prod
-    - name: Deploy Elasticsearch & Kibana to prod
-      uses: appleboy/ssh-action@master
-      id: deploy-elasticsearch-kibana
-      with:
-        host: ${{ secrets.HOST_EC2 }}
-        username: ubuntu
-        key: ${{ secrets.PRIVATE_KEY }}
-        script: |
-          cd /home/ubuntu
-
-          sudo docker rm kimgane
-          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgane
-          sudo docker run -d --name kimgane --network ubuntu_default -p 10243:8000 ${{ secrets.DOCKER_USERNAME }}/kimgane
+          sudo docker stop novels-prod
+          sudo docker rm novels-prod
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/novels-prod
+          sudo docker run -d —name novels-prod -p 8095:8095 —network bts-network ${{ secrets.DOCKER_USERNAME }}/novels-prod
           sudo docker image prune -f
