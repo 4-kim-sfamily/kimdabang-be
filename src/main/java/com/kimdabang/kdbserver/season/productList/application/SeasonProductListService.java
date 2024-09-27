@@ -13,4 +13,5 @@ public interface SeasonProductListService {
     void deleteSeasonProductList(Long id);
     SeasonProductListResponseDto getOneSeasonProductList(Long id);
     List<SeasonProductListResponseDto> getAllSeasonProductList();
+    List<String> getAllProductCodeBySeasonId(Long seasonId);
 }

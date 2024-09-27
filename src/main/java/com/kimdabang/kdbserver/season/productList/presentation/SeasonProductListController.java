@@ -88,4 +88,14 @@ public class SeasonProductListController {
                 seasonProductListResponseDto.toResponseVo()
         );
     }
+
+    @GetMapping("/bySeason/{seasonId}")
+    public CommonResponseEntity<List<String>> getAllProductCodeBySeasonId(@PathVariable Long seasonId) {
+        List<String> productCodesBySeasonId = seasonProductListService.getAllProductCodeBySeasonId(seasonId);
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "해당 시즌 상품 코드 전체 조회 성공",
+                productCodesBySeasonId
+        );
+    }
 }

@@ -76,4 +76,9 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
                         .build())
                 .toList();
     }
+
+    @Override
+    public List<String> getAllProductCodeBySeasonId(Long seasonId) {
+        return seasonProductListRepository.findProductCodesBySeasonId(seasonId);
+    }
 }
