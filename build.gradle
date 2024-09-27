@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.kimdabang'
+group = 'com.union'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -25,11 +25,43 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// elasticsearch
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+	// model mapper
+	implementation 'org.modelmapper:modelmapper:2.4.4'
+
+	// security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//	jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
+
+	// querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	//S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
