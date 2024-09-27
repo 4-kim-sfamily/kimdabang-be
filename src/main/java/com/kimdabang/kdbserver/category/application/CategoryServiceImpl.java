@@ -28,6 +28,17 @@ public class CategoryServiceImpl implements CategoryService{
                     .map(CategoryResponseDto::of) // 메서드 참조를 사용하여 간결화
                     .toList();
     }
+    @Override
+    public List<CategoryResponseDto> getLeafCategoryList() {
+        List<Category> categoryList = categoryRepository.findByActiveTrue().stream()
+                .filter(category -> category.getChildren() == null || category.getChildren().isEmpty())
+                .toList();
+
+        return categoryList.stream()
+                .map(CategoryResponseDto::of) // 메서드 참조를 사용하여 간결화
+                .toList();
+    }
+
 
     @Override
     public CategoryResponseDto getCategory(Long id){

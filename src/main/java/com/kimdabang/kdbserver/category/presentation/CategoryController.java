@@ -37,6 +37,20 @@ public class CategoryController {
         );
     }
 
+    @Operation(summary = "CategoryListGet API", description = "CategoryListGet API 입니다.", tags = {"category-controller"})
+    @GetMapping("/get-leafcategorylist")
+    public CommonResponseEntity<List<CategoryResponseVo>> getLeafCategoryList(
+    ) throws ParseException {
+        List<CategoryResponseDto> categoryResponseDtoList = categoryService.getLeafCategoryList();
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "최하위 카테고리 조회 성공",
+                categoryResponseDtoList.stream()
+                        .map(CategoryResponseDto::toResponseVo)
+                        .toList()
+        );
+    }
+
     @Operation(summary = "CategoryGet API", description = "CategoryGet API 입니다.", tags = {"category-controller"})
     @GetMapping("/get-category")
     public CommonResponseEntity<CategoryResponseVo> getCategory(
