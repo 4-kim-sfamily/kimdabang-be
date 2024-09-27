@@ -54,27 +54,19 @@ public class OptionServiceImpl implements OptionService {
         Option option = optionRepository.findByProductCodeAndId(productCode, optionId)
                 .orElseThrow(() -> new CustomException(PARENTSOPTION_NOT_FOUND));
 
-        StringBuilder familyOption = new StringBuilder(", " + option.getOptionValue());
-        int depth = option.getDepth();
-        Long nextId = option.getParentOptionsId().getId();
+        StringBuilder familyOption = new StringBuilder(option.getOptionValue());
+        Long parentId = option.getParentOptionsId() != null ? option.getParentOptionsId().getId() : null;
 
-        if (depth == 1) {
-            return familyOption.toString();
+        while (parentId != null) {
+            Option parentOption = optionRepository.findByProductCodeAndId(productCode, parentId)
+                    .orElseThrow(() -> new CustomException(PARENTSOPTION_NOT_FOUND));
+            familyOption.insert(0, parentOption.getOptionValue() + ", ");
+            parentId = parentOption.getParentOptionsId() != null ? parentOption.getParentOptionsId().getId() : null;
         }
 
-        for (int i=1; i<depth-1; i++) {
-            option = optionRepository.findByProductCodeAndId(productCode, nextId)
-                    .orElse(null);
-            if (option != null) {
-                familyOption.insert(0, ", " + option.getOptionValue());
-                nextId = option.getParentOptionsId().getId();
-            }
-        }
-        familyOption.insert(0, (option != null ? option.getParentOptionsId() : null) != null ? option.getParentOptionsId().getOptionValue() : null);
-        
         return familyOption.toString();
-
     }
+
 
 
 }
