@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
+
 @Service
 @Slf4j
 @Transactional(readOnly = true)
@@ -25,13 +27,17 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
 
     private final SeasonProductListRepository seasonProductListRepository;
     private final SeasonRepository seasonRepository;
-//    private final ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Override
     @Transactional
     public void addSeasonProductList(SeasonProductListAddRequestDto seasonProductListAddRequestDto) {
         Season season = seasonRepository.findById(seasonProductListAddRequestDto.getSeasonId())
-                .orElseThrow(() -> new CustomException(ErrorCode.SEASON_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(SEASON_NOT_FOUND));
+        boolean exists = productRepository.existsByProductCode(seasonProductListAddRequestDto.getProductCode());
+        if (!exists) {
+            throw new CustomException(PRODUCT_NOT_FOUND);
+        }
 
         seasonProductListRepository.save(seasonProductListAddRequestDto.toEntity(season));
     }
@@ -40,7 +46,7 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
     @Transactional
     public void updateSeasonProductList(SeasonProductListUpdateRequestDto seasonProductListUpdateRequestDto) {
         SeasonProductList seasonProductList = seasonProductListRepository.findById(seasonProductListUpdateRequestDto.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(SEASONPRODUCT_NOT_FOUND));
 
         seasonProductListRepository.save(seasonProductListUpdateRequestDto.toEntity(seasonProductList));
     }
@@ -49,7 +55,7 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
     @Transactional
     public void deleteSeasonProductList(Long id) {
         SeasonProductList seasonProductList = seasonProductListRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(SEASONPRODUCT_NOT_FOUND));
 
         seasonProductListRepository.delete(seasonProductList);
     }
@@ -57,7 +63,7 @@ public class SeasonProductListServiceImpl implements SeasonProductListService {
     @Override
     public SeasonProductListResponseDto getOneSeasonProductList(Long id) {
         SeasonProductList seasonProductList = seasonProductListRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.SEASONPRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(SEASONPRODUCT_NOT_FOUND));
         return SeasonProductListResponseDto.builder()
                 .id(seasonProductList.getId())
                 .seasonId(seasonProductList.getSeason().getId())
