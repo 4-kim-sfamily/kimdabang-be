@@ -11,4 +11,5 @@ public interface PurchaseItemRepository extends JpaRepository<PurchaseItem, Long
     List<PurchaseItem> findByPurchase(Purchase purchase);
     Optional<PurchaseItem> findById(Long id);
     List<PurchaseItem> findByPurchaseIn(List<Purchase> purchases);
+    Integer countByProductCode(String productCode);
 }

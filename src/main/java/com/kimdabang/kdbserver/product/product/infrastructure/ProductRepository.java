@@ -16,6 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long productId);
     Optional<Product> findByProductCode(String productCode);
 
+    List<Product> findAll();
+
     @Query(value = "SELECT * FROM product WHERE category_id = :categoryId ORDER BY id LIMIT :size OFFSET :offset", nativeQuery = true)
     List<Product> findProductsByCategoryWithPagination(
             @Param("categoryId") Long categoryId,

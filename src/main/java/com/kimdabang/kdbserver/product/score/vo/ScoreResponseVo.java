@@ -8,7 +8,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class ScoreResponseVo {
-    private Long rating;
+    private Double rating;
     private Integer reviewCount;
     private Integer favoriteCount;
 }

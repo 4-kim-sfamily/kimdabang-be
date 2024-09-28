@@ -13,5 +13,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     boolean existsByProductCode(String productCode);
     boolean existsByUserUuid(String userUuid);
     List<Favorite> findAllByUserUuid(String userUuid);
+    int countByProductCode(String productCode);
 
 }

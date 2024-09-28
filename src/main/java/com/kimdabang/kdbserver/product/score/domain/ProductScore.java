@@ -24,11 +24,15 @@ public class ProductScore {
 
     @Comment("리뷰 수")
     @Column(nullable = false)
+    private Integer purchaseCount;
+
+    @Comment("리뷰 수")
+    @Column(nullable = false)
     private Integer reviewCount;
 
     @Comment("평점")
     @Column(nullable = false)
-    private Long rating;
+    private Double rating;
 
     @Comment("좋아요 수")
     @Column(nullable = false)
@@ -36,20 +40,24 @@ public class ProductScore {
 
     @Comment("총점")
     @Column(nullable = false)
-    private Long score;
+    private Double score;
 
 
     @Builder
     public ProductScore(
+            Long id,
             String productCode,
             Long categoryId,
+            Integer purchaseCount,
             Integer reviewCount,
-            Long rating,
+            Double rating,
             Integer favoriteCount,
-            Long score
+            Double score
     ) {
+        this.id = id;
         this.productCode = productCode;
         this.categoryId = categoryId;
+        this.purchaseCount = purchaseCount;
         this.reviewCount = reviewCount;
         this.rating = rating;
         this.favoriteCount = favoriteCount;
