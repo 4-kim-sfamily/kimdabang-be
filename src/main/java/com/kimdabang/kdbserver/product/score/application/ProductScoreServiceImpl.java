@@ -51,6 +51,20 @@ public class ProductScoreServiceImpl implements ProductScoreService{
                 page, productScoreList.getTotalPages(), productScoreList.hasNext(), productBestResponseDtoList);
     }
     @Override
+    public PageResponseDto getRecommendationList(Integer page, Integer size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "favoriteCount"));
+        Page<ProductScore> productScoreList = productScoreRepository.findAll(pageRequest);
+
+        List<ProductBestResponseDto> productBestResponseDtoList = productScoreList.stream()
+                .map(ProductBestResponseDto::toResponseDto)
+                .toList();
+
+        return PageResponseDto.toResponseDto(
+                page, productScoreList.getTotalPages(), productScoreList.hasNext(), productBestResponseDtoList);
+    }
+
+    @Override
     public ScoreResponseDto getScore(String productCode) {
         ProductScore productScore = productScoreRepository.findByProductCode(productCode)
                 .orElseThrow(() -> new CustomException(DATA_NOT_FOUND));

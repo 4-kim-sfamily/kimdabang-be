@@ -50,7 +50,22 @@ public class ProductScoreController {
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "CategoryBest 조회 성공",
+                "Best 조회 성공",
+                pageResponseDto.toResponseVo()
+        );
+    }
+
+    @Operation(summary = "RecommendationGet API", description = "BRecommendationGet API 입니다.")
+    @GetMapping("/get-recommendation")
+    public CommonResponseEntity<PageResponseVo> getRecommendationList(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer size
+    ) throws ParseException {
+        PageResponseDto pageResponseDto = productScoreService.getRecommendationList(page, size);
+
+        return new CommonResponseEntity<>(
+                HttpStatus.OK,
+                "추천 상품 조회 성공",
                 pageResponseDto.toResponseVo()
         );
     }
@@ -62,7 +77,7 @@ public class ProductScoreController {
         ScoreResponseDto scoreResponseDto = productScoreService.getScore(productCode);
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "CategoryBest 조회 성공", scoreResponseDto.toResponseVo()
+                "상품 지표 조회 성공", scoreResponseDto.toResponseVo()
         );
     }
 }

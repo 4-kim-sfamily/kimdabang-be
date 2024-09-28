@@ -9,4 +9,5 @@ public interface ProductScoreService {
     PageResponseDto getCategoryBestList(Long categoryId,Integer page, Integer size);
     PageResponseDto getBestList(Integer page, Integer size);
     ScoreResponseDto getScore(String productCode);
+    PageResponseDto getRecommendationList(Integer page, Integer size);
 }
