@@ -12,6 +12,7 @@ import com.kimdabang.kdbserver.review.review.dto.in.ReviewRequestDto;
 import com.kimdabang.kdbserver.review.review.dto.in.ReviewUpdateRequestDto;
 import com.kimdabang.kdbserver.review.review.dto.out.ReviewResponseDto;
 import com.kimdabang.kdbserver.review.review.infrastructure.ReviewRepository;
+import com.kimdabang.kdbserver.review.review.vo.out.ReviewResponseVo;
 import com.kimdabang.kdbserver.user.domain.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.kimdabang.kdbserver.common.exception.ErrorCode.*;
 
@@ -132,5 +134,22 @@ public class ReviewServiceImpl implements ReviewService {
         String uuid = jwtTokenProvider.useToken(authorization);
         Optional<Review> review = reviewRepository.findByPurchaseCodeAndUuid(purchaseCode, uuid);
         return review.isEmpty();
+    }
+
+    //검색 성능 테스트
+    @Override
+    public List<ReviewResponseVo> searchReviewTest(String keyword, Pageable pageable) {
+
+        List<Review> searchReviews = reviewRepository.findByNicknameContainingOrTextContaining(keyword, keyword, pageable);
+
+        return searchReviews.stream()
+                .map(review -> ReviewResponseDto.builder()
+                        .reviewCode(review.getReviewCode())
+                        .productCode(review.getProductCode())
+                        .creationDate(review.getCreationDate())
+                        .rating(review.getRating())
+                        .text(review.getText())
+                        .build().toResponseVo())
+                .collect(Collectors.toList());
     }
 }
