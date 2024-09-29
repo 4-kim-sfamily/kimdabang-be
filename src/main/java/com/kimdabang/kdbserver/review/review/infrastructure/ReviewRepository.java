@@ -1,6 +1,8 @@
 package com.kimdabang.kdbserver.review.review.infrastructure;
 
 import com.kimdabang.kdbserver.review.review.domain.Review;
+import com.kimdabang.kdbserver.review.review.domain.ReviewDocument;
+import com.kimdabang.kdbserver.review.review.vo.out.ReviewResponseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +22,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.productCode = :productCode")
     Double findAverageRatingByProductCode(@Param("productCode") String productCode);
     Integer countByProductCode(String productCode);
+
+    //검색 성능 테스트
+    Page<Review> findByNicknameContainingOrTextContaining(String nickname, String text, Pageable pageable);
 }
