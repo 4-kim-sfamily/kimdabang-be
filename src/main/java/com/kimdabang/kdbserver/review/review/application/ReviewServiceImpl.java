@@ -138,18 +138,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     //검색 성능 테스트
     @Override
-    public List<ReviewResponseVo> searchReviewTest(String keyword, Pageable pageable) {
+    public PageResponseDto searchReviewTest(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<Review> searchReviews = reviewRepository.findByNicknameContainingOrTextContaining(keyword, keyword, pageable);
 
-        List<Review> searchReviews = reviewRepository.findByNicknameContainingOrTextContaining(keyword, keyword, pageable);
-
-        return searchReviews.stream()
-                .map(review -> ReviewResponseDto.builder()
-                        .reviewCode(review.getReviewCode())
-                        .productCode(review.getProductCode())
-                        .creationDate(review.getCreationDate())
-                        .rating(review.getRating())
-                        .text(review.getText())
-                        .build().toResponseVo())
-                .collect(Collectors.toList());
+        List<ReviewResponseDto> reviewResponseDtoList = searchReviews.stream().map(
+                ReviewResponseDto::toResponseDto).toList();
+        return PageResponseDto.toResponseDto(
+                page, searchReviews.getTotalPages(), searchReviews.hasNext(), reviewResponseDtoList);
     }
 }

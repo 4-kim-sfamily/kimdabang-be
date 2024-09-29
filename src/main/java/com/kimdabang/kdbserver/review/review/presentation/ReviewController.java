@@ -133,11 +133,11 @@ public class ReviewController {
 
         long duration = endTime - startTime;
         System.out.println("ElasticSearch 검색 소요 시간: " + duration + "ns");
-        System.out.println("검색된 제품 수: " + reviewSearchList.size());
+        //System.out.println("검색된 리뷰 수: " + reviewSearchList.size());
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "제품 검색 성공",
+                "리뷰 검색 성공",
                 reviewSearchList
         );
 
@@ -145,24 +145,23 @@ public class ReviewController {
 
     // 검색 성능 비교 테스트
     @GetMapping("/jpaSearch")
-    public CommonResponseEntity<List<ReviewResponseVo>> searchReviewsTest(
+    public CommonResponseEntity<PageResponseDto> searchReviewsTest(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         long startTime = System.nanoTime();
-        Pageable pageable = PageRequest.of(page, size);
-        List<ReviewResponseVo> reviewList = reviewService.searchReviewTest(keyword, pageable);
+        PageResponseDto pageResponseDto = reviewService.searchReviewTest(keyword, page, size);
         long endTime = System.nanoTime();
 
         long duration = endTime - startTime;
         System.out.println("JPA 검색 소요 시간: " + duration + "ns");
-        System.out.println("검색된 제품 수: " + reviewList.size());
+        //System.out.println("검색된 리뷰 수: " + reviewList.size());
 
         return new CommonResponseEntity<>(
                 HttpStatus.OK,
-                "제품 검색 성공",
-                reviewList
+                "리뷰 검색 성공",
+                pageResponseDto
         );
     }
 

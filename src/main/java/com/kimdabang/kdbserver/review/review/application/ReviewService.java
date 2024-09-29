@@ -18,5 +18,5 @@ public interface ReviewService {
     void deleteReview(Long reviewCode, String authorization);
     ReviewResponseDto getReview(Long reviewCode);
     Boolean checkReview(Long purchaseCode, String uuid);
-    List<ReviewResponseVo> searchReviewTest(String keyword, Pageable pageable);
+    PageResponseDto searchReviewTest(String keyword, int page, int size);
 }

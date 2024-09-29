@@ -24,5 +24,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Integer countByProductCode(String productCode);
 
     //검색 성능 테스트
-    List<Review> findByNicknameContainingOrTextContaining(String nickname, String text, Pageable pageable);
+    Page<Review> findByNicknameContainingOrTextContaining(String nickname, String text, Pageable pageable);
 }
